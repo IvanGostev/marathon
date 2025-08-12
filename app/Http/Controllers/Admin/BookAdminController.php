@@ -17,12 +17,15 @@ class BookAdminController extends Controller
 {
     public function index(Request $request): View
     {
+
         $books = Book::all();
         return view('admin.book.index', compact('books'));
     }
     public function store(Request $request): RedirectResponse
     {
-        Book::firstOrCreate(['title' => $request->title]);
+        $arr = $request->all();
+        unset($arr['_token']);
+        Book::firstOrCreate($arr);
         return back();
     }
     public function delete(Book $book): RedirectResponse

@@ -11,7 +11,10 @@
                 <form action="{{route('admin.book.store')}}" class="row g-2" method="post">
                     @csrf
                     <div class="col-auto">
-                        <input type="text" name="title" class="form-control" id="inputPassword2" placeholder="Название">
+                        <input type="text" name="title" class="form-control rounded" id="inputPassword2" placeholder="Название">
+                    </div>
+                    <div class="col-auto">
+                        <input type="text" name="link" class="form-control rounded" id="inputPassword2" placeholder="Ссылка">
                     </div>
                     <div class="col-auto">
                         <button type="submit" class="btn btn-primary mb-3">Добавить</button>
@@ -28,7 +31,7 @@
                     <tbody>
                     @foreach($books as $book)
                         <tr>
-                            <th>{{$book->title}}</th>
+                            <th><a class="link-underline-dark" href="{{$book->link}}">{{$book->title}}</a> </th>
                             <td>{{$book->created_at}}</td>
                             <td>
                                 <form method="post" action="{{route('admin.book.delete', $book->id)}}">

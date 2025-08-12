@@ -26,12 +26,17 @@ class VideoAdminController extends Controller
         $videos = Video::all();
         return view('admin.video.index', compact('videos'));
     }
+
     public function store( Request $request): RedirectResponse
     {
-        $src = $request->file('file')->store('uploads', 'public');
-        Video::create(['src' => $src]);
+        $data = $request->all();
+        if (isset($data['file'])) {
+            $data['src'] =  $request->file('file')->store('uploads', 'public');
+        }
+        Video::create(['src' => $data['src'], 'text' => $data['text']]);
         return back();
     }
+
     public function delete(Book $book): RedirectResponse
     {
         $book->delete();

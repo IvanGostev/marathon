@@ -17,22 +17,41 @@ use Illuminate\View\View;
 
 class PostController extends Controller
 {
-    public function index(Request $request): View
+    public function index(Request $request, User $user): View
     {
-        $notes = Note::all();
-        return view('note.index', compact('notes'));
+        $posts = array_map(function ($item) {
+             $item['type'] = 'post';
+            return $item;
+        }, Post::where('user_id', $user->id)->get()->toArray());
+
+        $notes = array_map(function ($item) {
+            return $item['type'] = 'note';
+        }, Note::where('user_id', $user->id)->get()->toArray());
+
+        $items = collect(array_merge($posts, $notes));
+
+        $items = $items->sortBy('created_at');
+
+        return view('post.index', compact('items', 'user'));
     }
-    public function create(Request $request): View
-    {
-        return view('post.create');
-    }
+
 
     public function store(Request $request): RedirectResponse
     {
-        $data = $request->all();
+        $data['text'] = $request->text;
+        $data['title'] = $request->title;
         $data = $data + ['status' => 'moderation'];
+        $data = $data + ['user_id' => auth()->user()->id];
         Post::create($data);
-        return redirect()->route('note.index');
+        return redirect()->route('post.index', auth()->user()->id);
+    }
+
+
+    public function view(Post $post, Request $request)
+    {
+        $post->update(['views' => $post['views']+1]);
+        $comments = Comment::where('post_id', $post->id)->get();
+        return view('post.view', compact('post', 'comments'));
     }
 
 }

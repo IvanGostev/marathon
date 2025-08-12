@@ -1,5 +1,8 @@
 <nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
     <!-- Primary Navigation Menu -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css"
+          integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
 
@@ -17,12 +20,26 @@
                         </x-nav-link>
                     </div>
                     <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                        <x-nav-link :href="route('admin.note.index')" :active="in_array('notes' , explode('/', request()->url()))">
+                        <x-nav-link :href="route('admin.note.index')"
+                                    :active="in_array('notes' , explode('/', request()->url()))">
                             {{ __('Отчеты') }}
                         </x-nav-link>
                     </div>
                     <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                        <x-nav-link :href="route('admin.video.index')" :active="in_array('video' , explode('/', request()->url()))">
+                        <x-nav-link :href="route('admin.post.index')"
+                                    :active="in_array('posts' , explode('/', request()->url()))">
+                            {{ __('Посты') }}
+                        </x-nav-link>
+                    </div>
+                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        <x-nav-link :href="route('admin.comment.index')"
+                                    :active="in_array('comments' , explode('/', request()->url()))">
+                            {{ __('Комментарии') }}
+                        </x-nav-link>
+                    </div>
+                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        <x-nav-link :href="route('admin.video.index')"
+                                    :active="in_array('video' , explode('/', request()->url()))">
                             {{ __('Добавление видео') }}
                         </x-nav-link>
                     </div>
@@ -33,22 +50,92 @@
                         </x-nav-link>
                     </div>
                     <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                        <x-nav-link :href="route('video.index')" :active="in_array('videos' , explode('/', request()->url()))">
+                        <x-nav-link :href="route('video.index')"
+                                    :active="in_array('videos' , explode('/', request()->url()))">
                             {{ __('Видео') }}
                         </x-nav-link>
                     </div>
                     <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                        <x-nav-link :href="route('note.index')" :active="in_array('notes' , explode('/', request()->url()))">
+                        <x-nav-link :href="route('note.index')"
+                                    :active="in_array('notes' , explode('/', request()->url()))">
                             {{ __('Статистика') }}
                         </x-nav-link>
                     </div>
+                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        <x-nav-link :href="route('post.index', auth()->user())"
+                                    :active="in_array('posts' , explode('/', request()->url()))">
+                            {{ __('Мой блог') }}
+                        </x-nav-link>
+                    </div>
+                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        <x-nav-link :href="route('rating.index', auth()->user())"
+                                    :active="in_array('ratings' , explode('/', request()->url()))">
+                            {{ __('Рейтинг') }}
+                        </x-nav-link>
+                    </div>
+                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        <x-nav-link>
+                            {{ __('Моя подписка') }}
+                        </x-nav-link>
+                    </div>
+                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        <button type="button" class="link " data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                            <i class="fa-regular fa-bell"></i>
+                        </button>
+                    </div>
+                    <!-- Модальное окно -->
+                    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
+                         tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Уведомления</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Закрыть"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <table class="table table-response">
+                                        <tbody>
+                                        @foreach(notifications() as $notification)
+                                            @switch($notification->type)
+                                                @case('note')
+                                                    <tr>
+                                                        <td>
+                                                            <p class="text-secondary"
+                                                               style=" font-size: 14px;">{{formatDate($notification->created_at)}}</p>
+                                                            <a href="{{route('note.view', $notification->comment()->note()->id)}}">К
+                                                                вашему отчету написали новый
+                                                                комментарий</a>
 
+                                                        </td>
+                                                    </tr>
+                                                    @break
+                                                @case('post')
+                                                    <tr>
+                                                        <td>
+                                                            <p class="text-secondary"
+                                                               style=" font-size: 14px;">{{formatDate($notification->created_at)}}</p>
+                                                            <a href="{{route('post.view', $notification->comment()->post()->id)}}">К
+                                                                вашему посту написали новый
+                                                                комментарий </a>
+
+                                                        </td>
+                                                    </tr>
+                                                    @break
+                                            @endswitch
+                                        @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 @endif
-                <!-- Navigation Links -->
-
             </div>
-
-            <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ms-6">
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
@@ -87,8 +174,6 @@
                     </x-slot>
                 </x-dropdown>
             </div>
-
-            <!-- Hamburger -->
             <div class="-me-2 flex items-center sm:hidden">
                 <button @click="open = ! open"
                         class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
@@ -104,7 +189,6 @@
         </div>
     </div>
 
-    <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
@@ -112,7 +196,6 @@
             </x-responsive-nav-link>
         </div>
 
-        <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-gray-200">
             <div class="px-4">
                 <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
@@ -124,7 +207,6 @@
                     {{ __('Профиль') }}
                 </x-responsive-nav-link>
 
-                <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
 

@@ -32,6 +32,7 @@ class NoteController extends Controller
 
     public function view(Note $note): View
     {
+        $note->update(['views' => $note['views']+1]);
         $comments = Comment::where('note_id', $note->id)->get();
         return view('note.view', compact('note', 'comments'));
     }

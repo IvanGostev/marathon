@@ -6,13 +6,16 @@
     </x-slot>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
     <div class="py-12">
-        @foreach($videos as $video)
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6 p-1">
-            <video style="width: 100%" controls loop muted>
-                <source src="{{asset('storage/' . $video->src)}}" type="video/mp4"/>
-            </video>
-        </div>
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
+            @foreach($videos as $video)
+                <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6 p-1 bg-white shadow sm:rounded-lg">
+                    <video style="width: 100%" controls loop muted>
+                        <source src="{{asset('storage/' . $video->src)}}" type="video/mp4"/>
+                    </video>
+                    <p>{!!$video->text!!}</p>
+                </div>
             @endforeach
+    </div>
     </div>
 
 </x-app-layout>

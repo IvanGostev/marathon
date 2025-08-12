@@ -13,32 +13,43 @@
         @csrf
     </form>
 
-    <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6">
+    <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6" enctype='multipart/form-data' >
         @csrf
         @method('patch')
-
         <div>
-            <x-input-label for="name" :value="__('Ваше имя')" />
-            <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name', $user->name)" required autofocus autocomplete="name" />
-            <x-input-error class="mt-2" :messages="$errors->get('name')" />
+            <img src="{{$user->img ? asset('storage/' . $user->img) : asset('img/ava.webp')}}" class="rounded-circle"
+                 style="width: 150px;"
+                 alt="Avatar"/>
+            <x-text-input name="img" type="file" class="form-control mt-2 block w-full p-2" autocomplete="name"/>
+
         </div>
         <div>
-            <x-input-label for="description" :value="__('Описание')" />
-            <x-text-input id="description" name="description" type="text" class="mt-1 block w-full" :value="old('description', $user->description)" required autofocus autocomplete="description" />
-            <x-input-error class="mt-2" :messages="$errors->get('description')" />
+            <x-input-label for="name" :value="__('Ваше имя')"/>
+            <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name', $user->name)"
+                          required autofocus autocomplete="name"/>
+            <x-input-error class="mt-2" :messages="$errors->get('name')"/>
+        </div>
+        <div>
+            <x-input-label for="description" :value="__('Описание')"/>
+            <x-text-input id="description" name="description" type="text" class="mt-1 block w-full"
+                          :value="old('description', $user->description)" required autofocus
+                          autocomplete="description"/>
+            <x-input-error class="mt-2" :messages="$errors->get('description')"/>
         </div>
 
         <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" :value="old('email', $user->email)" required autocomplete="username" />
-            <x-input-error class="mt-2" :messages="$errors->get('email')" />
+            <x-input-label for="email" :value="__('Email')"/>
+            <x-text-input id="email" name="email" type="email" class="mt-1 block w-full"
+                          :value="old('email', $user->email)" required autocomplete="username"/>
+            <x-input-error class="mt-2" :messages="$errors->get('email')"/>
 
             @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $user->hasVerifiedEmail())
                 <div>
                     <p class="text-sm mt-2 text-gray-800">
                         {{ __('Ваш адрес электронной почты не подтвержден.') }}
 
-                        <button form="send-verification" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        <button form="send-verification"
+                                class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                             {{ __('Click here to re-send the verification email.') }}
                         </button>
                     </p>
@@ -66,4 +77,5 @@
             @endif
         </div>
     </form>
+
 </section>

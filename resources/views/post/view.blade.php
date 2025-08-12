@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Просмотр отчета') }}
+            {{ __('Просмотр поста') }}
         </h2>
 
         <link rel="stylesheet"
@@ -11,18 +11,10 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
             <form class="p-4 sm:p-8 bg-white shadow sm:rounded-lg table-responsive">
                 <div class="mb-3">
-                    <label for="exampleFormControlInput1" class="form-label">Книга</label>
-                    <input readonly type="text" class="form-control" id="exampleFormControlInput1" name="book"
-                           value="{{$note->book()->title}}">
+                    <p class="h3">{{$post->title}}</p>
                 </div>
                 <div class="mb-3">
-                    <label for="exampleFormControlInput1" class="form-label">Название</label>
-                    <input readonly type="text" class="form-control" id="exampleFormControlInput1" name="title"
-                           value="{{$note->title}}">
-                </div>
-                <div class="mb-3">
-                    <label for="exampleFormControlTextarea1" class="form-label">Отчет</label>
-                    {!! $note->text !!}
+                    {!! $post->text !!}
                 </div>
             </form>
 
@@ -36,9 +28,23 @@
                         </div>
                         @foreach($comments as $comment)
                             <div class="d-flex flex-row p-3">
-                                <img src="{{asset('storage/' . $comment->user()->img)}}" width="100" height="100"
+                                <img src="{{$comment->user()->img ? asset('storage/' . $comment->user()->img) : asset('img/ava.webp')}}" width="100" height="100"
                                      class="rounded-circle mr-3">
                                 <div class="w-100">
+                                    <div class="star-rating">
+                                        <div class="star-rating__wrap">
+                                            <label class="star-rating__ico fa fa-star-o fa-lg" for="star-5"
+                                                   title="Отлично"></label>
+                                            <label class="star-rating__ico fa fa-star-o fa-lg" for="star-4"
+                                                   title="Хорошо"></label>
+                                            <label class="star-rating__ico fa fa-star-o fa-lg" for="star-3"
+                                                   title="Удовлетворительно"></label>
+                                            <label class="star-rating__ico fa fa-star-o fa-lg" for="star-2"
+                                                   title="Плохо"></label>
+                                            <label class="star-rating__ico fa fa-star-o fa-lg" for="star-1"
+                                                   title="Ужасно"></label>
+                                        </div>
+                                    </div>
                                     <div class="d-flex justify-content-between align-items-center">
                                         <div class="d-flex flex-row align-items-center"><span
                                                 class="mr-2">{{$comment->user()->name}}</span></div>
@@ -52,7 +58,7 @@
             </div>
             <form class="p-4 sm:p-8 bg-white shadow sm:rounded-lg table-responsive" method="post" action="{{route('comment.store')}}">
              @csrf
-                <input hidden="hidden" name="note_id" value="{{$note->id}}">
+                <input hidden="hidden" name="post_id" value="{{$post->id}}">
                 <div class="form-group">
                     <label class="form-label">Ваша оценка</label>
                     <div class="star-rating">
