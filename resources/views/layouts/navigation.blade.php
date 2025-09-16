@@ -10,7 +10,7 @@
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800"/>
+                        <img class="block  w-auto fill-current text-gray-800 h-9" src="{{asset('img/logo.png')}}" alt="">
                     </a>
                 </div>
                 @if(in_array('admin' , explode('/', request()->url())))
@@ -45,20 +45,8 @@
                     </div>
                 @else
                     <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                        <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                            {{ __('Главная страница') }}
-                        </x-nav-link>
-                    </div>
-                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                        <x-nav-link :href="route('video.index')"
-                                    :active="in_array('videos' , explode('/', request()->url()))">
-                            {{ __('Видео') }}
-                        </x-nav-link>
-                    </div>
-                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                        <x-nav-link :href="route('note.index')"
-                                    :active="in_array('notes' , explode('/', request()->url()))">
-                            {{ __('Статистика') }}
+                        <x-nav-link :href="route('dashboard')" :active="(request()->routeIs('dashboard') or request()->routeIs('note.index') or request()->routeIs('video.index'))">
+                            {{ __('Отчеты') }}
                         </x-nav-link>
                     </div>
                     <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
@@ -74,7 +62,7 @@
                         </x-nav-link>
                     </div>
                     <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                        <x-nav-link>
+                        <x-nav-link :active="false">
                             {{ __('Моя подписка') }}
                         </x-nav-link>
                     </div>

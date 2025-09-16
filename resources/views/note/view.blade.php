@@ -6,6 +6,9 @@
 
         <link rel="stylesheet"
               href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="{{asset('modules/rating_stars/main.css')}}" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+        <script src="{{asset('modules/rating_stars/main.js')}}"></script>
     </x-slot>
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
@@ -53,25 +56,46 @@
             <form class="p-4 sm:p-8 bg-white shadow sm:rounded-lg table-responsive" method="post" action="{{route('comment.store')}}">
              @csrf
                 <input hidden="hidden" name="note_id" value="{{$note->id}}">
-                <div class="form-group">
+                <div class="form-group mt-3">
                     <label class="form-label">Ваша оценка</label>
-                    <div class="star-rating">
-                        <div class="star-rating__wrap">
-                            <input class="star-rating__input" id="star-5" type="radio" name="stars" value="5">
-                            <label class="star-rating__ico fa fa-star-o fa-lg" for="star-5"
-                                   title="Отлично"></label>
-                            <input class="star-rating__input" id="star-4" type="radio" name="stars" value="4">
-                            <label class="star-rating__ico fa fa-star-o fa-lg" for="star-4"
-                                   title="Хорошо"></label>
-                            <input class="star-rating__input" id="star-3" type="radio" name="stars" value="3">
-                            <label class="star-rating__ico fa fa-star-o fa-lg" for="star-3"
-                                   title="Удовлетворительно"></label>
-                            <input class="star-rating__input" id="star-2" type="radio" name="stars" value="2">
-                            <label class="star-rating__ico fa fa-star-o fa-lg" for="star-2"
-                                   title="Плохо"></label>
-                            <input class="star-rating__input" id="star-1" type="radio" name="stars" value="1">
-                            <label class="star-rating__ico fa fa-star-o fa-lg" for="star-1"
-                                   title="Ужасно"></label>
+                    <div class="star-box">
+                        <div class="star">
+                            <input
+                                class="star-input"
+                                type="radio"
+                                id="st-1"
+                                value="1"
+                                name="stars"
+                                autocomplete="off"/>
+
+                            <div class="star-shape"></div>
+
+                        </div>
+                        <div class="star">
+                            <input
+                                class="star-input"
+                                type="radio"
+                                id="st-2"
+                                value="2"
+                                name="stars"
+                                autocomplete="off"
+                            />
+
+                            <div class="star-shape"></div>
+
+                        </div>
+                        <div class="star">
+                            <input
+                                class="star-input"
+                                type="radio"
+                                id="st-3"
+                                value="3"
+                                name="stars"
+                                autocomplete="off"
+                            />
+
+                            <div class="star-shape"></div>
+
                         </div>
                     </div>
                 </div>

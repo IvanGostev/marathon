@@ -22,6 +22,12 @@ class CommentController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $data = $request->all();
+        if (isset($data['number'])) {
+            $number = $data['number'];
+            unset($data['number']);
+        } else {
+            $number = 2;
+        }
         $data = $data + ['status' => 'moderation'];
         $data = $data + ['user_id' => auth()->user()->id];
         $comment = Comment::create($data);
@@ -37,7 +43,11 @@ class CommentController extends Controller
         $notification['comment_id'] = $comment->id;
         $notification['user_id'] = $id;
         Notification::create($notification);
+        if ($number > 1) {
+            return redirect()->route('note.index');
+        } else {
+            return redirect()->route('note.rating', $number+1);
+        }
 
-        return redirect()->route('note.index');
     }
 }

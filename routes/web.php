@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\NoteAdminController;
 use App\Http\Controllers\Admin\PostAdminController;
 use App\Http\Controllers\Admin\UserAdminController;
 use App\Http\Controllers\Admin\VideoAdminController;
+use App\Http\Controllers\CoachController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\NoteController;
@@ -34,6 +35,8 @@ Route::middleware('auth')->group(function () {
     Route::prefix('notes')->name('note.')->controller(NoteController::class)->group(function () {
         Route::get('/', 'index')->name('index');
         Route::get('/create', 'create')->name('create');
+        Route::post('/demo', 'demo')->name('demo');
+        Route::get('/{number}/rating', 'rating')->name('rating');
         Route::get('/{note}/view', 'view')->name('view');
         Route::post('/store', 'store')->name('store');
     });
@@ -47,6 +50,12 @@ Route::middleware('auth')->group(function () {
         Route::get('/create', 'create')->name('create');
         Route::get('/{post}/view', 'view')->name('view');
         Route::post('/store', 'store')->name('store');
+    });
+
+    // Коучи и тд
+    Route::prefix('coaches')->name('coach.')->controller(CoachController::class)->group(function () {
+        Route::post('/store', 'store')->name('store');
+        Route::post('/{coach}/{status}/action/', 'action')->name('action');
     });
 
     // Видео

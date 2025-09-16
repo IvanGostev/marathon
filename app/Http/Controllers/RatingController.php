@@ -44,6 +44,12 @@ class RatingController extends Controller
         return $f + Note::where('user_id', $id)->selectRaw('SUM(views) as total')->get()[0]['total'];
     }
 
+    protected function sum($id)
+    {
+        return Comment::where('user_id', $id)->selectRaw('SUM(first_stars) as first', 'SUM(second_stars) as second')->get()[0]['total'];
+    }
+
+
     public function index(Request $request): View
     {
 

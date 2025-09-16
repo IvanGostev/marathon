@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\Book;
+use App\Models\Coach;
 use App\Models\Comment;
 use App\Models\Note;
 use App\Models\Post;
@@ -31,8 +32,8 @@ class PostController extends Controller
         $items = collect(array_merge($posts, $notes));
 
         $items = $items->sortBy('created_at');
-
-        return view('post.index', compact('items', 'user'));
+        $offers = Coach::where('venerable', auth()->user()->id)->get();
+        return view('post.index', compact('items', 'user', 'offers'));
     }
 
 
@@ -53,5 +54,7 @@ class PostController extends Controller
         $comments = Comment::where('post_id', $post->id)->get();
         return view('post.view', compact('post', 'comments'));
     }
+
+
 
 }

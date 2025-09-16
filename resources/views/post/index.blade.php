@@ -13,7 +13,7 @@
     <section>
         <div class="container py-5">
             <div class="row">
-                <div class="col-lg-4">
+                <div class="col-lg-5">
                     <div class="card mb-4 align-items-center justify-content-center">
                         <div class="card-body text-center align-items-center justify-content-center">
                             <img src="{{$user->img ? asset('storage/' . $user->img) : asset('img/ava.webp')}}"
@@ -21,9 +21,67 @@
                                  class="rounded-circle img-fluid" style="width: 150px; margin: 0 auto;">
                             <h5 class="my-3">{{$user->name}}</h5>
                             <p class="text-muted mb-1">Зарегистрирован с {{$user->created_at}}</p>
-                            <div class="d-flex justify-content-center mb-2">
-                                {{--                                    <button  type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary">Follow</button>--}}
-                                {{--                                    <button  type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-outline-primary ms-1">Message</button>--}}
+                            <div class="d-flex mb-2 pt-3" style="flex-direction: column; gap: 10px;">
+                                @if (!(auth()->user()->id == $user->id) and admissionRequest(auth()->user()->id, $user->id))
+                                    <form method="post" action="{{route('coach.store')}}">
+                                        @csrf
+                                        <input type="text" name="user_id" value="{{$user->id}}" hidden>
+                                        <input type="text" name="type" value="coach" hidden>
+                                        <button type="submit" class="btn btn-dark">Предложить услуги коуча</button>
+                                    </form>
+                                    <form method="post" action="{{route('coach.store')}}">
+                                        @csrf
+                                        <input type="text" name="user_id" value="{{$user->id}}" hidden>
+                                        <input type="text" name="type" value="partner" hidden>
+                                        <button type="submit" class="btn btn-dark">Предложить услуги партнера</button>
+                                    </form>
+                                @endif
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">Имя</th>
+                                        <th scope="col">Предложение</th>
+                                        <th scope="col">Создание</th>
+                                        <th scope="col"></th>
+                                        <th scope="col"></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach($offers  as $offer)
+                                        <tr>
+                                            <td>{{$offer->leader()->name}}</td>
+                                            <th>Хочет быть
+                                                твоим {{$offer->type == 'coach' ? 'Коучем': 'Партнером'}}</th>
+                                            <td>
+                                                @if($offer->status == 'waiting')
+                                                    <form method="post"
+                                                          action="{{route('coach.action', ['coach' => $offer, 'reject'])}}">
+                                                        @csrf
+                                                        <button type="submit" class="btn btn-dark">Отклонить</button>
+                                                    </form>
+                                                    @elseif ($offer->status == 'reject')
+                                                    Отклонено
+                                                    @elseif($offer->status == 'approve')
+                                                    Одобрено
+                                                @endif
+
+                                            </td>
+                                            <td>
+                                                @if($offer->status == 'waiting')
+                                                    <form method="post"
+                                                          action="{{route('coach.action', ['coach' => $offer, 'approve'])}}">
+                                                        @csrf
+                                                        <button type="submit" class="btn btn-dark">Одобрить</button>
+                                                    </form>
+                                                    @else
+                                                    {{$offer->updated_at}}
+                                                @endif
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+
                             </div>
                         </div>
                     </div>
@@ -35,7 +93,7 @@
                         </div>
                     @endif
                 </div>
-                <div class="col-lg-8">
+                <div class="col-lg-7">
                     <div class="row">
                         <div class="col-md-12 ">
                             @if (auth()->user()->id == $user->id)
@@ -44,7 +102,8 @@
                                         <form action="{{route('post.store')}} " method="post">
                                             @csrf
                                             <div class="mb-3">
-                                                <label for="exampleFormControlInput1" class="form-label">Название</label>
+                                                <label for="exampleFormControlInput1"
+                                                       class="form-label">Название</label>
                                                 <input class="form-control" name="title" required>
                                             </div>
                                             <div class="mb-3">
@@ -63,7 +122,7 @@
                                     <div class="card-body">
                                         <h5 class="card-title h5">{{$item['title']}}</h5>
                                         <h6 class="card-subtitle mb-2 text-body-secondary">{{formatDate($item['created_at'])}}</h6>
-{{--                                        <p class="card-text">{!! substr($item['text'], 0, 100) !!}</p>--}}
+                                        {{--                                        <p class="card-text">{!! substr($item['text'], 0, 100) !!}</p>--}}
                                         <div style="width: 100%; display: flex; justify-content: right">
                                             <a href="{{$item['type'] == 'post' ? route('post.view', $item['id']) : route('note.view', $item['id'])}}"
                                                class="inline-flex items-center px-5 py-2.5 text-sm font-medium text-center text-white btn btn-dark">Подробнее</a>
@@ -90,7 +149,7 @@
                 ['undo', 'redo', 'fullscreen', 'spellChecker', 'selectAll'],
             ],
             language: 'ru',
-            height:  '150px'
+            height: '150px'
         })
         ;
     </script>

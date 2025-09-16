@@ -30,20 +30,49 @@ class NoteController extends Controller
         return view('note.create', compact('books'));
     }
 
+    public function demo(Request $request): View
+    {
+        $data = $request->all();
+        $books = Book::all();
+        return view('note.demo', compact('books', 'data'));
+    }
+
     public function view(Note $note): View
     {
-        $note->update(['views' => $note['views']+1]);
+        $note->update(['views' => $note['views'] + 1]);
         $comments = Comment::where('note_id', $note->id)->get();
         return view('note.view', compact('note', 'comments'));
     }
 
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request): RedirectResponse|View
     {
+
         $data = $request->all();
+        if (isset($data['action']) and $data['action'] == 'back') {
+            $books = Book::all();
+            return view('note.create', compact('books', 'data'));
+        }
         $data = $data + ['status' => 'moderation'];
         $data = $data + ['user_id' => auth()->user()->id];
         Note::create($data);
-        return redirect()->route('note.index');
+        $myIdsNotes = Note::where('user_id', auth()->user()->id)->pluck('id');
+        $note = Note::whereNotIn('id', $myIdsNotes)->inRandomOrder()->first();
+        if (!$note) {
+            return redirect()->route('note.index');
+        }
+        return redirect()->route('note.rating', 1);
+    }
+
+    public function rating($number, Request $request): RedirectResponse|View
+    {
+        $myIdsNotes = Note::where('user_id', auth()->user()->id)->pluck('id');
+        $note = Note::whereNotIn('id', $myIdsNotes)->inRandomOrder()->first();
+        if (!$note) {
+            return redirect()->route('note.rating', 1);
+        } else {
+
+        }
+        return view('note.rating', compact('number', 'note'));
     }
 
 }

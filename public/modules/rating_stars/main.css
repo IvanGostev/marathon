@@ -1,0 +1,16 @@
+.star-input {
+    display: none;
+}
+
+.star-shape {
+    background-image: url('img/star.svg');
+    width: 25px;
+    height: 25px;
+    background-size: cover
+}
+
+.star-box{
+    display: flex;
+    gap: 10px
+
+}

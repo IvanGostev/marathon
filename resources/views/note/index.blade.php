@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight" style="margin-bottom: 0">
             {{ __('Статистика') }}
         </h2>
     </x-slot>
@@ -16,89 +16,168 @@
     />
 
     <link rel="stylesheet" href="{{asset('calendare/css/style.css')}}"/>
-    <div class="py-12">
-        <section class="ftco-section">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="calendar calendar-first" id="calendar_first">
-                            <div class="calendar_header">
-                                <button class="switch-month switch-left">
-                                    <i class="fa fa-chevron-left"></i>
-                                </button>
-                                <h2></h2>
-                                <button class="switch-month switch-right">
-                                    <i class="fa fa-chevron-right"></i>
-                                </button>
+    <link href="
+https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css
+" rel="stylesheet">
+    <div class="container ">
+        <div class="row py-10 bsb-timeline-1">
+            <div class="col-md-3">
+                <div class="list-group bg-light" style="padding: 10px 10px 20px 10px">
+                    <a style="margin: 10px 10px" href="{{route('note.create')}}" class=" btn btn-dark" aria-current="true">
+                        Написать отчет
+                    </a>
+                    <ul class="timeline">
+                        <li class="timeline-item">
+                            <div class="timeline-body">
+                                <div class="timeline-content">
+                                    <div class="card border-0">
+                                        <div class="card-body p-1g">
+                                            <h6 class="card-title p-1 text-secondary">Создания отчета</h6>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="calendar_weekdays"></div>
-                            <div class="calendar_content"></div>
-                        </div>
-                    </div>
+                        </li>
+
+                        <li class="timeline-item">
+                            <div class="timeline-body">
+                                <div class="timeline-content">
+                                    <div class="card border-0">
+                                        <div class="card-body p-1g">
+                                            <h6 class="card-title p-1 text-secondary">Просмотр отчета</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+
+                        <li class="timeline-item">
+                            <div class="timeline-body">
+                                <div class="timeline-content">
+                                    <div class="card border-0">
+
+
+                                        <div class="card-body p-1g">
+                                            <h6 class="card-title p-1 text-secondary" >Оценка первого отчета</h6>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="timeline-item">
+                            <div class="timeline-body">
+                                <div class="timeline-content">
+                                    <div class="card border-0">
+
+
+                                        <div class="card-body p-1g">
+                                            <h6 class="card-title p-1 text-secondary" >Оценка второго отчета</h6>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
             </div>
-        </section>
+            <div class="col-md-9">
+                <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
+                    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                        <div class="container-fluid" style="        padding-left: 0;">
+                            <div class="navbar-collapse" id="navbarNavAltMarkup">
+                                <div class="navbar-nav fw-medium">
+                                    <a class="nav-link {{in_array('dashboard' , explode('/', request()->url())) ? 'active text-decoration-underline' : ''}}"
+                                       href="{{route('dashboard')}}">Отчеты</a>
+                                    <a class="nav-link {{in_array('videos' , explode('/', request()->url())) ? 'active text-decoration-underline' : ''}}"
+                                       href="{{route('video.index')}}">
+                                        {{ __('Теория') }}
+                                    </a>
+
+                                    <a class="nav-link {{in_array('notes' , explode('/', request()->url())) ? 'active text-decoration-underline' : ''}}"
+                                       href="{{route('note.index')}}">
+                                        {{ __('Статистика') }}
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </nav>
+                    <br>
+                    <div class="calendar calendar-first" id="calendar_first">
+                        <div class="calendar_header">
+                            <button class="switch-month switch-left">
+                                <i class="fa fa-chevron-left"></i>
+                            </button>
+                            <h2></h2>
+                            <button class="switch-month switch-right">
+                                <i class="fa fa-chevron-right"></i>
+                            </button>
+                        </div>
+                        <div class="calendar_weekdays"></div>
+                        <div class="calendar_content"></div>
+                    </div>
+                    <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg table-responsive">
+                        <a type="button" href="{{route('note.create')}}" class="mb-3 btn btn-dark">Написать отчёт</a>
+                        <br>
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th scope="col">Название</th>
+                                <th scope="col">Статус</th>
+                                <th scope="col">Дата создания</th>
+                                <th scope="col"></th>
+                                <th scope="col"></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach($notes as $note)
+                                <tr>
+                                    <th>{{$note->title}}</th>
+                                    <td>{{$note->status == 'moderation' ? 'Модерация' : ($note->status == 'approve' ? 'Одобрено' : 'Не прошел проверку')}}</td>
+                                    <td>{{$note->created_at}}</td>
+                                    <td>
+                                        <nav class="menu">
+                                            <input type="checkbox" href="#" class="menu-open" name="menu-open"
+                                                   id="menu-open" style="z-index: 1000!important"/>
+                                            <label class="menu-open-button" style="z-index: 1000!important" for="menu-open">
+                                                <i class="fa fa-share-alt share-icon"></i>
+                                            </label>
+
+                                            <a href="https://www.facebook.com" target="_blank"
+                                               style="z-index: 100" class="menu-item facebook_share_btn"> <i class="fa fa-facebook"></i> </a>
+                                            <a href="https://www.twitter.com" target="_blank"
+                                               style="z-index: 100" class="menu-item twitter_share_btn"> <i class="fa fa-twitter"></i> </a>
+                                            <a href="https://www.pinterest.com" target="_blank"
+                                               style="z-index: 100" class="menu-item pinterest_share_btn"> <i class="fa fa-pinterest"></i>
+                                            </a>
+                                            <a href="https://www.youtube.com" target="_blank"
+                                               style="z-index: 100" class="menu-item youtube_share_btn"> <i class="fa fa-youtube"></i> </a>
+                                            <a href="https://www.tumblr.com" target="_blank"
+                                               style="z-index: 100" class="menu-item tumblr_share_btn">
+                                                <i class="fa fa-tumblr"></i> </a>
+                                            <a href="https://plus.google.com" target="_blank"
+                                               style="z-index: 100" class="menu-item google_plus_share_btn"> <i
+                                                    class="fa fa-google-plus"></i> </a>
+                                        </nav>
+                                    </td>
+                                    <td>
+                                        <a type="button" href="{{route('note.view', $note->id)}}" class="btn btn-dark">Получить
+                                            оценки</a>
+                                    </td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+                    </div>
 
 
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg table-responsive">
-                <a type="button" href="{{route('note.create')}}" class="mb-3 btn btn-dark">Написать отчёт</a>
-                <br>
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th scope="col">Название</th>
-                        <th scope="col">Статус</th>
-                        <th scope="col">Дата создания</th>
-                        <th scope="col"></th>
-                        <th scope="col"></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @foreach($notes as $note)
-                        <tr>
-                            <th>{{$note->title}}</th>
-                            <td>{{$note->status == 'moderation' ? 'Модерация' : ($note->status == 'approve' ? 'Одобрено' : 'Не прошел проверку')}}</td>
-                            <td>{{$note->created_at}}</td>
-                            <td>
-                                <nav class="menu">
-                                    <input type="checkbox" href="#" class="menu-open" name="menu-open" id="menu-open"/>
-                                    <label class="menu-open-button" for="menu-open">
-                                        <i class="fa fa-share-alt share-icon"></i>
-                                    </label>
-
-                                    <a href="https://www.facebook.com" target="_blank"
-                                       class="menu-item facebook_share_btn"> <i class="fa fa-facebook"></i> </a>
-                                    <a href="https://www.twitter.com" target="_blank"
-                                       class="menu-item twitter_share_btn"> <i class="fa fa-twitter"></i> </a>
-                                    <a href="https://www.pinterest.com" target="_blank"
-                                       class="menu-item pinterest_share_btn"> <i class="fa fa-pinterest"></i> </a>
-                                    <a href="https://www.youtube.com" target="_blank"
-                                       class="menu-item youtube_share_btn"> <i class="fa fa-youtube"></i> </a>
-                                    <a href="https://www.tumblr.com" target="_blank" class="menu-item tumblr_share_btn">
-                                        <i class="fa fa-tumblr"></i> </a>
-                                    <a href="https://plus.google.com" target="_blank"
-                                       class="menu-item google_plus_share_btn"> <i class="fa fa-google-plus"></i> </a>
-                                </nav>
-                            </td>
-                            <td>
-                                <a type="button" href="{{route('note.view', $note->id)}}" class="btn btn-dark">Получить
-                                    оценки</a>
-                            </td>
-                        </tr>
-                    @endforeach
-                    </tbody>
-                </table>
+                </div>
             </div>
-
-
         </div>
     </div>
     <style>
 
-        .py-12 {
-            padding-top: 1rem !important;
-        }
 
         @media screen and (max-width: 700px) {
 

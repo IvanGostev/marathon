@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Создание отчета') }}
+            {{ __('Просмотр отчета') }}
         </h2>
     </x-slot>
     <link rel="stylesheet" href="https://unpkg.com/bootstrap@5.3.3/dist/css/bootstrap.min.css">
@@ -14,7 +14,7 @@
     <script src="{{ asset('ru/ru.js')}}"></script>
     <div class="py-12 d-flex  mx-auto sm:px-6 lg:px-8 ">
         <!-- Timeline 1 - Bootstrap Brain Component -->
-        <section class="bsb-timeline-1 py-5 py-xl-8">
+        <section class="bsb-timeline-1 py-5 py-xl-8" style="width: 100%">
             <div class="container">
                 <div class="row justify-content-center gap-10">
                     <ul class=" col-sm-2 timeline">
@@ -23,7 +23,7 @@
                                 <div class="timeline-content">
                                     <div class="card border-0">
                                         <div class="card-body p-1g">
-                                            <h6 class="card-title p-1">Создания отчета</h6>
+                                            <h6 class="card-title p-1 text-secondary">Создание отчета</h6>
                                         </div>
                                     </div>
                                 </div>
@@ -35,7 +35,7 @@
                                 <div class="timeline-content">
                                     <div class="card border-0">
                                         <div class="card-body p-1g">
-                                            <h6 class="card-title p-1 text-secondary">Просмотр отчета</h6>
+                                            <h6 class="card-title p-1 fw-medium">Просмотр отчета</h6>
                                         </div>
                                     </div>
                                 </div>
@@ -71,25 +71,34 @@
                             </div>
                         </li>
                     </ul>
-                    <form class="bg-white shadow sm:rounded-lg col-sm-8 p-2" action="{{route('note.demo')}}" method="post"
+                    <form class="bg-white shadow sm:rounded-lg col-sm-8 p-2" action="{{route('note.store')}}" method="post"
                           class="p-4 sm:p-8 bg-white shadow sm:rounded-lg table-responsive">
                         @csrf
                         <div class="mb-3">
                             <label for="exampleFormControlInput1" class="form-label">Книга</label>
-                            <select class="form-select" aria-label="Книга" name="book_id">
+                            <select disabled class="form-select" aria-label="Книга" name="book_id">
                                 @foreach($books as $book)
-                                    <option @isset($data['book_id']) {{$data['book_id'] == $book->id ? 'selected' : ''}} @endisset value="{{$book->id}}">{{$book->title}}</option>
+                                    <option {{$data['book_id'] == $book->id ? 'selected' : ''}}  value="{{$book->id}}">{{$book->title}}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="mb-3">
                             <label for="exampleFormControlInput1" class="form-label">Название</label>
-                            <input @isset($data['title`']) value="{{$data['title']}}" @endisset  type="text" class="form-control" id="exampleFormControlInput1" name="title">
+                            <input disabled value="{{$book->title}}" type="text" class="form-control" id="exampleFormControlInput1" name="title">
                         </div>
                         <div class="mb-3">
                             <label for="exampleFormControlTextarea1" class="form-label">Отчет</label>
-                            <textarea id="froala-editor" class="form-control" rows="20" name="text">@isset($data['text']) {!! $data['text'] !!} @endisset</textarea>
-                            <button type="submit" class="btn btn-dark mt-3">Далее</button>
+                            <div style="width: 100%; background-color: #e9ecef; min-height: 200px" disabled id="froala-editor" contenteditable="false" class="form-control" rows="20" name="text">
+                                {!!$data['text']!!}
+                            </div>
+                            <input type="text" hidden name="text" value="{{$data['text']}}">
+                            <input type="text" hidden name="book_id" value="{{$data['book_id']}}">
+                            <input type="text" hidden name="title" value="{{$data['title']}}">
+                         <div style="display: flex; justify-content: space-between">
+                             <button  type="submit" name="action" value="back" class="btn btn-dark mt-3">Редактировать</button>
+
+                             <button  type="submit" class="btn btn-dark mt-3">Отправить на проверку</button>
+                         </div>
                         </div>
                     </form>
                 </div>
@@ -99,18 +108,5 @@
 
 
     <script>
-        new FroalaEditor("#froala-editor", {
-            toolbarButtons: [
-                ['insertLink', 'insertTable', 'emoticons', 'fontAwesome', 'specialCharacters', 'embedly', 'insertHR'],
-
-                ['bold', 'italic', 'underline', 'strikeThrough', 'subscript', 'superscript', 'fontFamily', 'fontSize', 'textColor', 'backgroundColor', 'inlineClass', 'inlineStyle', 'clearFormatting'],
-
-                ['alignLeft', 'alignCenter', 'formatOLSimple', 'alignRight', 'alignJustify', 'formatOL', 'formatUL', 'paragraphFormat', 'paragraphStyle', 'lineHeight', 'outdent', 'indent'],
-
-                ['undo', 'redo', 'fullscreen', 'spellChecker', 'selectAll'],
-            ],
-            language: 'ru'
-        })
-        ;
     </script>
 </x-app-layout>

@@ -11829,14 +11829,14 @@ a.text-dark:focus {
     }
 }
 
-body {
-    font-family: "Lato", Arial, sans-serif;
-    font-size: 16px;
-    line-height: 1.8;
-    font-weight: normal;
-    background: #f8f9fd;
-    color: gray;
-}
+/*body {*/
+/*    font-family: "Lato", Arial, sans-serif;*/
+/*    font-size: 16px;*/
+/*    line-height: 1.8;*/
+/*    font-weight: normal;*/
+/*    background: #f8f9fd;*/
+/*    color: gray;*/
+/*}*/
 
 a {
     -webkit-transition: 0.3s all ease;
@@ -12002,7 +12002,7 @@ h5,
 }
 
 .calendar_content div.red-date {
-    background-color: var(--red);
+    background-color: var(--yellow);
     color: white;
 }
 
