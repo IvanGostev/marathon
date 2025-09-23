@@ -14,7 +14,7 @@
         <div class="row py-10 bsb-timeline-1">
             <div class="col-md-3">
                 <div class="list-group bg-light" style="padding: 10px 10px 20px 10px">
-                    <a style="margin: 10px 10px" href="{{route('note.create')}}" class=" btn btn-dark"
+                    <a  style="border-color: #008000!important; background-color: #008000!important; margin: 10px 10px" href="{{route('note.create')}}" class=" btn btn-dark"
                        aria-current="true">
                         Написать отчет
                     </a>

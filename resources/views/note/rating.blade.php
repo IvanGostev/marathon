@@ -14,7 +14,7 @@
         <div class="row py-10 bsb-timeline-1">
             <div class="col-md-3">
                 <div class="list-group bg-light" style="padding: 10px 10px 20px 10px">
-                    <a style="margin: 10px 10px" href="{{route('note.create')}}" class=" btn btn-dark"
+                    <a style="border-color: #008000!important; background-color: #008000!important; margin: 10px 10px" href="{{route('note.create')}}" class=" btn btn-dark"
                        aria-current="true">
                         Написать отчет
                     </a>
@@ -77,10 +77,16 @@
             <div class="col-md-9">
                 <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
                     <form class="p-4 sm:p-8 bg-white shadow sm:rounded-lg table-responsive">
+                        <div class="form-group mt-3">
+                            <label class="form-label">{{$note->user()->name}}</label>
+                            <img src="{{$note->user()->img ? asset('storage/' . $note->user()->img) : asset('img/ava.jpeg')}}" class="rounded-circle"
+                                 style="width: 150px; height: 150px;"
+                                 alt="Avatar"/>
+                        </div>
                         <div class="mb-3">
                             <label for="exampleFormControlInput1" class="form-label">Книга</label>
                             <input readonly type="text" class="form-control" id="exampleFormControlInput1" name="book"
-                                   value="{{$note->book()->title}}">
+                                   value="{{$note->mybook ?? $note->book()->title}}">
                         </div>
                         <div class="mb-3">
                             <label for="exampleFormControlInput1" class="form-label">Название</label>
@@ -100,6 +106,13 @@
                         @csrf
                         <input hidden="hidden" name="note_id" value="{{$note->id}}">
                         <div class="form-group mt-3">
+                            <label class="form-label">{{auth()->user()->name}}</label>
+                            <img src="{{auth()->user()->img ? asset('storage/' . auth()->user()->img) : asset('img/ava.jpeg')}}" class="rounded-circle"
+                                 style="width: 150px; height: 150px;"
+                                 alt="Avatar"/>
+                        </div>
+                        <div class="form-group mt-3">
+
                             <label class="form-label">Оценка</label>
                             <div class="star-box">
                                 <div class="star">

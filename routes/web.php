@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\BookAdminController;
 use App\Http\Controllers\Admin\CommentAdminController;
 use App\Http\Controllers\Admin\NoteAdminController;
 use App\Http\Controllers\Admin\PostAdminController;
+use App\Http\Controllers\Admin\PromocodeAdminController;
 use App\Http\Controllers\Admin\UserAdminController;
 use App\Http\Controllers\Admin\VideoAdminController;
 use App\Http\Controllers\CoachController;
@@ -73,6 +74,11 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
     Route::prefix('users')->name('user.')->controller(UserAdminController::class)->group(function () {
         Route::get('/', 'index')->name('index');
+    });
+    Route::prefix('promocodes')->name('promocode.')->controller(PromocodeAdminController::class)->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::post('/store', 'store')->name('store');
+        Route::delete('/{promocode}/delete', 'delete')->name('delete');
     });
     Route::prefix('notes')->name('note.')->controller(NoteAdminController::class)->group(function () {
         Route::get('/', 'index')->name('index');

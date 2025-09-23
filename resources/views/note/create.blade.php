@@ -76,7 +76,7 @@
                         @csrf
                         <div class="mb-3">
                             <label for="exampleFormControlInput1" class="form-label">Книга</label>
-                            <select class="form-select" aria-label="Книга" name="book_id">
+                            <select required class="form-select" aria-label="Книга" name="book_id">
                                 @foreach($books as $book)
                                     <option @isset($data['book_id']) {{$data['book_id'] == $book->id ? 'selected' : ''}} @endisset value="{{$book->id}}">{{$book->title}}</option>
                                 @endforeach
@@ -84,11 +84,11 @@
                         </div>
                         <div class="mb-3">
                             <label for="exampleFormControlInput1" class="form-label">Название</label>
-                            <input @isset($data['title`']) value="{{$data['title']}}" @endisset  type="text" class="form-control" id="exampleFormControlInput1" name="title">
+                            <input required @isset($data['title`']) value="{{$data['title']}}" @endisset  type="text" class="form-control" id="exampleFormControlInput1" name="title">
                         </div>
                         <div class="mb-3">
                             <label for="exampleFormControlTextarea1" class="form-label">Отчет</label>
-                            <textarea id="froala-editor" class="form-control" rows="20" name="text">@isset($data['text']) {!! $data['text'] !!} @endisset</textarea>
+                            <textarea  required id="froala-editor" class="form-control" rows="20" name="text">@isset($data['text']) {!! $data['text'] !!} @endisset</textarea>
                             <button type="submit" class="btn btn-dark mt-3">Далее</button>
                         </div>
                     </form>

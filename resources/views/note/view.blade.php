@@ -6,13 +6,19 @@
 
         <link rel="stylesheet"
               href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-        <link rel="stylesheet" href="{{asset('modules/rating_stars/main.css')}}" />
+        <link rel="stylesheet" href="{{asset('modules/rating_stars/main.css')}}"/>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
         <script src="{{asset('modules/rating_stars/main.js')}}"></script>
     </x-slot>
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
             <form class="p-4 sm:p-8 bg-white shadow sm:rounded-lg table-responsive">
+                <div class="form-group mt-3">
+                    <label class="form-label">{{$note->user()->name}}</label>
+                    <img src="{{$note->user()->img ? asset('storage/' . $note->user()->img) : asset('img/ava.jpeg')}}" class="rounded-circle"
+                         style="width: 150px; height: 150px;"
+                         alt="Avatar"/>
+                </div>
                 <div class="mb-3">
                     <label for="exampleFormControlInput1" class="form-label">Книга</label>
                     <input readonly type="text" class="form-control" id="exampleFormControlInput1" name="book"
@@ -53,61 +59,70 @@
                     </div>
                 </div>
             </div>
-            <form class="p-4 sm:p-8 bg-white shadow sm:rounded-lg table-responsive" method="post" action="{{route('comment.store')}}">
-             @csrf
-                <input hidden="hidden" name="note_id" value="{{$note->id}}">
-                <div class="form-group mt-3">
-                    <label class="form-label">Ваша оценка</label>
-                    <div class="star-box">
-                        <div class="star">
-                            <input
-                                class="star-input"
-                                type="radio"
-                                id="st-1"
-                                value="1"
-                                name="stars"
-                                autocomplete="off"/>
+            @if(auth()->user()->id != $note->user_id)
+                <form class="p-4 sm:p-8 bg-white shadow sm:rounded-lg table-responsive" method="post"
+                      action="{{route('comment.store')}}">
+                    @csrf
+                    <input hidden="hidden" name="note_id" value="{{$note->id}}">
+                    <div class="form-group mt-3">
+                        <label class="form-label">{{auth()->user()->name}}</label>
+                        <img src="{{auth()->user()->img ? asset('storage/' . auth()->user()->img) : asset('img/ava.jpeg')}}" class="rounded-circle"
+                             style="width: 150px; height: 150px;"
+                             alt="Avatar"/>
+                    </div>
+                    <div class="form-group mt-3">
+                        <label class="form-label">Ваша оценка</label>
+                        <div class="star-box">
+                            <div class="star">
+                                <input
+                                    class="star-input"
+                                    type="radio"
+                                    id="st-1"
+                                    value="1"
+                                    name="stars"
+                                    autocomplete="off"/>
 
-                            <div class="star-shape"></div>
+                                <div class="star-shape"></div>
 
-                        </div>
-                        <div class="star">
-                            <input
-                                class="star-input"
-                                type="radio"
-                                id="st-2"
-                                value="2"
-                                name="stars"
-                                autocomplete="off"
-                            />
+                            </div>
+                            <div class="star">
+                                <input
+                                    class="star-input"
+                                    type="radio"
+                                    id="st-2"
+                                    value="2"
+                                    name="stars"
+                                    autocomplete="off"
+                                />
 
-                            <div class="star-shape"></div>
+                                <div class="star-shape"></div>
 
-                        </div>
-                        <div class="star">
-                            <input
-                                class="star-input"
-                                type="radio"
-                                id="st-3"
-                                value="3"
-                                name="stars"
-                                autocomplete="off"
-                            />
+                            </div>
+                            <div class="star">
+                                <input
+                                    class="star-input"
+                                    type="radio"
+                                    id="st-3"
+                                    value="3"
+                                    name="stars"
+                                    autocomplete="off"
+                                />
 
-                            <div class="star-shape"></div>
+                                <div class="star-shape"></div>
 
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="form-group mt-3">
-                    <label class="form-label">Ваш отзыв</label>
-                    <textarea class="form-control" name="text" rows="5"
-                              placeholder="Поделитесь своими впечатлениями"></textarea>
-                </div>
-                <div class="form-group mt-3">
-                    <button type="submit" class="btn btn-dark">Отправить</button>
-                </div>
-            </form>
+                    <div class="form-group mt-3">
+                        <label class="form-label">Ваш отзыв</label>
+                        <textarea class="form-control" name="text" rows="5"
+                                  placeholder="Поделитесь своими впечатлениями"></textarea>
+                    </div>
+                    <div class="form-group mt-3">
+                        <button type="submit" class="btn btn-dark">Отправить</button>
+                    </div>
+                </form>
+            @endif
         </div>
 
         <style>

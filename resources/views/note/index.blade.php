@@ -23,7 +23,7 @@ https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css
         <div class="row py-10 bsb-timeline-1">
             <div class="col-md-3">
                 <div class="list-group bg-light" style="padding: 10px 10px 20px 10px">
-                    <a style="margin: 10px 10px" href="{{route('note.create')}}" class=" btn btn-dark" aria-current="true">
+                    <a style="border-color: #008000!important; background-color: #008000!important; margin: 10px 10px" href="{{route('note.create')}}" class=" btn btn-dark" aria-current="true">
                         Написать отчет
                     </a>
                     <ul class="timeline">
@@ -118,7 +118,7 @@ https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css
                         <div class="calendar_content"></div>
                     </div>
                     <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg table-responsive">
-                        <a type="button" href="{{route('note.create')}}" class="mb-3 btn btn-dark">Написать отчёт</a>
+                        <a style="border-color: #008000!important; background-color: #008000!important" type="button" href="{{route('note.create')}}" class="mb-3 btn btn-dark">Написать отчёт</a>
                         <br>
                         <table class="table">
                             <thead>

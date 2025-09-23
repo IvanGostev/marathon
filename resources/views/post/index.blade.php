@@ -16,11 +16,15 @@
                 <div class="col-lg-5">
                     <div class="card mb-4 align-items-center justify-content-center">
                         <div class="card-body text-center align-items-center justify-content-center">
-                            <img src="{{$user->img ? asset('storage/' . $user->img) : asset('img/ava.webp')}}"
+                            <img src="{{$user->img ? asset('storage/' . $user->img) : asset('img/ava.jpeg')}}"
                                  alt="avatar"
-                                 class="rounded-circle img-fluid" style="width: 150px; margin: 0 auto;">
+                                 class="rounded-circle img-fluid" style="width: 150px; height: 150px; margin: 0 auto;">
                             <h5 class="my-3">{{$user->name}}</h5>
                             <p class="text-muted mb-1">Зарегистрирован с {{$user->created_at}}</p>
+                            <p class="text-muted mb-1">Хобби: {{$user->hobby}}</p>
+                            <p class="text-muted mb-1">День рождение: {{$user->date}}</p>
+                            <p class="text-muted mb-1">Город: {{$user->city}}</p>
+                            <p class="text-muted mb-1">Номер телефон: {{$user->phone}}</p>
                             <div class="d-flex mb-2 pt-3" style="flex-direction: column; gap: 10px;">
                                 @if (!(auth()->user()->id == $user->id) and admissionRequest(auth()->user()->id, $user->id))
                                     <form method="post" action="{{route('coach.store')}}">
@@ -41,7 +45,6 @@
                                     <tr>
                                         <th scope="col">Имя</th>
                                         <th scope="col">Предложение</th>
-                                        <th scope="col">Создание</th>
                                         <th scope="col"></th>
                                         <th scope="col"></th>
                                     </tr>

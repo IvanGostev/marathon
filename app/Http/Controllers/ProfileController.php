@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 
 class ProfileController extends Controller
@@ -24,10 +26,26 @@ class ProfileController extends Controller
     /**
      * Update the user's profile information.
      */
-    public function update(ProfileUpdateRequest $request): RedirectResponse
+    public function update(Request $request): RedirectResponse
     {
 
-        $request->user()->fill($request->validated());
+
+        $validation = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'description' => ['string', 'max:500'],
+            'phone' => ['string', 'max:500'],
+            'city' => ['string', 'max:500'],
+            'hobby' => ['string', 'max:500'],
+            'date' => ['required'],
+            'email' => [
+                'required',
+                'string',
+                'lowercase',
+                'email',
+                'max:255',
+                Rule::unique(User::class)->ignore(auth()->user()->id),
+            ],
+        ]);
         $user = auth()->user();
         $all = $request->all();
         if (isset($all['img'])) {

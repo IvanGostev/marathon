@@ -16,7 +16,7 @@
                   class="p-4 sm:p-8 bg-white shadow sm:rounded-lg table-responsive">
                 @csrf
                 <div class="mb-3">
-                    <textarea id="froala-editor" class="form-control" rows="20" name="text"></textarea>
+                    <textarea required id="froala-editor" class="form-control" rows="20" name="text"></textarea>
                     <button type="submit" class="btn btn-dark mt-3">Создать</button>
                 </div>
             </form>

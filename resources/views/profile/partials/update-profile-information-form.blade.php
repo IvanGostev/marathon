@@ -17,8 +17,8 @@
         @csrf
         @method('patch')
         <div>
-            <img src="{{$user->img ? asset('storage/' . $user->img) : asset('img/ava.webp')}}" class="rounded-circle"
-                 style="width: 150px;"
+            <img src="{{$user->img ? asset('storage/' . $user->img) : asset('img/ava.jpeg')}}" class="rounded-circle"
+                 style="width: 150px; height: 150px;"
                  alt="Avatar"/>
             <x-text-input name="img" type="file" class="form-control mt-2 block w-full p-2" autocomplete="name"/>
 
@@ -28,6 +28,30 @@
             <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name', $user->name)"
                           required autofocus autocomplete="name"/>
             <x-input-error class="mt-2" :messages="$errors->get('name')"/>
+        </div>
+        <div>
+            <x-input-label for="hobby" :value="__('Ваше любимое дело, хобби?')"/>
+            <x-text-input id="hobby" name="hobby" type="text" class="mt-1 block w-full" :value="old('hobby', $user->hobby)"
+                          required autofocus autocomplete="hobby"/>
+            <x-input-error class="mt-2" :messages="$errors->get('hobby')"/>
+        </div>
+        <div>
+            <x-input-label for="phone" :value="__('Телефон')"/>
+            <x-text-input id="phone" name="phone" type="text" class="mt-1 block w-full" :value="old('phone', $user->phone)"
+                          required autofocus autocomplete="phone"/>
+            <x-input-error class="mt-2" :messages="$errors->get('phone')"/>
+        </div>
+        <div>
+            <x-input-label for="city" :value="__('Город')"/>
+            <x-text-input id="city" name="city" type="text" class="mt-1 block w-full" :value="old('city', $user->city)"
+                          required autofocus autocomplete="city"/>
+            <x-input-error class="mt-2" :messages="$errors->get('city')"/>
+        </div>
+        <div>
+            <x-input-label for="date" :value="__('Дата рождения')"/>
+            <x-text-input id="date" name="date" type="date" class="mt-1 block w-full" :value="old('date', $user->date)"
+                          required autofocus autocomplete="name"/>
+            <x-input-error class="mt-2" :messages="$errors->get('date')"/>
         </div>
         <div>
             <x-input-label for="description" :value="__('Описание')"/>
