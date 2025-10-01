@@ -17,12 +17,24 @@
         @csrf
         @method('patch')
         <div>
-            <img src="{{$user->img ? asset('storage/' . $user->img) : asset('img/ava.jpeg')}}" class="rounded-circle"
+            <img id="img-output" src="{{$user->img ? asset('storage/' . $user->img) : asset('img/ava.jpeg')}}" class="rounded-circle"
                  style="width: 150px; height: 150px;"
                  alt="Avatar"/>
-            <x-text-input name="img" type="file" class="form-control mt-2 block w-full p-2" autocomplete="name"/>
-
+            <x-text-input id="img-input" name="img" type="file" class="form-control mt-2 block w-full p-2" autocomplete="name"/>
         </div>
+        <script>
+            document.getElementById('img-input').onchange = function (evt) {
+                let tgt = evt.target || window.event.srcElement,
+                    files = tgt.files;
+                if (FileReader && files && files.length) {
+                    let fr = new FileReader();
+                    fr.onload = function () {
+                        document.getElementById('img-output').src = fr.result;
+                    }
+                    fr.readAsDataURL(files[0]);
+                }
+            }
+        </script>
         <div>
             <x-input-label for="name" :value="__('Ваше имя')"/>
             <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name', $user->name)"
@@ -54,9 +66,9 @@
             <x-input-error class="mt-2" :messages="$errors->get('date')"/>
         </div>
         <div>
-            <x-input-label for="description" :value="__('Описание')"/>
+            <x-input-label for="description" :value="__('Дополнительные сведения')"/>
             <x-text-input id="description" name="description" type="text" class="mt-1 block w-full"
-                          :value="old('description', $user->description)" required autofocus
+                          :value="old('description', $user->description)"  autofocus
                           autocomplete="description"/>
             <x-input-error class="mt-2" :messages="$errors->get('description')"/>
         </div>

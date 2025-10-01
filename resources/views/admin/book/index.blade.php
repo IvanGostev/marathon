@@ -12,10 +12,10 @@
                 <form action="{{route('admin.book.store')}}" class="row g-2" method="post">
                     @csrf
                     <div class="col-auto">
-                        <input type="text" name="title" class="form-control rounded" id="inputPassword2" placeholder="Название">
+                        <input required type="text" name="title" class="form-control rounded" id="inputPassword2" placeholder="Название">
                     </div>
                     <div class="col-auto">
-                        <input type="text" name="link" class="form-control rounded" id="inputPassword2" placeholder="Ссылка">
+                        <input required type="text" name="link" class="form-control rounded" id="inputPassword2" placeholder="Ссылка">
                     </div>
                     <div class="col-auto">
                         <button type="submit" class="btn btn-primary mb-3">Добавить</button>

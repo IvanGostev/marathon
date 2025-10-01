@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\VideoAdminController;
 use App\Http\Controllers\CoachController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\FileController;
 use App\Http\Controllers\NoteController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
@@ -43,6 +44,12 @@ Route::middleware('auth')->group(function () {
     });
     Route::prefix('comments')->name('comment.')->controller(CommentController::class)->group(function () {
         Route::post('/store', 'store')->name('store');
+    });
+
+    // Word
+    Route::prefix('files')->name('file.')->controller(FileController::class)->group(function () {
+        Route::get('/{note}/download', 'download')->name('download');
+        Route::get('/{user}/download-all', 'all')->name('all');
     });
 
     // Блог

@@ -33,6 +33,9 @@ class VideoAdminController extends Controller
         if (isset($data['file'])) {
             $data['src'] =  $request->file('file')->store('uploads', 'public');
         }
+
+
+
         Video::create(['src' => $data['src'], 'text' => $data['text']]);
         return back();
     }

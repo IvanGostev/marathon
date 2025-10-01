@@ -28,7 +28,8 @@ class RatingController extends Controller
 
     protected function OfDays($id)
     {
-        return count(Post::where('user_id', $id)->select(DB::raw('DATE(created_at) as day'))->groupBy('day')->get());
+//        dd(Note::where('user_id', $id)->select(DB::raw('DATE(created_at) as day'))->groupBy('day')->get());
+        return count(Note::where('user_id', $id)->select(DB::raw('DATE(created_at) as day'))->groupBy('day')->get());
     }
 
     # По количеству комментариев
@@ -40,7 +41,7 @@ class RatingController extends Controller
     # По количеству просмотров
     protected function OfViews($id)
     {
-        $f =  Post::where('user_id', $id)->selectRaw('SUM(views) as total')->get()[0]['total'];
+        $f = Post::where('user_id', $id)->selectRaw('SUM(views) as total')->get()[0]['total'];
         return $f + Note::where('user_id', $id)->selectRaw('SUM(views) as total')->get()[0]['total'];
     }
 
@@ -52,9 +53,12 @@ class RatingController extends Controller
 
     public function index(Request $request): View
     {
+        if ($request->search) {
+            $users = User::where('name', 'LIKE', '%' . $request->search . '%' )->get();
+        } else {
+            $users = User::all();
+        }
 
-
-        $users = User::all();
 
         foreach ($users as &$user) {
             $user['OfDay'] = $this->ofDays($user['id']);
@@ -64,14 +68,13 @@ class RatingController extends Controller
 
         $type = $request->all()['type'] ?? 'persistent';
         if ($type == 'persistent') {
-
-
+            $users = $users->sortBy('OfDay', SORT_REGULAR, true);
         } else if ($type == 'inspiring') {
-
+            $users = $users->sortBy('OfComment', SORT_REGULAR, true);
         } else if ($type == 'popular') {
-
+            $users = $users->sortBy('OfView', SORT_REGULAR, true);
         }
-        return view('rating.index', compact('users', 'type'));
+        return view('rating.index', compact('users'));
     }
 
 }

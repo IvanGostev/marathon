@@ -18,7 +18,7 @@ class NoteController extends Controller
 {
     public function index(Request $request): View
     {
-        $notes = Note::where('user_id', auth()->user()->id)->get();
+        $notes = Note::where('user_id', auth()->user()->id)->latest()->get();
         $dates = Note::where('user_id', auth()->user()->id)->pluck('created_at')->all();
 
         return view('note.index', compact('notes', 'dates'));
@@ -47,13 +47,45 @@ class NoteController extends Controller
     public function store(Request $request): RedirectResponse|View
     {
 
-        $data = $request->all();
+        $data = [];
         if (isset($data['action']) and $data['action'] == 'back') {
             $books = Book::all();
             return view('note.create', compact('books', 'data'));
         }
-        $data = $data + ['status' => 'moderation'];
-        $data = $data + ['user_id' => auth()->user()->id];
+
+        if (isset($request->mybook)) {
+            $data['mybook'] = $request->mybook;
+        } elseif ($request->book_id) {
+            $data['book_id'] = $request->book_id;
+        }
+
+        $data['title'] = $request->title;
+        $data['status'] = 'moderation';
+        $data['user_id'] = auth()->user()->id;
+
+        $text= $request->text;
+        $dom = new \DomDocument();
+        @$dom->loadHtml('<meta charset="utf8">' . $text);
+        $images = $dom->getElementsByTagName('img');
+
+        foreach($images as $k => $img){
+            $dataImg = $img->getAttribute('src');
+
+            list($type, $dataImg) = explode(';', $dataImg);
+            list($type, $dataImg) = explode(',', $dataImg);
+            $dataImg = base64_decode($dataImg);
+
+            $image_name= "/upload/" . time().$k.'.png';
+            $path = public_path() . $image_name;
+
+            file_put_contents($path, $dataImg);
+
+            $img->removeAttribute('src');
+            $img->setAttribute('src', $image_name);
+        }
+
+        $data['text'] = $dom->saveHTML();
+
         Note::create($data);
         $myIdsNotes = Note::where('user_id', auth()->user()->id)->pluck('id');
         $note = Note::whereNotIn('id', $myIdsNotes)->inRandomOrder()->first();
@@ -74,5 +106,4 @@ class NoteController extends Controller
         }
         return view('note.rating', compact('number', 'note'));
     }
-
 }

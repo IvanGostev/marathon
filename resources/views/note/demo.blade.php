@@ -48,9 +48,9 @@
                                     <div class="card border-0">
 
 
-                                            <div class="card-body p-1g">
-                                                <h6 class="card-title p-1 text-secondary" >Оценка первого отчета</h6>
-                                            </div>
+                                        <div class="card-body p-1g">
+                                            <h6 class="card-title p-1 text-secondary">Оценка первого отчета</h6>
+                                        </div>
 
                                     </div>
                                 </div>
@@ -63,7 +63,7 @@
 
 
                                         <div class="card-body p-1g">
-                                            <h6 class="card-title p-1 text-secondary" >Оценка второго отчета</h6>
+                                            <h6 class="card-title p-1 text-secondary">Оценка второго отчета</h6>
                                         </div>
 
                                     </div>
@@ -71,28 +71,40 @@
                             </div>
                         </li>
                     </ul>
-                    <form class="bg-white shadow sm:rounded-lg col-sm-8 p-2" action="{{route('note.store')}}" method="post"
+                    <form class="bg-white shadow sm:rounded-lg col-sm-8 p-2" action="{{route('note.store')}}"
+                          method="post"
                           class="p-4 sm:p-8 bg-white shadow sm:rounded-lg table-responsive">
                         @csrf
                         <div class="mb-3">
                             <label for="exampleFormControlInput1" class="form-label">Книга</label>
-                            <select disabled class="form-select" aria-label="Книга" name="book_id">
-                                @foreach($books as $book)
-                                    <option {{$data['book_id'] == $book->id ? 'selected' : ''}}  value="{{$book->id}}">{{$book->title}}</option>
-                                @endforeach
-                            </select>
+
+                            @isset($data['mybook'])
+                                <input disabled value="{{$data['mybook']}}" type="text" class="form-control"
+                                       id="exampleFormControlInput1" name="mybook">
+                                <input type="text" hidden name="mybook" value="{{$data['mybook']}}">
+                            @else
+                                <select disabled class="form-select" aria-label="Книга" name="book_id">
+                                    @foreach($books as $book)
+                                        <option
+                                            {{$data['book_id'] == $book->id ? 'selected' : ''}}  value="{{$book->id}}">{{$book->title}}</option>
+                                    @endforeach
+                                </select>
+                                <input type="text" hidden name="book_id" value="{{$data['book_id']}}">
+                            @endisset
                         </div>
                         <div class="mb-3">
                             <label for="exampleFormControlInput1" class="form-label">Название</label>
-                            <input disabled value="{{$book->title}}" type="text" class="form-control" id="exampleFormControlInput1" name="title">
+                            <input disabled value="{{$data['title']}}" type="text" class="form-control"
+                                   id="exampleFormControlInput1" name="title">
                         </div>
                         <div class="mb-3">
                             <label for="exampleFormControlTextarea1" class="form-label">Отчет</label>
-                            <div style="width: 100%; background-color: #e9ecef; min-height: 200px" disabled id="froala-editor" contenteditable="false" class="form-control" rows="20" name="text">
+                            <div style="width: 100%; background-color: #e9ecef; min-height: 200px;     overflow-y: scroll;" disabled
+                                 id="froala-editor" contenteditable="false" class="form-control" rows="20" name="text">
                                 {!!$data['text']!!}
                             </div>
                             <input type="text" hidden name="text" value="{{$data['text']}}">
-                            <input type="text" hidden name="book_id" value="{{$data['book_id']}}">
+
                             <input type="text" hidden name="title" value="{{$data['title']}}">
                          <div style="display: flex; justify-content: space-between">
                              <button  type="submit" name="action" value="back" class="btn btn-dark mt-3">Редактировать</button>

@@ -23,7 +23,8 @@ https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css
         <div class="row py-10 bsb-timeline-1">
             <div class="col-md-3">
                 <div class="list-group bg-light" style="padding: 10px 10px 20px 10px">
-                    <a style="border-color: #008000!important; background-color: #008000!important; margin: 10px 10px" href="{{route('note.create')}}" class=" btn btn-dark" aria-current="true">
+                    <a style="border-color: #008000!important; background-color: #008000!important; margin: 10px 10px"
+                       href="{{route('note.create')}}" class=" btn btn-dark" aria-current="true">
                         Написать отчет
                     </a>
                     <ul class="timeline">
@@ -58,7 +59,7 @@ https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css
 
 
                                         <div class="card-body p-1g">
-                                            <h6 class="card-title p-1 text-secondary" >Оценка первого отчета</h6>
+                                            <h6 class="card-title p-1 text-secondary">Оценка первого отчета</h6>
                                         </div>
 
                                     </div>
@@ -72,7 +73,7 @@ https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css
 
 
                                         <div class="card-body p-1g">
-                                            <h6 class="card-title p-1 text-secondary" >Оценка второго отчета</h6>
+                                            <h6 class="card-title p-1 text-secondary">Оценка второго отчета</h6>
                                         </div>
 
                                     </div>
@@ -118,7 +119,13 @@ https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css
                         <div class="calendar_content"></div>
                     </div>
                     <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg table-responsive">
-                        <a style="border-color: #008000!important; background-color: #008000!important" type="button" href="{{route('note.create')}}" class="mb-3 btn btn-dark">Написать отчёт</a>
+                        <div>
+                            <a style="display: flex; gap: 10px; background: rgb(68, 68, 68); color: white; align-items: center;"
+                               type="button" href="{{route('file.all', auth()->user()->id)}}" class="mb-3 btn">
+                                <img style="width: 30px; height: 30px" src="{{asset('img/word.svg')}}" alt="">Выгрузить
+                                все отчеты в один файл</a>
+
+                        </div>
                         <br>
                         <table class="table">
                             <thead>
@@ -136,34 +143,39 @@ https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css
                                     <th>{{$note->title}}</th>
                                     <td>{{$note->status == 'moderation' ? 'Модерация' : ($note->status == 'approve' ? 'Одобрено' : 'Не прошел проверку')}}</td>
                                     <td>{{$note->created_at}}</td>
-                                    <td>
-                                        <nav class="menu">
-                                            <input type="checkbox" href="#" class="menu-open" name="menu-open"
-                                                   id="menu-open" style="z-index: 1000!important"/>
-                                            <label class="menu-open-button" style="z-index: 1000!important" for="menu-open">
-                                                <i class="fa fa-share-alt share-icon"></i>
-                                            </label>
+                                    {{--                                    <td>--}}
+                                    {{--                                        <nav class="menu">--}}
+                                    {{--                                            <input type="checkbox" href="#" class="menu-open" name="menu-open"--}}
+                                    {{--                                                   id="menu-open" style="z-index: 1000!important"/>--}}
+                                    {{--                                            <label class="menu-open-button" style="z-index: 1000!important" for="menu-open">--}}
+                                    {{--                                                <i class="fa fa-share-alt share-icon"></i>--}}
+                                    {{--                                            </label>--}}
 
-                                            <a href="https://www.facebook.com" target="_blank"
-                                               style="z-index: 100" class="menu-item facebook_share_btn"> <i class="fa fa-facebook"></i> </a>
-                                            <a href="https://www.twitter.com" target="_blank"
-                                               style="z-index: 100" class="menu-item twitter_share_btn"> <i class="fa fa-twitter"></i> </a>
-                                            <a href="https://www.pinterest.com" target="_blank"
-                                               style="z-index: 100" class="menu-item pinterest_share_btn"> <i class="fa fa-pinterest"></i>
-                                            </a>
-                                            <a href="https://www.youtube.com" target="_blank"
-                                               style="z-index: 100" class="menu-item youtube_share_btn"> <i class="fa fa-youtube"></i> </a>
-                                            <a href="https://www.tumblr.com" target="_blank"
-                                               style="z-index: 100" class="menu-item tumblr_share_btn">
-                                                <i class="fa fa-tumblr"></i> </a>
-                                            <a href="https://plus.google.com" target="_blank"
-                                               style="z-index: 100" class="menu-item google_plus_share_btn"> <i
-                                                    class="fa fa-google-plus"></i> </a>
-                                        </nav>
+                                    {{--                                            <a href="https://www.facebook.com" target="_blank"--}}
+                                    {{--                                               style="z-index: 100" class="menu-item facebook_share_btn"> <i class="fa fa-facebook"></i> </a>--}}
+                                    {{--                                            <a href="https://www.twitter.com" target="_blank"--}}
+                                    {{--                                               style="z-index: 100" class="menu-item twitter_share_btn"> <i class="fa fa-twitter"></i> </a>--}}
+                                    {{--                                            <a href="https://www.pinterest.com" target="_blank"--}}
+                                    {{--                                               style="z-index: 100" class="menu-item pinterest_share_btn"> <i class="fa fa-pinterest"></i>--}}
+                                    {{--                                            </a>--}}
+                                    {{--                                            <a href="https://www.youtube.com" target="_blank"--}}
+                                    {{--                                               style="z-index: 100" class="menu-item youtube_share_btn"> <i class="fa fa-youtube"></i> </a>--}}
+                                    {{--                                            <a href="https://www.tumblr.com" target="_blank"--}}
+                                    {{--                                               style="z-index: 100" class="menu-item tumblr_share_btn">--}}
+                                    {{--                                                <i class="fa fa-tumblr"></i> </a>--}}
+                                    {{--                                            <a href="https://plus.google.com" target="_blank"--}}
+                                    {{--                                               style="z-index: 100" class="menu-item google_plus_share_btn"> <i--}}
+                                    {{--                                                    class="fa fa-google-plus"></i> </a>--}}
+                                    {{--                                        </nav>--}}
+                                    {{--                                    </td>--}}
+                                    <td>
+                                        <a type="button" href="{{route('note.view', $note->id)}}" class="btn btn-dark">Подробнее</a>
                                     </td>
                                     <td>
-                                        <a type="button" href="{{route('note.view', $note->id)}}" class="btn btn-dark">Получить
-                                            оценки</a>
+                                        <a style="display: flex; gap: 10px" type="button"
+                                           href="{{route('file.download', $note->id)}}" class="btn btn-dark">
+                                            <img style="width: 20px; height: 20px" src="{{asset('img/word.svg')}}"
+                                                 alt="">Word</a>
                                     </td>
                                 </tr>
                             @endforeach

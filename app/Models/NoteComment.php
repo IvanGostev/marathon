@@ -4,16 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Note extends Model
+class NoteComment extends Model
 {
     protected $guarded = false;
-
-    public function book()
-    {
-        return Book::where('id', $this->book_id)->first();
-    }
-    public function user()
-    {
+    public function user() {
         return User::where('id', $this->user_id)->first();
+    }
+    public function note() {
+        return Note::where('id', $this->note_id)->first();
     }
 }

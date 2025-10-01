@@ -22,7 +22,7 @@
                 <div class="mb-3">
                     <label for="exampleFormControlInput1" class="form-label">Книга</label>
                     <input readonly type="text" class="form-control" id="exampleFormControlInput1" name="book"
-                           value="{{$note->book()->title}}">
+                           value="{{($note->mybook ?? ($note->book()->title ?? '-'))}}">
                 </div>
                 <div class="mb-3">
                     <label for="exampleFormControlInput1" class="form-label">Название</label>

@@ -4,11 +4,16 @@
             {{ __('Личный блог') }}
         </h2>
     </x-slot>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/froala-editor@latest/css/froala_editor.pkgd.min.css" rel="stylesheet"
-          type="text/css"/>
-    <script type="text/javascript"
-            src="https://cdn.jsdelivr.net/npm/froala-editor@latest/js/froala_editor.pkgd.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet"
+          href="https://unpkg.com/bs-brain@2.0.4/tutorials/timelines/timeline-1/assets/css/timeline-1.css">
+    <script src="{{asset('js/summernote-ru-RU.js')}}"></script>
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-lite.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-lite.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/lang/summernote-ru-Ru.js"></script>
+
+
+
     <script src="{{ asset('ru/ru.js')}}"></script>
     <section>
         <div class="container py-5">
@@ -110,7 +115,7 @@
                                                 <input class="form-control" name="title" required>
                                             </div>
                                             <div class="mb-3">
-                                                <textarea id="froala-editor" class="form-control" rows="15"
+                                                <textarea id="editor" class="form-control" rows="15"
                                                           name="text" required></textarea>
                                             </div>
                                             <div style="width: 100%; display: flex; justify-content: right">
@@ -121,6 +126,7 @@
                                 </div>
                             @endif
                             @foreach($items as $item)
+
                                 <div class="card mb-4 ">
                                     <div class="card-body">
                                         <h5 class="card-title h5">{{$item['title']}}</h5>
@@ -140,20 +146,190 @@
             </div>
         </div>
     </section>
+    <style>
+        @font-face {
+            font-family: 'Roboto';
+            font-style: normal;
+            font-weight: 400;
+            src: local('Roboto'), local('Roboto-Regular'), url('https://fonts.gstatic.com/s/roboto/v19/KFOmCnqEu92Fr1Mu72xKOzY.woff2') format('woff2');
+            unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+        }
+    </style>
+
     <script>
-        new FroalaEditor("#froala-editor", {
-            toolbarButtons: [
-                ['insertLink', 'insertTable', 'emoticons', 'fontAwesome', 'specialCharacters', 'embedly', 'insertHR'],
+        $(document).ready(function() {
+            $('#editor').summernote({
+                height: '300px',
+                fontName: 'Roboto',
+                toolbar: [
+                    ['style', ['style']],
+                    ['font', ['bold', 'underline', 'clear']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['table', ['table']],
+                    ['insert', ['link', 'picture']],
+                ],
+                focus: true,
+                lang:'ru-RU',
+                fontNames:['Roboto','Times New Roman','Helvetica'],
+                // disableResizeEditor: true
+            });
+        });
+        (function($) {
+            $.extend(true, $.summernote.lang, {
+                'ru-RU': {
+                    font: {
+                        bold: 'Полужирный',
+                        italic: 'Курсив',
+                        underline: 'Подчёркнутый',
+                        clear: 'Убрать стили шрифта',
+                        height: 'Высота линии',
+                        name: 'Шрифт',
+                        strikethrough: 'Зачёркнутый',
+                        subscript: 'Нижний индекс',
+                        superscript: 'Верхний индекс',
+                        size: 'Размер шрифта',
+                    },
+                    image: {
+                        image: 'Картинка',
+                        insert: 'Вставить картинку',
+                        resizeFull: 'Восстановить размер',
+                        resizeHalf: 'Уменьшить до 50%',
+                        resizeQuarter: 'Уменьшить до 25%',
+                        floatLeft: 'Расположить слева',
+                        floatRight: 'Расположить справа',
+                        floatNone: 'Расположение по-умолчанию',
+                        shapeRounded: 'Форма: Закругленная',
+                        shapeCircle: 'Форма: Круг',
+                        shapeThumbnail: 'Форма: Миниатюра',
+                        shapeNone: 'Форма: Нет',
+                        dragImageHere: 'Перетащите сюда картинку',
+                        dropImage: 'Перетащите картинку',
+                        selectFromFiles: 'Выбрать из файлов',
+                        maximumFileSize: 'Максимальный размер файла',
+                        maximumFileSizeError: 'Превышен максимальный размер файла',
+                        url: 'URL картинки',
+                        remove: 'Удалить картинку',
+                        original: 'Оригинал',
+                    },
+                    video: {
+                        video: 'Видео',
+                        videoLink: 'Ссылка на видео',
+                        insert: 'Вставить видео',
+                        url: 'URL видео',
+                        providers: '(YouTube, Vimeo, Vine, Instagram, DailyMotion или Youku)',
+                    },
+                    link: {
+                        link: 'Ссылка',
+                        insert: 'Вставить ссылку',
+                        unlink: 'Убрать ссылку',
+                        edit: 'Редактировать',
+                        textToDisplay: 'Отображаемый текст',
+                        url: 'URL для перехода',
+                        openInNewWindow: 'Открывать в новом окне',
+                    },
+                    table: {
+                        table: 'Таблица',
+                        addRowAbove: 'Добавить строку выше',
+                        addRowBelow: 'Добавить строку ниже',
+                        addColLeft: 'Добавить столбец слева',
+                        addColRight: 'Добавить столбец справа',
+                        delRow: 'Удалить строку',
+                        delCol: 'Удалить столбец',
+                        delTable: 'Удалить таблицу',
+                    },
+                    hr: {
+                        insert: 'Вставить горизонтальную линию',
+                    },
+                    style: {
+                        style: 'Стиль',
+                        p: 'Нормальный',
+                        blockquote: 'Цитата',
+                        pre: 'Код',
+                        h1: 'Заголовок 1',
+                        h2: 'Заголовок 2',
+                        h3: 'Заголовок 3',
+                        h4: 'Заголовок 4',
+                        h5: 'Заголовок 5',
+                        h6: 'Заголовок 6',
+                    },
+                    lists: {
+                        unordered: 'Маркированный список',
+                        ordered: 'Нумерованный список',
+                    },
+                    options: {
+                        help: 'Помощь',
+                        fullscreen: 'На весь экран',
+                        codeview: 'Исходный код',
+                    },
+                    paragraph: {
+                        paragraph: 'Параграф',
+                        outdent: 'Уменьшить отступ',
+                        indent: 'Увеличить отступ',
+                        left: 'Выровнять по левому краю',
+                        center: 'Выровнять по центру',
+                        right: 'Выровнять по правому краю',
+                        justify: 'Растянуть по ширине',
+                    },
+                    color: {
+                        recent: 'Последний цвет',
+                        more: 'Еще цвета',
+                        background: 'Цвет фона',
+                        foreground: 'Цвет шрифта',
+                        transparent: 'Прозрачный',
+                        setTransparent: 'Сделать прозрачным',
+                        reset: 'Сброс',
+                        resetToDefault: 'Восстановить умолчания',
+                    },
+                    shortcut: {
+                        shortcuts: 'Сочетания клавиш',
+                        close: 'Закрыть',
+                        textFormatting: 'Форматирование текста',
+                        action: 'Действие',
+                        paragraphFormatting: 'Форматирование параграфа',
+                        documentStyle: 'Стиль документа',
+                        extraKeys: 'Дополнительные комбинации',
+                    },
+                    help: {
+                        'insertParagraph': 'Новый параграф',
+                        'undo': 'Отменить последнюю команду',
+                        'redo': 'Повторить последнюю команду',
+                        'tab': 'Tab',
+                        'untab': 'Untab',
+                        'bold': 'Установить стиль "Жирный"',
+                        'italic': 'Установить стиль "Наклонный"',
+                        'underline': 'Установить стиль "Подчеркнутый"',
+                        'strikethrough': 'Установить стиль "Зачеркнутый"',
+                        'removeFormat': 'Сборсить стили',
+                        'justifyLeft': 'Выровнять по левому краю',
+                        'justifyCenter': 'Выровнять по центру',
+                        'justifyRight': 'Выровнять по правому краю',
+                        'justifyFull': 'Растянуть на всю ширину',
+                        'insertUnorderedList': 'Включить/отключить маркированный список',
+                        'insertOrderedList': 'Включить/отключить нумерованный список',
+                        'outdent': 'Убрать отступ в текущем параграфе',
+                        'indent': 'Вставить отступ в текущем параграфе',
+                        'formatPara': 'Форматировать текущий блок как параграф (тег P)',
+                        'formatH1': 'Форматировать текущий блок как H1',
+                        'formatH2': 'Форматировать текущий блок как H2',
+                        'formatH3': 'Форматировать текущий блок как H3',
+                        'formatH4': 'Форматировать текущий блок как H4',
+                        'formatH5': 'Форматировать текущий блок как H5',
+                        'formatH6': 'Форматировать текущий блок как H6',
+                        'insertHorizontalRule': 'Вставить горизонтальную черту',
+                        'linkDialog.show': 'Показать диалог "Ссылка"',
+                    },
+                    history: {
+                        undo: 'Отменить',
+                        redo: 'Повтор',
+                    },
+                    specialChar: {
+                        specialChar: 'SPECIAL CHARACTERS',
+                        select: 'Select Special characters',
+                    },
+                },
+            });
+        })(jQuery);
 
-                ['bold', 'italic', 'underline', 'strikeThrough', 'subscript', 'superscript', 'fontFamily', 'fontSize', 'textColor', 'backgroundColor', 'inlineClass', 'inlineStyle', 'clearFormatting'],
-
-                ['alignLeft', 'alignCenter', 'formatOLSimple', 'alignRight', 'alignJustify', 'formatOL', 'formatUL', 'paragraphFormat', 'paragraphStyle', 'lineHeight', 'outdent', 'indent'],
-
-                ['undo', 'redo', 'fullscreen', 'spellChecker', 'selectAll'],
-            ],
-            language: 'ru',
-            height: '150px'
-        })
-        ;
     </script>
 </x-app-layout>

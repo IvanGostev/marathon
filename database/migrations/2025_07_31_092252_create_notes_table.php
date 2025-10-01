@@ -15,8 +15,9 @@ return new class extends Migration
     {
         Schema::create('notes', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Book::class);
+            $table->foreignIdFor(Book::class)->nullable();
             $table->foreignIdFor(User::class);
+            $table->string('mybook')->nullable();
             $table->string('title')->nullable();
             $table->string('status');
             $table->text('text');

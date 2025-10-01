@@ -4,16 +4,19 @@
             {{ __('Просмотр поста') }}
         </h2>
 
-        <link rel="stylesheet"
-              href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    </x-slot>
-    <div class="py-12">
+        <style>
+            @font-face {
+                font-family: "Roboto";
+                src: url({{asset('font/Roboto.ttf')}});
+            }
+        </style>          </x-slot>
+    <div class="py-12" style="font-family: 'Roboto'">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
             <form class="p-4 sm:p-8 bg-white shadow sm:rounded-lg table-responsive">
                 <div class="mb-3">
                     <p class="h3">{{$post->title}}</p>
                 </div>
-                <div class="mb-3">
+                <div class="mb-3" style="  font-family: 'Roboto', sans-serif;!important">
                     {!! $post->text !!}
                 </div>
             </form>
@@ -28,26 +31,12 @@
                         </div>
                         @foreach($comments as $comment)
                             <div class="d-flex flex-row p-3">
-                                <img src="{{$comment->user()->img ? asset('storage/' . $comment->user()->img) : asset('img/ava.webp')}}" width="100" height="100"
+                                <img src="{{$comment->user()->img ? asset('storage/' . $comment->user()->img) : asset('img/ava.jpeg')}}" width="100" height="100"
                                      class="rounded-circle mr-3">
                                 <div class="w-100">
-                                    <div class="star-rating">
-                                        <div class="star-rating__wrap">
-                                            <label class="star-rating__ico fa fa-star-o fa-lg" for="star-5"
-                                                   title="Отлично"></label>
-                                            <label class="star-rating__ico fa fa-star-o fa-lg" for="star-4"
-                                                   title="Хорошо"></label>
-                                            <label class="star-rating__ico fa fa-star-o fa-lg" for="star-3"
-                                                   title="Удовлетворительно"></label>
-                                            <label class="star-rating__ico fa fa-star-o fa-lg" for="star-2"
-                                                   title="Плохо"></label>
-                                            <label class="star-rating__ico fa fa-star-o fa-lg" for="star-1"
-                                                   title="Ужасно"></label>
-                                        </div>
-                                    </div>
                                     <div class="d-flex justify-content-between align-items-center">
                                         <div class="d-flex flex-row align-items-center"><span
-                                                class="mr-2">{{$comment->user()->name}}</span></div>
+                                                class="mr-2" style="font-weight: 500">{{$comment->user()->name}}</span></div>
                                     </div>
                                     <p class="text-justify comment-text mb-0">{{$comment->text}}</p>
                                 </div>
@@ -59,22 +48,6 @@
             <form class="p-4 sm:p-8 bg-white shadow sm:rounded-lg table-responsive" method="post" action="{{route('comment.store')}}">
              @csrf
                 <input hidden="hidden" name="post_id" value="{{$post->id}}">
-                <div class="form-group">
-                    <label class="form-label">Ваша оценка</label>
-                    <div class="star-rating">
-                        <div class="star-rating__wrap">
-                            <input class="star-rating__input" id="star-3" type="radio" name="stars" value="3">
-                            <label class="star-rating__ico fa fa-star-o fa-lg" for="star-3"
-                                   ></label>
-                            <input class="star-rating__input" id="star-2" type="radio" name="stars" value="2">
-                            <label class="star-rating__ico fa fa-star-o fa-lg" for="star-2"
-                                   ></label>
-                            <input class="star-rating__input" id="star-1" type="radio" name="stars" value="1">
-                            <label class="star-rating__ico fa fa-star-o fa-lg" for="star-1"
-                                   ></label>
-                        </div>
-                    </div>
-                </div>
                 <div class="form-group mt-3">
                     <label class="form-label">Ваш отзыв</label>
                     <textarea class="form-control" name="text" rows="5"

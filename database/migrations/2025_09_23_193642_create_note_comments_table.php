@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Note;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -12,11 +13,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('awards', function (Blueprint $table) {
+        Schema::create('note_comments', function (Blueprint $table) {
             $table->id();
+            $table->foreignIdFor(Note::class);
             $table->foreignIdFor(User::class);
-            $table->string('img');
-            $table->string('title');
+            $table->text('text');
+            $table->string('status')->default('moderation');
             $table->timestamps();
         });
     }
@@ -26,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('awards');
+        Schema::dropIfExists('note_comments');
     }
 };
