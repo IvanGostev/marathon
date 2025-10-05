@@ -9,7 +9,8 @@
           href="https://unpkg.com/bs-brain@2.0.4/tutorials/timelines/timeline-1/assets/css/timeline-1.css">
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-lite.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-lite.min.js"></script>
-    <script src="{{ asset('ru/ru.js')}}"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <div class="py-12 d-flex  mx-auto sm:px-6 lg:px-8 ">
         <!-- Timeline 1 - Bootstrap Brain Component -->
         <section class="bsb-timeline-1 py-5 py-xl-8 w-100">
@@ -65,33 +66,125 @@
                     </ul>
                     <form class="bg-white shadow sm:rounded-lg col-sm-9 p-2" action="{{route('note.demo')}}"
                           method="post"
-                          class="p-4 sm:p-8 bg-white shadow sm:rounded-lg table-responsive">
+                          class="p-4 sm:p-8 bg-white shadow sm:rounded-lg table-responsive"
+                          enctype='multipart/form-data'
+                    >
+
                         @csrf
                         <div class="mb-3">
-                            <label for="exampleFormControlInput1" class="form-label">Книга
-                                <span data="mybook"
-                                      style="font-size: 12px; color: blue; cursor: pointer; font-weight: 500"
-                                >(Открыть поле свободного ввода)</span>
-                            </label>
-                            <select class="form-select" aria-label="Книга" name="book_id">
+                            <label for="exampleFormControlInput1" class="form-label">Название: книги(курса,
+                                урока....)</label>
+                            <select id="select-2" class="form-select" aria-label="Книга" name="book">
                                 @foreach($books as $book)
                                     <option @isset($data['book_id'])
                                                 {{$data['book_id'] == $book->id ? 'selected' : ''}}
-                                            @endisset value="{{$book->id}}">{{$book->title}}</option>
+                                            @endisset value="{{$book->title}}">{{$book->title}}</option>
                                 @endforeach
+                                @if(isset($data['book']))
+                                    <option selected value="{{$data['book']}}">{{$data['book']}}</option>
+                                @endif
                             </select>
-                            <input placeholder="Ведите название книги" style="display: none" type="text"
-                                   class="form-control" name="mybook">
                         </div>
                         <div class="mb-3">
-                            <label for="exampleFormControlInput1" class="form-label">Название</label>
-                            <input required @isset($data['title`']) value="{{$data['title']}}" @endisset  type="text"
+                            <label for="exampleFormControlInput1" class="form-label">Раздел</label>
+                            <input required @isset($data['title']) value="{{$data['title']}}" @endisset  type="text"
                                    class="form-control" id="exampleFormControlInput1" name="title">
                         </div>
+                        <script>
+                            $(document).ready(function () {
+                                $('#select-2').select2({tags: true});
+                            });
+                        </script>
                         <div class="mb-3">
-                            <label for="exampleFormControlTextarea1" class="form-label">Отчет</label>
+                            <h5>1) Подготовься</h5>
+                            <h6>"Пустая чаша"+Глюкоза+ "Кислород(10дыханий)"</h6>
+                            <p>
+                                1.Запрети себе думать в этот момент о другом. <br>
+                                2.Скажи себе, почему тебе это интересно (цель обучения) <br>
+                                3.Сделай 10 дыханий.
+                            </p>
+                        </div>
+                        <div class="mb-3">
+                            <h5>2) Прочитай / посмотри</h5>
+                            <h6>Изучай 20 мин (Прочитай или Просмотри видео)</h6>
+                            <p>
+                                Поставь таймер на 20 мин (т.е. изучай - 20 мин). Потом сделай шаги 3П,4П,5П. <br>
+                                Затем отдохни - 5 мин .<br>
+                                Потом- новый цикл изучения по 5-П технологии. <br>
+                                Новый цикл оформляй на следующем листе.
+                            </p>
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleFormControlTextarea1" class="form-label">
+                                <h5>3) Пиши</h5>
+                                <h6>Пиши краткий конспект (Пиши меньше, но точнее)</h6>
+                                <p>1.Задай себе вопрос : "Что я понял?"</p>
+                            </label>
                             <textarea required id="editor" class="form-control" rows="20" name="text">@isset($data['text'])
                                     {!! $data['text'] !!}
+                                @endisset</textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleFormControlTextarea1" class="form-label">
+                                <h5>4) Подведи итоги</h5>
+                                <h6>Напиши не больше 3х основных мыслей (акцентируй внимание на ключевых идеях):</h6>
+                                <p>1.Задай себе вопрос : "Что главное из того, что я понял?"</p>
+                            </label>
+                            <textarea required class="form-control" rows="4" name="results">@isset($data['results'])
+                                    {!! $data['results'] !!}
+                                @endisset</textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleFormControlTextarea1" class="form-label">
+                                <h5>5) Перескажи вслух</h5>
+                            </label>
+                            <input id="input-files" multiple required type="file" class="form-control" name="files[]">
+                            @if(isset($data['files']))
+                                <br>
+                                <p class="h6">Файлы загруженные ранее</p>
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Файл</th>
+                                        <th scope="col"></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach($data['files'] as $file)
+                                        <tr id="{{$file->id}}">
+                                            <th scope="row">{{isset($count) ? $count = $count+1 : $count = 1}}</th>
+                                            <td>
+                                                <a target="_blank" href="{{asset('storage/'. $file->src)}}"
+                                                   class="btn  btn-outline-dark">Посмотреть
+                                                    вложение</a>
+                                            </td>
+                                            <td>
+                                                <p onclick="deleteItem({{$file->id}})" class="btn btn-outline-dark">Открепить</p>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                    <select hidden multiple name="oldFilesIds[]" id="">
+                                        @foreach($data['files'] as $file)
+                                            <option  selected value="{{$file->id}}">Object</option>
+                                        @endforeach
+                                    </select>
+                                    </tbody>
+                                </table>
+                                <script>
+                                   function deleteItem($id) {
+                                       $(`tr[id="${$id}"]`).remove();
+                                       $(`option[value="${$id}"]`).remove();
+                                   }
+                                </script>
+                            @endif
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampeFormControlTextarea1" class="form-label">
+                                <h4 class="text-align-center">ДЕЙСТВУЙ! в течении 12 часов (макс 24 часов)</h4>
+                            </label>
+                            <textarea required class="form-control" rows="4" name="go"> @isset($data['go'])
+                                    {!! $data['go'] !!}
                                 @endisset</textarea>
                             <button type="submit" class="btn btn-dark mt-3">Далее</button>
                         </div>
@@ -101,12 +194,17 @@
         </section>
     </div>
     <style>
+
         .tooltip {
             display: none;
         }
     </style>
 
     <script>
+        $('#input-files').change(function (e) {
+            console.log('ddd')
+            Array.from(e.target.files).forEach(file => console.log(file.name));
+        });
 
 
         $(document).ready(function () {
@@ -120,7 +218,7 @@
                     ['table', ['table']],
                     ['insert', ['link', 'picture']],
                 ],
-                lang:'ru-RU',
+                lang: 'ru-RU',
                 focus: true,
             });
         });

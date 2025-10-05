@@ -70,7 +70,7 @@
                         </x-nav-link>
                     </div>
                     <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                        <x-nav-link :active="false">
+                        <x-nav-link :href="route('subscribe.index')" :active="in_array('subscribes' , explode('/', request()->url()))">
                             {{ __('Моя подписка') }}
                         </x-nav-link>
                     </div>
@@ -133,7 +133,7 @@
                 @endif
             </div>
             <div class="hidden sm:flex sm:items-center sm:ms-6">
-                <a href="https://telegram.org"><img style="width: 32px; margin-right: 10px;" src="{{asset('img/tg.svg')}}" alt=""></a>
+                <a href="https://t.me/+BUO9SxMDGmQ0NDRi"><img style="width: 32px; margin-right: 10px;" src="{{asset('img/tg.svg')}}" alt=""></a>
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button

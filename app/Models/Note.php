@@ -16,4 +16,7 @@ class Note extends Model
     {
         return User::where('id', $this->user_id)->first();
     }
+    public function files() {
+        return NoteFile::where('note_id', $this->id)->get();
+    }
 }

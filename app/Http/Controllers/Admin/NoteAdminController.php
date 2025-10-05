@@ -26,7 +26,6 @@ class NoteAdminController extends Controller
     }
     public function approve(Note $note, Request $request): RedirectResponse
     {
-
         $note['status'] = 'approve';
         $note->update();
         return back();

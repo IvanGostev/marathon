@@ -7,6 +7,7 @@ use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\Book;
 use App\Models\Comment;
 use App\Models\Note;
+use App\Models\NoteFile;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -33,12 +34,22 @@ class NoteController extends Controller
     public function demo(Request $request): View
     {
         $data = $request->all();
+        $files = [];
+        foreach ($data['files'] as $file) {
+            $files[] = NoteFile::create(['src' => $file->store('uploads', 'public')]);
+        }
+        if (isset($data['oldFilesIds'])) {
+            foreach($data['oldFilesIds'] as $fileId) {
+                $files[] = NoteFile::where('id', $fileId)->first();
+            }
+        }
         $books = Book::all();
-        return view('note.demo', compact('books', 'data'));
+        return view('note.demo', compact('books', 'data', 'files'));
     }
 
     public function view(Note $note): View
     {
+
         $note->update(['views' => $note['views'] + 1]);
         $comments = Comment::where('note_id', $note->id)->get();
         return view('note.view', compact('note', 'comments'));
@@ -48,34 +59,45 @@ class NoteController extends Controller
     {
 
         $data = [];
-        if (isset($data['action']) and $data['action'] == 'back') {
+        if (isset($request->action) and $request->action == 'back') {
+            $data = $request->all();
             $books = Book::all();
+            $files = [];
+            foreach($request->filesIds as $fileId) {
+                $files[] = NoteFile::where('id', $fileId)->first();
+            }
+            $data['files'] = $files;
             return view('note.create', compact('books', 'data'));
         }
 
-        if (isset($request->mybook)) {
-            $data['mybook'] = $request->mybook;
-        } elseif ($request->book_id) {
-            $data['book_id'] = $request->book_id;
+        if (isset($request->book)) {
+            $book = Book::where('title', $request->book)->first();
+            if ($book) {
+                $data['book_id'] = $book->id;
+            } else {
+                $data['mybook'] = $request->book;
+            }
         }
 
         $data['title'] = $request->title;
+        $data['results'] = $request->results;
+        $data['go'] = $request->go;
         $data['status'] = 'moderation';
         $data['user_id'] = auth()->user()->id;
 
-        $text= $request->text;
+        $text = $request->text;
         $dom = new \DomDocument();
         @$dom->loadHtml('<meta charset="utf8">' . $text);
         $images = $dom->getElementsByTagName('img');
 
-        foreach($images as $k => $img){
+        foreach ($images as $k => $img) {
             $dataImg = $img->getAttribute('src');
 
             list($type, $dataImg) = explode(';', $dataImg);
             list($type, $dataImg) = explode(',', $dataImg);
             $dataImg = base64_decode($dataImg);
 
-            $image_name= "/upload/" . time().$k.'.png';
+            $image_name = "/upload/" . time() . $k . '.png';
             $path = public_path() . $image_name;
 
             file_put_contents($path, $dataImg);
@@ -86,9 +108,16 @@ class NoteController extends Controller
 
         $data['text'] = $dom->saveHTML();
 
-        Note::create($data);
-        $myIdsNotes = Note::where('user_id', auth()->user()->id)->pluck('id');
-        $note = Note::whereNotIn('id', $myIdsNotes)->inRandomOrder()->first();
+        $note = Note::create($data);
+
+        $filesIds = $request->filesIds;
+
+        foreach($filesIds as $fileId) {
+            $file = NoteFile::where('id', $fileId)->first();
+            $file->update(['note_id' => $note->id]);
+        }
+
+        $note = Note::whereNot('user_id',  auth()->user()->id)->inRandomOrder()->first();
         if (!$note) {
             return redirect()->route('note.index');
         }

@@ -15,6 +15,7 @@ use App\Http\Controllers\NoteController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RatingController;
+use App\Http\Controllers\SubscribeController;
 use App\Http\Controllers\VideoController;
 use Illuminate\Support\Facades\Route;
 
@@ -76,8 +77,13 @@ Route::middleware('auth')->group(function () {
         Route::get('/', 'index')->name('index');
     });
 
+    // Подписка
+    Route::prefix('subscribes')->name('subscribe.')->controller(SubscribeController::class)->group(function () {
+        Route::get('/', 'index')->name('index');
+    });
 });
-//, 'admin'
+
+// Admin Panel
 Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
     Route::prefix('users')->name('user.')->controller(UserAdminController::class)->group(function () {
         Route::get('/', 'index')->name('index');

@@ -12,28 +12,62 @@
     </x-slot>
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-            <form class="p-4 sm:p-8 bg-white shadow sm:rounded-lg table-responsive">
-                <div class="form-group mt-3">
-                    <label class="form-label">{{$note->user()->name}}</label>
-                    <img src="{{$note->user()->img ? asset('storage/' . $note->user()->img) : asset('img/ava.jpeg')}}" class="rounded-circle"
+            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg table-responsive">
+                <div class="form-group mt-3 d-flex gap-2">
+                    <img src="{{$note->user()->img ? asset('storage/' . $note->user()->img) : asset('img/ava.jpeg')}}"
+                         class="rounded-circle"
                          style="width: 150px; height: 150px;"
                          alt="Avatar"/>
+                    <label class="form-label h5">{{$note->user()->name}}</label>
                 </div>
+                <br>
                 <div class="mb-3">
-                    <label for="exampleFormControlInput1" class="form-label">Книга</label>
+                    <label for="exampleFormControlInput1" class="form-label h6">Название: книги(курса, урока....)</label>
                     <input readonly type="text" class="form-control" id="exampleFormControlInput1" name="book"
                            value="{{($note->mybook ?? ($note->book()->title ?? '-'))}}">
                 </div>
                 <div class="mb-3">
-                    <label for="exampleFormControlInput1" class="form-label">Название</label>
+                    <label for="exampleFormControlInput1" class="form-label h6">Раздел</label>
                     <input readonly type="text" class="form-control" id="exampleFormControlInput1" name="title"
                            value="{{$note->title}}">
                 </div>
+
                 <div class="mb-3">
-                    <label for="exampleFormControlTextarea1" class="form-label">Отчет</label>
+                    <label for="exampleFormControlTextarea1" class="form-label h6">Отчет</label>
                     {!! $note->text !!}
                 </div>
-            </form>
+                <div class="mb-3">
+                    <label for="exampleFormControlTextarea1" class="form-label h6">Итоги</label>
+                    <p>       {{$note->results}}</p>
+
+                </div>
+                <div class="mb-3">
+                    <label for="exampleFormControlTextarea1" class="form-label h6">Перескажи вслух</label>
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Файл</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($note->files() as $file)
+                            <tr>
+                                <th scope="row">{{isset($count) ? $count = $count+1 : $count = 1}}</th>
+                                <td>
+                                    <a target="_blank" href="{{asset('storage/'. $file->src)}}" class="btn  btn-outline-dark">Посмотреть
+                                        вложение</a>
+                                </td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                <div class="mb-3">
+                    <label for="exampleFormControlTextarea1" class="form-label h6">Действуй</label>
+                    <p>{{$note->go}}</p>
+                </div>
+            </div>
 
         </div>
         <div class="mt-2 max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
@@ -66,9 +100,11 @@
                     <input hidden="hidden" name="note_id" value="{{$note->id}}">
                     <div class="form-group mt-3">
                         <label class="form-label">{{auth()->user()->name}}</label>
-                        <img src="{{auth()->user()->img ? asset('storage/' . auth()->user()->img) : asset('img/ava.jpeg')}}" class="rounded-circle"
-                             style="width: 150px; height: 150px;"
-                             alt="Avatar"/>
+                        <img
+                            src="{{auth()->user()->img ? asset('storage/' . auth()->user()->img) : asset('img/ava.jpeg')}}"
+                            class="rounded-circle"
+                            style="width: 150px; height: 150px;"
+                            alt="Avatar"/>
                     </div>
                     <div class="form-group mt-3">
                         <label class="form-label">Ваша оценка</label>

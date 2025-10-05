@@ -21,6 +21,8 @@ return new class extends Migration
             $table->string('title')->nullable();
             $table->string('status');
             $table->text('text');
+            $table->text('results')->nullable();
+            $table->text('go')->nullable();
             $table->bigInteger('views')->default(0);
             $table->timestamps();
         });
