@@ -17,60 +17,60 @@
             <div class="flex">
                 @if(in_array('admin' , explode('/', request()->url())))
                     <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                        <x-nav-link :href="route('admin.book.index')" :active="request()->routeIs('notes')">
+                        <x-nav-link style="text-decoration: none;" :href="route('admin.book.index')" :active="request()->routeIs('notes')">
                             {{ __('Книги') }}
                         </x-nav-link>
                     </div>
                     <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                        <x-nav-link :href="route('admin.note.index')"
+                        <x-nav-link style="text-decoration: none;" :href="route('admin.note.index')"
                                     :active="in_array('notes' , explode('/', request()->url()))">
                             {{ __('Отчеты') }}
                         </x-nav-link>
                     </div>
                     <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                        <x-nav-link :href="route('admin.post.index')"
+                        <x-nav-link style="text-decoration: none;" :href="route('admin.post.index')"
                                     :active="in_array('posts' , explode('/', request()->url()))">
                             {{ __('Посты') }}
                         </x-nav-link>
                     </div>
                     <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                        <x-nav-link :href="route('admin.comment.index')"
+                        <x-nav-link style="text-decoration: none;" :href="route('admin.comment.index')"
                                     :active="in_array('comments' , explode('/', request()->url()))">
                             {{ __('Комментарии') }}
                         </x-nav-link>
                     </div>
                     <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                        <x-nav-link :href="route('admin.video.index')"
+                        <x-nav-link style="text-decoration: none;" :href="route('admin.video.index')"
                                     :active="in_array('video' , explode('/', request()->url()))">
                             {{ __('Добавление видео') }}
                         </x-nav-link>
                     </div>
                     <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                        <x-nav-link :href="route('admin.promocode.index')"
+                        <x-nav-link style="text-decoration: none;" :href="route('admin.promocode.index')"
                                     :active="in_array('promocodes' , explode('/', request()->url()))">
                             {{ __('Промокоды') }}
                         </x-nav-link>
                     </div>
                 @else
                     <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                        <x-nav-link :href="route('dashboard')" :active="(request()->routeIs('dashboard') or request()->routeIs('note.index') or request()->routeIs('video.index'))">
+                        <x-nav-link style="text-decoration: none;" :href="route('dashboard')" :active="(request()->routeIs('dashboard') or request()->routeIs('note.index') or request()->routeIs('video.index'))">
                             {{ __('Отчеты') }}
                         </x-nav-link>
                     </div>
                     <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                        <x-nav-link :href="route('post.index', auth()->user())"
+                        <x-nav-link style="text-decoration: none;" :href="route('post.index', auth()->user())"
                                     :active="in_array('posts' , explode('/', request()->url()))">
                             {{ __('Мой блог') }}
                         </x-nav-link>
                     </div>
                     <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                        <x-nav-link :href="route('rating.index', auth()->user())"
+                        <x-nav-link style="text-decoration: none;" :href="route('rating.index', auth()->user())"
                                     :active="in_array('ratings' , explode('/', request()->url()))">
                             {{ __('Рейтинг') }}
                         </x-nav-link>
                     </div>
                     <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                        <x-nav-link :href="route('subscribe.index')" :active="in_array('subscribes' , explode('/', request()->url()))">
+                        <x-nav-link style="text-decoration: none;" :href="route('subscribe.index')" :active="in_array('subscribes' , explode('/', request()->url()))">
                             {{ __('Моя подписка') }}
                         </x-nav-link>
                     </div>

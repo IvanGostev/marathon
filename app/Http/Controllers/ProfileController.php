@@ -32,7 +32,7 @@ class ProfileController extends Controller
 
         $validation = $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'description' => ['string', 'max:500'],
+            'description' => ['max:500'],
             'phone' => ['string', 'max:500'],
             'city' => ['string', 'max:500'],
             'hobby' => ['string', 'max:500'],

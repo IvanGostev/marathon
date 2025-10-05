@@ -29,14 +29,11 @@ class VideoAdminController extends Controller
 
     public function store( Request $request): RedirectResponse
     {
-        $data = $request->all();
+        $data['text'] = $request->text;
         if (isset($data['file'])) {
-            $data['src'] =  $request->file('file')->store('uploads', 'public');
+            $data['src'] = $request->file('file')->store('uploads', 'public');
         }
-
-
-
-        Video::create(['src' => $data['src'], 'text' => $data['text']]);
+        Video::create($data);
         return back();
     }
 
