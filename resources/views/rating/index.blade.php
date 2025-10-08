@@ -27,7 +27,7 @@
                     <thead>
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Имя</th>
+                        <th scope="col">Пользователь</th>
                         <th scope="col">Количество отчетов</th>
                         <th scope="col">Написано комментариев</th>
                         <th scope="col">Суммарное число просмотров постов и отчетов</th>
@@ -37,7 +37,9 @@
                     @foreach($users as $user)
                         <tr>
                             <th>{{isset($id) ? $id=$id+1 : $id = 1}}</th>
-                            <th>{{$user->name}}</th>
+                            <th style="display: flex; gap: 10px"><img style="width: 50px; height: 50px" src="{{$user->img ? asset('storage/' . $user->img) : asset('img/ava.jpeg')}}" alt="">
+                                {{$user->name}}
+                            </th>
                             <th>{{$user->OfDay}}</th>
                             <th>{{$user->OfComment}}</th>
                             <th>{{$user->OfView}}</th>

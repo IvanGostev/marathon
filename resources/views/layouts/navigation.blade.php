@@ -152,17 +152,17 @@
                     </x-slot>
 
                     <x-slot name="content">
-                        <x-dropdown-link :href="route('profile.edit')">
+                        <x-dropdown-link style="text-decoration: none;" :href="route('profile.edit')">
                             {{ __('Профиль') }}
                         </x-dropdown-link>
-                        <x-dropdown-link :href="route('admin.note.index')">
+                        <x-dropdown-link style="text-decoration: none;" :href="route('admin.note.index')">
                             {{ __('Админ панель') }}
                         </x-dropdown-link>
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
 
-                            <x-dropdown-link :href="route('logout')"
+                            <x-dropdown-link style="text-decoration: none;" :href="route('logout')"
                                              onclick="event.preventDefault();
                                                 this.closest('form').submit();">
                                 {{ __('Выход') }}

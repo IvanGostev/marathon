@@ -7,6 +7,7 @@ use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\Book;
 use App\Models\Comment;
 use App\Models\Note;
+use App\Models\NoteComment;
 use App\Models\NoteFile;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
@@ -116,8 +117,8 @@ class NoteController extends Controller
             $file = NoteFile::where('id', $fileId)->first();
             $file->update(['note_id' => $note->id]);
         }
-
-        $note = Note::whereNot('user_id',  auth()->user()->id)->inRandomOrder()->first();
+        $idsRated = Comment::where('user_id', auth()->user()->id)->pluck('note_id');
+        $note = Note::whereNot('user_id',  auth()->user()->id)->whereNotIn('id', $idsRated)->inRandomOrder()->first();
         if (!$note) {
             return redirect()->route('note.index');
         }
@@ -127,11 +128,10 @@ class NoteController extends Controller
     public function rating($number, Request $request): RedirectResponse|View
     {
         $myIdsNotes = Note::where('user_id', auth()->user()->id)->pluck('id');
-        $note = Note::whereNotIn('id', $myIdsNotes)->inRandomOrder()->first();
+        $idsRated = Comment::where('user_id', auth()->user()->id)->pluck('note_id');
+        $note = Note::whereNotIn('id', $myIdsNotes)->whereNotIn('id', $idsRated)->inRandomOrder()->first();
         if (!$note) {
             return redirect()->route('note.rating', 1);
-        } else {
-
         }
         return view('note.rating', compact('number', 'note'));
     }

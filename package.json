@@ -19,6 +19,7 @@
         "vite": "^6.2.4"
     },
     "dependencies": {
+        "jquery.emojiarea.js": "^0.1.8-beta",
         "tw-elements": "^2.0.0"
     }
 }

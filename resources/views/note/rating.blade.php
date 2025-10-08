@@ -189,10 +189,17 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group mt-3">
+                        <div class="form-group mt-3" style="position: relative; ">
                             <label class="form-label">Ваш отзыв</label>
-                            <textarea class="form-control" name="text" rows="5"
+                            <div style="position: absolute; bottom: 0; right: 0" class="emoji">
+                                <span>🙂</span>
+                                <div id="emoji-picker">
+                                    <div class="emoji-arrow"></div>
+                                </div>
+                            </div>
+                            <textarea id="text-area" class="form-control" name="text" rows="5"
                                       placeholder="Поделитесь своими впечатлениями"></textarea>
+
                         </div>
                         <input type="text" hidden name="number" value="{{$number ?? 1}}">
                         <div class="form-group mt-3">
@@ -246,4 +253,165 @@
             }
 
         </style>
+
+
+        <!-- this script is provided by https://www.htmlfreecode.com coded by: Kerixa Inc. -->
+        <style>
+            body {
+                background: linear-gradient(313deg, rgba(238,238,238,1) 0%, rgba(240,239,210,1) 100%);
+            }
+
+            * {
+                box-sizing: border-box;
+            }
+
+            .center {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                -ms-transform: translate(-50%, -50%);
+                transform: translate(-50%, -50%);
+            }
+
+            /*.container {*/
+            /*    display: flex;*/
+            /*    justify-content: center;*/
+            /*    align-items: center;*/
+            /*}*/
+
+            .emoji {
+                font-size: 30px;
+                position: relative;
+                cursor: pointer;
+                margin-left: 10px;
+            }
+
+            .emoji > span {
+                padding: 10px;
+                border: 1px solid transparent;
+                transition: 100ms linear;
+            }
+
+            .emoji span:hover {
+                background-color: #fff;
+                border-radius: 4px;
+                border: 1px solid #e7e7e7;
+                box-shadow: 0 7px 14px 0 rgb(0 0 0 / 12%);
+            }
+
+            #emoji-picker {
+                padding: 6px;
+                font-size: 20px;
+                z-index: 1;
+                position: absolute;
+                display: none;
+                width: 189px;
+                border-radius: 4px;
+                top: 53px;
+                right: 0;
+                background: #fff;
+                border: 1px solid #e7e7e7;
+                box-shadow: 0 7px 14px 0 rgb(0 0 0 / 12%);
+            }
+
+            #emoji-picker span {
+                cursor: pointer;
+                width: 35px;
+                height: 35px;
+                display: inline-block;
+                text-align: center;
+                padding-top: 4px;
+            }
+
+            #emoji-picker span:hover {
+                background-color: #e7e7e7;
+                border-radius: 4px;
+            }
+
+            .emoji-arrow {
+                position: absolute;
+                width: 0;
+                height: 0;
+                top: 0;
+                right: 18px;
+                box-sizing: border-box;
+                border-color: transparent transparent #fff #fff;
+                border-style: solid;
+                border-width: 4px;
+                transform-origin: 0 0 0;
+                transform: rotate(135deg);
+            }
+
+            #text-area {
+                font-family: sans-serif, monospace;
+                font-size: 20px;
+                min-height: 40px;
+                min-width: 500px;
+                border-radius: 10px;
+                padding: 20px;
+                border: 1px solid #c1c1c1;
+            }
+
+            /******************************/
+
+            .creator {
+                position: fixed;
+                right: 5px;
+                top: 5px;
+                font-size: 13px;
+                font-family: sans-serif;
+                text-decoration: none;
+                color: #111;
+            }
+
+            .creator:hover {
+                color: deeppink;
+            }
+
+            .creator i {
+                font-size: 12px;
+                color: #111;
+            }
+        </style>
+        <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js'></script>
+        <div class="center">
+{{--            <div class="container">--}}
+{{--                <textarea required  name="message" placeholder="write..."></textarea>--}}
+{{--           --}}
+{{--            </div>--}}
+        </div>
+        <script>
+
+
+            var emojiPicker = function () {
+                var i = null;
+                var index = null;
+                var emojiCode = [
+                    128526,
+                    128565,
+                    129299,
+                    129322,
+                    128516,
+                ];
+
+                for (index = 0; index <= emojiCode.length - 1; index++) {
+                    document.querySelector("#emoji-picker").innerHTML += "<span class='my-emoji'>" + "&#" + emojiCode[index] + "</span>";
+                }
+
+                $(document).on("click", ".my-emoji", function () {
+                    var textArea = $('#text-area');
+                    textArea.val(textArea.val() + $(this).text());
+                    $("#emoji-picker").hide();
+                    textArea.focus();
+                });
+            }
+
+            emojiPicker();
+
+            $(".emoji").click(function (e) {
+                e.preventDefault();
+                $("#emoji-picker").toggle();
+            });
+        </script><a target='_blank' href='https://www.htmlfreecode.com' style='font-size: 8pt; text-decoration: none'>Html Free Codes</a>
+
 </x-app-layout>
