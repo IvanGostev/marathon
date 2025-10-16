@@ -20,6 +20,7 @@
 https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css
 " rel="stylesheet">
     <div class="container ">
+
         <div class="row py-10 bsb-timeline-1">
             <div class="col-md-3">
                 <div class="list-group bg-light" style="padding: 10px 10px 20px 10px">
@@ -120,10 +121,10 @@ https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css
                     </div>
                     <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg table-responsive">
                         <div>
-                            <a style="display: flex; gap: 10px; background: rgb(68, 68, 68); color: white; align-items: center;"
+                            <button data-bs-toggle="modal" data-bs-target="#staticAllWord" style="display: flex; gap: 10px; background: rgb(68, 68, 68); color: white; align-items: center;"
                                type="button" href="{{route('file.all', auth()->user()->id)}}" class="mb-3 btn">
                                 <img style="width: 30px; height: 30px" src="{{asset('img/word.svg')}}" alt="">Выгрузить
-                                все отчеты в один файл</a>
+                                все отчеты в один файл</button>
 
                         </div>
                         <br>
@@ -172,10 +173,10 @@ https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css
                                         <a type="button" href="{{route('note.view', $note->id)}}" class="btn btn-dark">Подробнее</a>
                                     </td>
                                     <td>
-                                        <a style="display: flex; gap: 10px" type="button"
-                                           href="{{route('file.download', $note->id)}}" class="btn btn-dark">
+                                        <button id="{{$note->id}}" data-bs-toggle="modal" data-bs-target="#staticWord"  style="display: flex; gap: 10px" type="button"
+                                           href="" class="btn btn-dark">
                                             <img style="width: 20px; height: 20px" src="{{asset('img/word.svg')}}"
-                                                 alt="">Word</a>
+                                                 alt="">Word</button>
                                     </td>
                                 </tr>
                             @endforeach
@@ -437,6 +438,7 @@ https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css
     <script src="{{ asset('calendare/js/bootstrap.min.js')}}"></script>
     <script src="{{ asset('calendare/js/main.js')}}"></script>
     <script>
+
         function checkGreen(e) {
             var checkingDate =
                 e.getFullYear() + "/" + (e.getMonth() + 1) + "/" + e.getDate();
@@ -455,5 +457,160 @@ https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css
         //     var datesGreen = ["2025/8/3", "2025/8/5", "2025/8/"];
         //     return datesGreen.includes(checkingDate);
         // }
+    </script>
+
+
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="staticWord" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <form class="modal-content" action="{{route('file.download', $note->id)}}" method="post">
+                @csrf
+                <input type="text"  class="hidden modal-content-note-id" name="note_id"  value="">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Выберите части</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-check">
+                        <input class="form-check-input" name="book" type="checkbox" value="book" id="flexCheckDefault">
+                        <label class="form-check-label" for="flexCheckDefault">
+                            Название: книги(курса, урока....)
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" name="title" type="checkbox" value="title" id="flexCheckDefault">
+                        <label class="form-check-label" for="flexCheckDefault">
+                            Раздел
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="text" value="text" id="flexCheckDefault">
+                        <label class="form-check-label" for="flexCheckDefault">
+                            Отчет
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="results" value="results" id="flexCheckDefault">
+                        <label class="form-check-label" for="flexCheckDefault">
+                            Итоги
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input  class="form-check-input" type="checkbox" name="go" value="go" id="flexCheckDefault">
+                        <label class="form-check-label" for="flexCheckDefault">
+                            Действуй
+                        </label>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                    <button type="submit" class="btn btn-primary">Скачать</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="modal fade" id="staticAllWord" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <form action="{{route('file.all')}}" method="post" class="modal-content">
+                @csrf
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Выберите части</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="form-label" for="flexCheckDefault">
+                            Выберите диапазон дат
+                        </label>
+                    <input type="text" name="daterange" value="" />
+
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" name="book" type="checkbox" value="book" id="flexCheckDefault">
+                        <label class="form-check-label" for="flexCheckDefault">
+                            Названии: книги(курса, урока....)
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" name="title" type="checkbox" value="title" id="flexCheckDefault">
+                        <label class="form-check-label" for="flexCheckDefault">
+                            Разделы
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="text" value="text" id="flexCheckDefault">
+                        <label class="form-check-label" for="flexCheckDefault">
+                            Отчеты
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="results" value="results" id="flexCheckDefault">
+                        <label class="form-check-label" for="flexCheckDefault">
+                            Итоги
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input  class="form-check-input" type="checkbox" name="go" value="go" id="flexCheckDefault">
+                        <label class="form-check-label" for="flexCheckDefault">
+                            Действия
+                        </label>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                    <button type="submit" class="btn btn-primary">Скачать</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    <script>
+        $(function() {
+            $('input[name="daterange"]').daterangepicker({
+                opens: 'left',
+                locale: {
+                    "format": "MM/DD/YYYY",
+                    "separator": " - ",
+                    "applyLabel": "Сохранить",
+                    "cancelLabel": "Назад",
+                    "daysOfWeek": [
+                        "Вс",
+                        "Пн",
+                        "Вт",
+                        "Ср",
+                        "Чт",
+                        "Пт",
+                        "Сб"
+                    ],
+                    "monthNames": [
+                        "Январь",
+                        "Февраль",
+                        "Март",
+                        "Апрель",
+                        "Май",
+                        "Июнь",
+                        "Июль",
+                        "Август",
+                        "Сентябрь",
+                        "Октябрь",
+                        "Ноябрь",
+                        "Декабрь"
+                    ],
+                }
+            }, function(start, end, label) {
+                console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+            });
+        });
+        $('[data-bs-target="#staticWord"]').click((e) => {
+            $('[name="note_id" ]').val($(e.target).attr('id'))
+        })
     </script>
 </x-app-layout>

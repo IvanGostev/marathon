@@ -120,7 +120,8 @@
                                 <h6>Пиши краткий конспект (Пиши меньше, но точнее)</h6>
                                 <p>1.Задай себе вопрос : "Что я понял?"</p>
                             </label>
-                            <textarea required id="editor" class="form-control" rows="20" name="text">@isset($data['text'])
+                            <textarea required id="editor" class="form-control" rows="20" name="text">
+                                @isset($data['text'])
                                     {!! $data['text'] !!}
                                 @endisset</textarea>
                         </div>

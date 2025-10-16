@@ -49,8 +49,8 @@ Route::middleware('auth')->group(function () {
 
     // Word
     Route::prefix('files')->name('file.')->controller(FileController::class)->group(function () {
-        Route::get('/{note}/download', 'download')->name('download');
-        Route::get('/{user}/download-all', 'all')->name('all');
+        Route::post('/{note}/download', 'download')->name('download');
+        Route::post('/download-all', 'all')->name('all');
     });
 
     // Блог
