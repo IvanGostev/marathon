@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\UserAdminController;
 use App\Http\Controllers\Admin\VideoAdminController;
 use App\Http\Controllers\CoachController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\Controller;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\NoteController;
@@ -24,6 +25,7 @@ Route::get('/', function () {
 });
 
 
+Route::get('/test', [DashboardController::class, 'test'])->name('test');
 
 Route::middleware('auth')->group(function () {
     // Главная страница
