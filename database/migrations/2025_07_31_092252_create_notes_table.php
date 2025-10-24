@@ -24,6 +24,8 @@ return new class extends Migration
             $table->text('results')->nullable();
             $table->text('go')->nullable();
             $table->bigInteger('views')->default(0);
+            $table->integer('count_comments')->default(0);
+
             $table->timestamps();
         });
     }

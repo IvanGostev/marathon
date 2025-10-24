@@ -37,7 +37,7 @@ class CommentController extends Controller
         if (isset($data['post_id'])) {
             $type = 'post';
             $id = Post::where('id', $data['post_id'])->first()->user_id;
-            $user = User::where('id', $id)->fitst();
+            $user = User::where('id', $id)->first();
             Mail::to($user->email)->send(new NotificationEmail([
                 'title' => 'Новый комментарий',
                 'text' => $user->name .' к вашему посту написали новый комментарий'
@@ -46,7 +46,7 @@ class CommentController extends Controller
         } else {
             $type = 'note';
             $id = Note::where('id', $data['note_id'])->first()->user_id;
-            $user = User::where('id', $id)->fitst();
+            $user = User::where('id', $id)->first();
             Mail::to($user->email)->send(new NotificationEmail([
                 'title' => 'Новый комментарий',
                 'text' => $user->name . ' к вашему отчету написали новый комментарий'

@@ -383,15 +383,20 @@
         <script>
 
 
-            var emojiPicker = function () {
-                var i = null;
-                var index = null;
-                var emojiCode = [
-                    128526,
-                    128565,
-                    129299,
-                    129322,
-                    128516,
+            let emojiPicker = function () {
+                let i = null;
+                let index = null;
+                let emojiCode = [
+                    128077,
+                    128150,
+                    128578,
+                    128525,
+                    128079,
+                    128588,
+                    11088,
+                    128293,
+                    127881,
+                    128175
                 ];
 
                 for (index = 0; index <= emojiCode.length - 1; index++) {
@@ -399,7 +404,7 @@
                 }
 
                 $(document).on("click", ".my-emoji", function () {
-                    var textArea = $('#text-area');
+                    let textArea = $('#text-area');
                     textArea.val(textArea.val() + $(this).text());
                     $("#emoji-picker").hide();
                     textArea.focus();

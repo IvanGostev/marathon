@@ -129,7 +129,8 @@ class NoteController extends Controller
     {
         $myIdsNotes = Note::where('user_id', auth()->user()->id)->pluck('id');
         $idsRated = Comment::where('user_id', auth()->user()->id)->pluck('note_id');
-        $note = Note::whereNotIn('id', $myIdsNotes)->whereNotIn('id', $idsRated)->inRandomOrder()->first();
+        $note = Note::first();
+//            Note::whereNotIn('id', $myIdsNotes)->whereNotIn('id', $idsRated)->where('count_comments', '<=', 2)->orderBy('count_comments', 'asc')->first();
         if (!$note) {
             return redirect()->route('note.rating', 1);
         }
