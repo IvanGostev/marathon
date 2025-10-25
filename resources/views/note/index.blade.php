@@ -465,7 +465,7 @@ https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css
     <!-- Modal -->
     <div class="modal fade" id="staticWord" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">
-            <form class="modal-content" action="{{route('file.download', $note->id)}}" method="post">
+            <form class="modal-content" action="{{route('file.download')}}" method="post">
                 @csrf
                 <input type="text"  class="hidden modal-content-note-id" name="note_id"  value="">
                 <div class="modal-header">

@@ -37,8 +37,11 @@
                     @foreach($users as $user)
                         <tr>
                             <th>{{isset($id) ? $id=$id+1 : $id = 1}}</th>
-                            <th style="display: flex; gap: 10px"><img style="width: 50px; height: 50px" src="{{$user->img ? asset('storage/' . $user->img) : asset('img/ava.jpeg')}}" alt="">
-                                {{$user->name}}
+                            <th>
+                                <a href="{{route('post.index', $user->id)}}" style="display: flex; gap: 15px">
+                                    <img style="width: 50px; height: 50px; border-radius: 100%;" src="{{$user->img ? asset('storage/' . $user->img) : asset('img/ava.jpeg')}}" alt="">
+                                    <p style="display: block">{{$user->name}}</p>
+                                </a>
                             </th>
                             <th>{{$user->OfDay}}</th>
                             <th>{{$user->OfComment}}</th>

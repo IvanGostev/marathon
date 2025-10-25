@@ -108,8 +108,13 @@
                             <label for="exampleFormControlTextarea1" class="form-label">
                                 <h5>Подведи итоги</h5>
                             </label>
-                            <textarea disabled required class="form-control" rows="4" name="text">@isset($data['results']){!! $data['results'] !!}@endisset</textarea>
-                        </div>
+                            <div
+                                style="width: 100%; background-color: #e9ecef; min-height: 200px;     overflow-y: scroll;"
+                                disabled
+                                id="froala-editor" contenteditable="false" class="form-control" rows="20" name="text">
+                                {!!$data['results']!!}
+                            </div>                        </div>
+                        @if($files)
                         <div class="mb-3">
                             <label for="exampleFormControlTextarea1" class="form-label">
                                 <h5>Перескажи вслух</h5>
@@ -134,6 +139,7 @@
                                 </tbody>
                             </table>
                         </div>
+                        @endif
                         <div class="mb-3">
                             <label for="exampleFormControlTextarea1" class="form-label">
                                 <h5 class="text-align-center">ДЕЙСТВУЙ! в течении 12 часов (макс 24 часов)</h5>

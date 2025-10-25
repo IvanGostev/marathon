@@ -32,18 +32,23 @@
                             <th>{{$note->title}}</th>
                             <td>{{$note->status == 'moderation' ? 'Модерация' : ($note->status == 'approve' ? 'Одобрено' : 'Не прошел проверку')}}</td>
                             <td>{{$note->created_at}}</td>
-                            <td>
-                                <form method="post" action="{{route('admin.note.approve', $note->id)}}">
-                                    @csrf
-                                    <button type="submit" class="btn btn-dark">Одобрить</button>
-                                </form>
-                            </td>
-                            <td>
-                                <form method="post" action="{{route('admin.note.reject', $note->id)}}">
-                                    @csrf
-                                    <button type="submit" class="btn btn-dark">Отклонить</button>
-                                </form>
-                            </td>
+                            @if($note->status == 'moderation')
+                                <td>
+                                    <form method="post" action="{{route('admin.note.approve', $note->id)}}">
+                                        @csrf
+                                        <button type="submit" class="btn btn-dark">Одобрить</button>
+                                    </form>
+                                </td>
+                                <td>
+                                    <form method="post" action="{{route('admin.note.reject', $note->id)}}">
+                                        @csrf
+                                        <button type="submit" class="btn btn-dark">Отклонить</button>
+                                    </form>
+                                </td>
+                            @else
+                                <td></td>
+                                <td></td>
+                            @endif
                         </tr>
                     @endforeach
                     </tbody>

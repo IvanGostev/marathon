@@ -36,11 +36,13 @@ class NoteController extends Controller
     {
         $data = $request->all();
         $files = [];
-        foreach ($data['files'] as $file) {
-            $files[] = NoteFile::create(['src' => $file->store('uploads', 'public')]);
+        if (isset($data['files'])) {
+            foreach ($data['files'] as $file) {
+                $files[] = NoteFile::create(['src' => $file->store('uploads', 'public')]);
+            }
         }
         if (isset($data['oldFilesIds'])) {
-            foreach($data['oldFilesIds'] as $fileId) {
+            foreach ($data['oldFilesIds'] as $fileId) {
                 $files[] = NoteFile::where('id', $fileId)->first();
             }
         }
@@ -52,7 +54,7 @@ class NoteController extends Controller
     {
 
         $note->update(['views' => $note['views'] + 1]);
-        $comments = Comment::where('note_id', $note->id)->get();
+        $comments = Comment::where('note_id', $note->id)->where('status', 'approve')->get();
         return view('note.view', compact('note', 'comments'));
     }
 
@@ -63,9 +65,13 @@ class NoteController extends Controller
         if (isset($request->action) and $request->action == 'back') {
             $data = $request->all();
             $books = Book::all();
+            $filesIds = $request->filesIds;
             $files = [];
-            foreach($request->filesIds as $fileId) {
-                $files[] = NoteFile::where('id', $fileId)->first();
+
+            if (isset($filesIds)) {
+                foreach ($filesIds as $fileId) {
+                    $files[] = NoteFile::where('id', $fileId)->first();
+                }
             }
             $data['files'] = $files;
             return view('note.create', compact('books', 'data'));
@@ -111,14 +117,14 @@ class NoteController extends Controller
 
         $note = Note::create($data);
 
-        $filesIds = $request->filesIds;
-
-        foreach($filesIds as $fileId) {
-            $file = NoteFile::where('id', $fileId)->first();
-            $file->update(['note_id' => $note->id]);
+        if (isset($filesIds)) {
+            foreach ($filesIds as $fileId) {
+                $file = NoteFile::where('id', $fileId)->first();
+                $file->update(['note_id' => $note->id]);
+            }
         }
         $idsRated = Comment::where('user_id', auth()->user()->id)->pluck('note_id');
-        $note = Note::whereNot('user_id',  auth()->user()->id)->whereNotIn('id', $idsRated)->inRandomOrder()->first();
+        $note = Note::whereNot('user_id', auth()->user()->id)->whereNotIn('id', $idsRated)->inRandomOrder()->first();
         if (!$note) {
             return redirect()->route('note.index');
         }
@@ -129,8 +135,7 @@ class NoteController extends Controller
     {
         $myIdsNotes = Note::where('user_id', auth()->user()->id)->pluck('id');
         $idsRated = Comment::where('user_id', auth()->user()->id)->pluck('note_id');
-        $note = Note::first();
-//            Note::whereNotIn('id', $myIdsNotes)->whereNotIn('id', $idsRated)->where('count_comments', '<=', 2)->orderBy('count_comments', 'asc')->first();
+        $note = Note::whereNotIn('id', $myIdsNotes)->whereNotIn('id', $idsRated)->where('count_comments', '<=', 2)->orderBy('count_comments', 'asc')->first();
         if (!$note) {
             return redirect()->route('note.rating', 1);
         }

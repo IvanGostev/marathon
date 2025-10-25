@@ -14,7 +14,8 @@
         <div class="row py-10 bsb-timeline-1">
             <div class="col-md-3">
                 <div class="list-group bg-light" style="padding: 10px 10px 20px 10px">
-                    <a style="border-color: #008000!important; background-color: #008000!important; margin: 10px 10px" href="{{route('note.create')}}" class=" btn btn-dark"
+                    <a style="border-color: #008000!important; background-color: #008000!important; margin: 10px 10px"
+                       href="{{route('note.create')}}" class=" btn btn-dark"
                        aria-current="true">
                         Написать отчет
                     </a>
@@ -50,7 +51,8 @@
 
 
                                         <div class="card-body p-1g">
-                                            <h6 class="card-title p-1 {{$number == 1? 'fw-medium' : 'text-secondary'}}">Оценка первого отчета</h6>
+                                            <h6 class="card-title p-1 {{$number == 1? 'fw-medium' : 'text-secondary'}}">
+                                                Оценка первого отчета</h6>
                                         </div>
 
                                     </div>
@@ -64,7 +66,8 @@
 
 
                                         <div class="card-body p-1g">
-                                            <h6 class="card-title p-1 {{$number == 2? '' : 'text-secondary'}}">Оценка второго отчета</h6>
+                                            <h6 class="card-title p-1 {{$number == 2? '' : 'text-secondary'}}">Оценка
+                                                второго отчета</h6>
                                         </div>
 
                                     </div>
@@ -77,16 +80,18 @@
             <div class="col-md-9">
                 <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
                     <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg table-responsive">
-                        <div class="form-group mt-3 d-flex gap-2">
-                            <img src="{{$note->user()->img ? asset('storage/' . $note->user()->img) : asset('img/ava.jpeg')}}"
-                                 class="rounded-circle"
-                                 style="width: 150px; height: 150px;"
-                                 alt="Avatar"/>
+                        <div class="form-group mt-3 d-flex gap-3" style="align-items: center;">
+                            <img
+                                src="{{$note->user()->img ? asset('storage/' . $note->user()->img) : asset('img/ava.jpeg')}}"
+                                class="rounded-circle"
+                                style="width: 70px; height: 70px;"
+                                alt="Avatar"/>
                             <label class="form-label h5">{{$note->user()->name}}</label>
                         </div>
                         <br>
                         <div class="mb-3">
-                            <label for="exampleFormControlInput1" class="form-label h6">Название: книги(курса, урока....)</label>
+                            <label for="exampleFormControlInput1" class="form-label h6">Название: книги(курса,
+                                урока....)</label>
                             <input readonly type="text" class="form-control" id="exampleFormControlInput1" name="book"
                                    value="{{($note->mybook ?? ($note->book()->title ?? '-'))}}">
                         </div>
@@ -102,31 +107,35 @@
                         </div>
                         <div class="mb-3">
                             <label for="exampleFormControlTextarea1" class="form-label h6">Итоги</label>
-                            <p>       {{$note->results}}</p>
+                            {!! $note->text !!}
 
                         </div>
-                        <div class="mb-3">
-                            <label for="exampleFormControlTextarea1" class="form-label h6">Перескажи вслух</label>
-                            <table class="table">
-                                <thead>
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Файл</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                @foreach($note->files() as $file)
+                        @if(!$note->files()->isEmpty())
+                            <div class="mb-3">
+                                <label for="exampleFormControlTextarea1" class="form-label h6">Перескажи вслух</label>
+                                <table class="table">
+                                    <thead>
                                     <tr>
-                                        <th scope="row">{{isset($count) ? $count = $count+1 : $count = 1}}</th>
-                                        <td>
-                                            <a target="_blank" href="{{asset('storage/'. $file->src)}}" class="btn  btn-outline-dark">Посмотреть
-                                                вложение</a>
-                                        </td>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Файл</th>
                                     </tr>
-                                @endforeach
-                                </tbody>
-                            </table>
-                        </div>
+                                    </thead>
+                                    <tbody>
+                                    @foreach($note->files() as $file)
+                                        <tr>
+                                            <th scope="row">{{isset($count) ? $count = $count+1 : $count = 1}}</th>
+                                            <td>
+                                                <a target="_blank" href="{{asset('storage/'. $file->src)}}"
+                                                   class="btn  btn-outline-dark">Посмотреть
+                                                    вложение</a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        @endif
+
                         <div class="mb-3">
                             <label for="exampleFormControlTextarea1" class="form-label h6">Действуй</label>
                             <p>{{$note->go}}</p>
@@ -141,9 +150,11 @@
                         <input hidden="hidden" name="note_id" value="{{$note->id}}">
                         <div class="form-group mt-3">
                             <label class="form-label">{{auth()->user()->name}}</label>
-                            <img src="{{auth()->user()->img ? asset('storage/' . auth()->user()->img) : asset('img/ava.jpeg')}}" class="rounded-circle"
-                                 style="width: 150px; height: 150px;"
-                                 alt="Avatar"/>
+                            <img
+                                src="{{auth()->user()->img ? asset('storage/' . auth()->user()->img) : asset('img/ava.jpeg')}}"
+                                class="rounded-circle"
+                                style="width: 70px; height: 70px;"
+                                alt="Avatar"/>
                         </div>
                         <div class="form-group mt-3">
 
@@ -204,9 +215,10 @@
                         <input type="text" hidden name="number" value="{{$number ?? 1}}">
                         <div class="form-group mt-3">
                             <div style="display: flex; justify-content: space-between">
-                                <a href="{{$number == 1? route('note.rating', 2) : route('note.index')}}"  type="submit" name="skipping " value="back" class="btn btn-dark mt-3">Пропустить</a>
+                                <a href="{{$number == 1? route('note.rating', 2) : route('note.index')}}" type="submit"
+                                   name="skipping " value="back" class="btn btn-dark mt-3">Пропустить</a>
 
-                                <button  type="submit" class="btn btn-dark mt-3">Отправить на проверку</button>
+                                <button type="submit" class="btn btn-dark mt-3">Отправить на проверку</button>
                             </div>
                         </div>
                     </form>
@@ -258,7 +270,7 @@
         <!-- this script is provided by https://www.htmlfreecode.com coded by: Kerixa Inc. -->
         <style>
             body {
-                background: linear-gradient(313deg, rgba(238,238,238,1) 0%, rgba(240,239,210,1) 100%);
+                background: linear-gradient(313deg, rgba(238, 238, 238, 1) 0%, rgba(240, 239, 210, 1) 100%);
             }
 
             * {
@@ -375,10 +387,10 @@
         </style>
         <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js'></script>
         <div class="center">
-{{--            <div class="container">--}}
-{{--                <textarea required  name="message" placeholder="write..."></textarea>--}}
-{{--           --}}
-{{--            </div>--}}
+            {{--            <div class="container">--}}
+            {{--                <textarea required  name="message" placeholder="write..."></textarea>--}}
+            {{--           --}}
+            {{--            </div>--}}
         </div>
         <script>
 
@@ -417,6 +429,7 @@
                 e.preventDefault();
                 $("#emoji-picker").toggle();
             });
-        </script><a target='_blank' href='https://www.htmlfreecode.com' style='font-size: 8pt; text-decoration: none'>Html Free Codes</a>
+        </script>
+
 
 </x-app-layout>

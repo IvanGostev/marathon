@@ -32,6 +32,7 @@
                             <th>{{$comment->text}}</th>
                             <td>{{$comment->status == 'moderation' ? 'Модерация' : ($comment->status == 'approve' ? 'Одобрено' : 'Не прошел проверку')}}</td>
                             <td>{{$comment->created_at}}</td>
+                            @if($comment->status == 'moderation')
                             <td>
                                 <form method="post" action="{{route('admin.comment.approve', $comment->id)}}">
                                     @csrf
@@ -44,6 +45,10 @@
                                     <button type="submit" class="btn btn-dark">Отклонить</button>
                                 </form>
                             </td>
+                                @else
+                                <td></td>
+                                <td></td>
+                                @endif
                         </tr>
                     @endforeach
                     </tbody>

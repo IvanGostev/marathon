@@ -1399,9 +1399,30 @@
         </style>
     @endif
 </head>
-<body
-    class="bg-[#FDFDFC] dark:bg-[#0a0a0a] text-[#1b1b18] flex p-6 lg:p-8 items-center lg:justify-center min-h-screen flex-col">
-<header class="w-full lg:max-w-4xl max-w-[335px] text-sm mb-6 not-has-[nav]:hidden">
+<style>
+    body {
+        /*background: #daf3cf !important;*/
+        background: white !important;
+    }
+
+    a {
+        background: #63a766 !important;
+        font-weight: 600 !important;
+        border-radius: 10px !important;
+        font-size: 20px !important;
+        padding: 10px 20px !important;
+        border-width: 0 !important;
+    }
+</style>
+<body style="display: flex; justify-content: center; align-items: center;height: 100vh!important">
+<header style="display: flex; flex-direction: column; align-items: center; padding-bottom: 100px;">
+{{--    <div style="color: #397f44; font-size: 40px; text-align: center; font-weight: 600; margin-bottom: 10px">--}}
+{{--Брю-Ч--}}
+{{--    </div>--}}
+    <img src="{{asset('img/logo.png')}}" alt="" style="padding-bottom: 30px;">
+{{--    <div style="color: #a0b8a2; font-size: 20px; text-align: center; font-weight: 600; margin-bottom: 10px">--}}
+{{--     БРИЛЬЯНТОВАЯ ЧИТКА--}}
+{{--    </div>--}}
     @if (Route::has('login'))
         <nav class="flex items-center justify-end gap-4">
             @auth
@@ -1430,6 +1451,5 @@
         </nav>
     @endif
 </header>
-
 </body>
 </html>

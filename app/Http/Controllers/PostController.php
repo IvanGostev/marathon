@@ -23,11 +23,11 @@ class PostController extends Controller
         $posts = array_map(function ($item) {
             $item['type'] = 'post';
             return $item;
-        }, Post::where('user_id', $user->id)->get()->toArray());
+        }, Post::where('user_id', $user->id)->where('status', 'approve')->get()->toArray());
         $notes = array_map(function ($item) {
             $item['type'] = 'note';
             return $item;
-        }, Note::where('user_id', $user->id)->get()->toArray());
+        }, Note::where('user_id', $user->id)->where('status', 'approve')->get()->toArray());
 
         $items = collect(array_merge($posts, $notes));
 
@@ -78,6 +78,5 @@ class PostController extends Controller
         $comments = Comment::where('post_id', $post->id)->latest()->get();
         return view('post.view', compact('post', 'comments'));
     }
-
 
 }

@@ -45,7 +45,9 @@ class CommentController extends Controller
 
         } else {
             $type = 'note';
-            $id = Note::where('id', $data['note_id'])->first()->user_id;
+            $note = Note::where('id', $data['note_id'])->first();
+            $note->update(['count_comments' => $note->count_comments+1]);
+            $id = $note->user_id;
             $user = User::where('id', $id)->first();
             Mail::to($user->email)->send(new NotificationEmail([
                 'title' => 'Новый комментарий',
