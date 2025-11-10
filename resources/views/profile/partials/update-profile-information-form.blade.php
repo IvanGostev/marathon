@@ -18,7 +18,7 @@
         @method('patch')
         <div>
             <img id="img-output" src="{{$user->img ? asset('storage/' . $user->img) : asset('img/ava.jpeg')}}" class="rounded-circle"
-                 style="width: 150px; height: 150px;"
+                 style="width: 150px; height: 150px; object-fit: cover;  "
                  alt="Avatar"/>
             <x-text-input id="img-input" name="img" type="file" class="form-control mt-2 block w-full p-2" autocomplete="name"/>
         </div>

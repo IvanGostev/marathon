@@ -86,19 +86,18 @@ https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css
             </div>
             <div class="col-md-9">
                 <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-                    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                    <nav class="ps-1 navbar navbar-expand-lg navbar-light bg-light">
                         <div class="container-fluid" style="        padding-left: 0;">
                             <div class="navbar-collapse" id="navbarNavAltMarkup">
-                                <div class="navbar-nav fw-medium">
-                                    <a class="nav-link {{in_array('dashboard' , explode('/', request()->url())) ? 'active text-decoration-underline' : ''}}"
+                                <div class="navbar-nav fw-medium gap-2">
+                                    <a class="btn btn-outline-success {{in_array('dashboard' , explode('/', request()->url())) ? 'btn-success text-white' : ''}}"
                                        href="{{route('dashboard')}}">Отчеты</a>
-                                    <a class="nav-link {{in_array('videos' , explode('/', request()->url())) ? 'active text-decoration-underline' : ''}}"
+                                    <a class="btn btn-outline-success {{in_array('videos' , explode('/', request()->url())) ? 'btn-success text-white' : ''}}"
                                        href="{{route('video.index')}}">
                                         {{ __('Теория') }}
                                     </a>
 
-                                    <a class="nav-link {{in_array('notes' , explode('/', request()->url())) ? 'active text-decoration-underline' : ''}}"
-                                       href="{{route('note.index')}}">
+                                    <a class="btn btn-outline-success {{in_array('notes' , explode('/', request()->url())) ? 'btn-success text-white' : ''}}"  href="{{route('note.index')}}">
                                         {{ __('Статистика') }}
                                     </a>
                                 </div>
@@ -440,14 +439,14 @@ https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css
     <script>
 
         function checkGreen(e) {
-            var checkingDate =
-                e.getFullYear() + "/" + (e.getMonth() + 1) + "/" + e.getDate();
-            var datesGreen = [
+            let checkingDate = e.getFullYear() + "/" + (e.getMonth() + 1) + "/" + e.getDate();
+            let datesGreen = [
                 @foreach ($dates as $date)
                     '{{      $date->year . '/'.  $date->month . '/' . $date->day}}',
 
                 @endforeach
             ];
+            console.log(datesGreen.includes(checkingDate), checkingDate, datesGreen)
             return datesGreen.includes(checkingDate);
         }
 

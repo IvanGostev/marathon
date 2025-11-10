@@ -13,7 +13,6 @@
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/lang/summernote-ru-Ru.js"></script>
 
 
-
     <script src="{{ asset('ru/ru.js')}}"></script>
     <section>
         <div class="container py-5">
@@ -23,8 +22,16 @@
                         <div class="card-body text-center align-items-center justify-content-center">
                             <img src="{{$user->img ? asset('storage/' . $user->img) : asset('img/ava.jpeg')}}"
                                  alt="avatar"
-                                 class="rounded-circle img-fluid" style="width: 150px; height: 150px; margin: 0 auto;">
+                                 class="rounded-circle img-fluid"
+                                 style="object-fit: cover; width: 150px; height: 150px; margin: 0 auto;">
                             <h5 class="my-3">{{$user->name}}</h5>
+                            <div class="d-flex">
+                                @foreach($user->awards() as $award)
+                                    <div data-bs-toggle="tooltip" data-bs-placement="top" title="{{$award->title}}" style="width: 30px; height: 30px">
+                                        {!! $award->img !!}
+                                        </div>
+                                @endforeach
+                            </div>
                             <p class="text-muted mb-1">Зарегистрирован с {{$user->created_at}}</p>
                             <p class="text-muted mb-1">Хобби: {{$user->hobby}}</p>
                             <p class="text-muted mb-1">День рождение: {{$user->date}}</p>
@@ -45,51 +52,55 @@
                                         <button type="submit" class="btn btn-dark">Предложить услуги партнера</button>
                                     </form>
                                 @endif
-                                <table class="table">
-                                    <thead>
-                                    <tr>
-                                        <th scope="col">Имя</th>
-                                        <th scope="col">Предложение</th>
-                                        <th scope="col"></th>
-                                        <th scope="col"></th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    @foreach($offers  as $offer)
+                                @if (auth()->user()->id == $user->id)
+                                    <table class="table">
+                                        <thead>
                                         <tr>
-                                            <td>{{$offer->leader()->name}}</td>
-                                            <th>Хочет быть
-                                                твоим {{$offer->type == 'coach' ? 'Коучем': 'Партнером'}}</th>
-                                            <td>
-                                                @if($offer->status == 'waiting')
-                                                    <form method="post"
-                                                          action="{{route('coach.action', ['coach' => $offer, 'reject'])}}">
-                                                        @csrf
-                                                        <button type="submit" class="btn btn-dark">Отклонить</button>
-                                                    </form>
-                                                    @elseif ($offer->status == 'reject')
-                                                    Отклонено
-                                                    @elseif($offer->status == 'approve')
-                                                    Одобрено
-                                                @endif
-
-                                            </td>
-                                            <td>
-                                                @if($offer->status == 'waiting')
-                                                    <form method="post"
-                                                          action="{{route('coach.action', ['coach' => $offer, 'approve'])}}">
-                                                        @csrf
-                                                        <button type="submit" class="btn btn-dark">Одобрить</button>
-                                                    </form>
-                                                    @else
-                                                    {{$offer->updated_at}}
-                                                @endif
-                                            </td>
+                                            <th scope="col">Имя</th>
+                                            <th scope="col">Предложение</th>
+                                            <th scope="col"></th>
+                                            <th scope="col"></th>
                                         </tr>
-                                    @endforeach
-                                    </tbody>
-                                </table>
+                                        </thead>
+                                        <tbody>
+                                        @foreach($offers  as $offer)
+                                            <tr>
+                                                <td>
+                                                    <a href="{{route('post.index', $offer->leader()->id )}}">{{$offer->leader()->name}}</a>
+                                                </td>
+                                                <th>Хочет быть
+                                                    твоим {{$offer->type == 'coach' ? 'Коучем': 'Партнером'}}</th>
+                                                <td>
+                                                    @if($offer->status == 'waiting')
+                                                        <form method="post"
+                                                              action="{{route('coach.action', ['coach' => $offer, 'reject'])}}">
+                                                            @csrf
+                                                            <button type="submit" class="btn btn-dark">Отклонить
+                                                            </button>
+                                                        </form>
+                                                    @elseif ($offer->status == 'reject')
+                                                        Отклонено
+                                                    @elseif($offer->status == 'approve')
+                                                        Одобрено
+                                                    @endif
 
+                                                </td>
+                                                <td>
+                                                    @if($offer->status == 'waiting')
+                                                        <form method="post"
+                                                              action="{{route('coach.action', ['coach' => $offer, 'approve'])}}">
+                                                            @csrf
+                                                            <button type="submit" class="btn btn-dark">Одобрить</button>
+                                                        </form>
+                                                    @else
+                                                        {{$offer->updated_at}}
+                                                    @endif
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                        </tbody>
+                                    </table>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -157,7 +168,7 @@
     </style>
 
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             $('#editor').summernote({
                 height: '300px',
                 fontName: 'Roboto',
@@ -170,12 +181,12 @@
                     ['insert', ['link', 'picture']],
                 ],
                 focus: true,
-                lang:'ru-RU',
-                fontNames:['Roboto','Times New Roman','Helvetica'],
+                lang: 'ru-RU',
+                fontNames: ['Roboto', 'Times New Roman', 'Helvetica'],
                 // disableResizeEditor: true
             });
         });
-        (function($) {
+        (function ($) {
             $.extend(true, $.summernote.lang, {
                 'ru-RU': {
                     font: {

@@ -46,6 +46,12 @@
                         </x-nav-link>
                     </div>
                     <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        <x-nav-link style="text-decoration: none;" :href="route('admin.award.index')"
+                                    :active="in_array('award' , explode('/', request()->url()))">
+                            {{ __('Награждение') }}
+                        </x-nav-link>
+                    </div>
+                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                         <x-nav-link style="text-decoration: none;" :href="route('admin.promocode.index')"
                                     :active="in_array('promocodes' , explode('/', request()->url()))">
                             {{ __('Промокоды') }}
@@ -133,7 +139,7 @@
                 @endif
             </div>
             <div class="hidden sm:flex sm:items-center sm:ms-6">
-                <a href="https://t.me/+BUO9SxMDGmQ0NDRi"><img style="width: 32px; margin-right: 10px;" src="{{asset('img/tg.svg')}}" alt=""></a>
+                <a href="https://t.me/+BUO9SxMDGmQ0NDRi"><img style="width: 32px; margin-right: 10px;" src="{{asset('img/tg-new.svg')}}" alt=""></a>
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button
@@ -148,6 +154,7 @@
                                           clip-rule="evenodd"/>
                                 </svg>
                             </div>
+                            <img id="img-output" src="{{auth()->user()->img ? asset('storage/' . auth()->user()->img) : asset('img/ava.jpeg')}}" class="rounded-circle" style="width: 30px; height: 30px; object-fit: cover;  " alt="Avatar">
                         </button>
                     </x-slot>
 

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AwardAdminController;
 use App\Http\Controllers\Admin\BookAdminController;
 use App\Http\Controllers\Admin\CommentAdminController;
 use App\Http\Controllers\Admin\NoteAdminController;
@@ -9,7 +10,6 @@ use App\Http\Controllers\Admin\UserAdminController;
 use App\Http\Controllers\Admin\VideoAdminController;
 use App\Http\Controllers\CoachController;
 use App\Http\Controllers\CommentController;
-use App\Http\Controllers\Controller;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\NoteController;
@@ -23,7 +23,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-
+Route::get('/reward', [AwardAdminController::class, 'reward']);
 
 Route::get('/test', [DashboardController::class, 'test'])->name('test');
 
@@ -119,6 +119,10 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
         Route::get('/', 'index')->name('index');
         Route::post('/store', 'store')->name('store');
         Route::delete('/{video}/delete', 'delete')->name('delete');
+    });
+    Route::prefix('award')->name('award.')->controller(AwardAdminController::class)->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::post('/', 'reward')->name('reward');
     });
 });
 

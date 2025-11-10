@@ -24,21 +24,21 @@
         } else {
           var shownDate = calMonthArray[cell].day;
           var iter_date = new Date(passed_year, passed_month, shownDate);
-          if (
-            ((shownDate != today.getDate() &&
-              passed_month == today.getMonth()) ||
-              passed_month != today.getMonth()) &&
-            iter_date < today
-          ) {
-            var m = '<div class="past-date">';
-          } else {
+          // if (
+          //   ((shownDate != today.getDate() &&
+          //     passed_month == today.getMonth()) ||
+          //     passed_month != today.getMonth()) &&
+          //   iter_date < today
+          // ) {
+          //   var m = '<div class="past-date">';
+          // } else {
             if (checkGreen(iter_date)) {
               var m = '<div class="green-date">';
             }
             else {
               var m = '<div class="red-date">';
             }
-          }
+          // }
           calendar.datesBody.append(m + shownDate + "</div>");
         }
       }

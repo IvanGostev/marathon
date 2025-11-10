@@ -84,9 +84,10 @@
                             <img
                                 src="{{$note->user()->img ? asset('storage/' . $note->user()->img) : asset('img/ava.jpeg')}}"
                                 class="rounded-circle"
-                                style="width: 70px; height: 70px;"
+                                style="object-fit: cover; width: 70px; height: 70px;"
                                 alt="Avatar"/>
                             <label class="form-label h5">{{$note->user()->name}}</label>
+
                         </div>
                         <br>
                         <div class="mb-3">
@@ -153,7 +154,7 @@
                             <img
                                 src="{{auth()->user()->img ? asset('storage/' . auth()->user()->img) : asset('img/ava.jpeg')}}"
                                 class="rounded-circle"
-                                style="width: 70px; height: 70px;"
+                                style="object-fit: cover; width: 70px; height: 70px;"
                                 alt="Avatar"/>
                         </div>
                         <div class="form-group mt-3">

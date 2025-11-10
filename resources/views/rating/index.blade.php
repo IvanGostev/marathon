@@ -39,7 +39,7 @@
                             <th>{{isset($id) ? $id=$id+1 : $id = 1}}</th>
                             <th>
                                 <a href="{{route('post.index', $user->id)}}" style="display: flex; gap: 15px">
-                                    <img style="width: 50px; height: 50px; border-radius: 100%;" src="{{$user->img ? asset('storage/' . $user->img) : asset('img/ava.jpeg')}}" alt="">
+                                    <img style="object-fit: cover; width: 50px; height: 50px; border-radius: 100%;" src="{{$user->img ? asset('storage/' . $user->img) : asset('img/ava.jpeg')}}" alt="">
                                     <p style="display: block">{{$user->name}}</p>
                                 </a>
                             </th>

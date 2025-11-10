@@ -31,7 +31,7 @@
                         </div>
                         @foreach($comments as $comment)
                             <div class="d-flex flex-row p-3">
-                                <img src="{{$comment->user()->img ? asset('storage/' . $comment->user()->img) : asset('img/ava.jpeg')}}" width="100" height="100"
+                                <img style="object-fit: cover" src="{{$comment->user()->img ? asset('storage/' . $comment->user()->img) : asset('img/ava.jpeg')}}" width="100" height="100"
                                      class="rounded-circle mr-3">
                                 <div class="w-100">
                                     <div class="d-flex justify-content-between align-items-center">

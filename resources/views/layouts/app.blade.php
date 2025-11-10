@@ -4,8 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link href="{{asset('img/logo.png')}}" rel="icon"        type="image/x-icon" />
-    <link href="{{asset('img/logo.png')}}" rel="shortcut icon"   type="image/x-icon" />
+    <link href="{{asset('img/logo.png')}}" rel="icon" type="image/x-icon"/>
+    <link href="{{asset('img/logo.png')}}" rel="shortcut icon" type="image/x-icon"/>
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -24,9 +24,28 @@ https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css
 " rel="stylesheet">
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-@php header(('Content-type: text/plain; charset=utf-8')) @endphp
+    @php header(('Content-type: text/plain; charset=utf-8')) @endphp
 </head>
-
+<style>
+    .btn-success {
+        background-color: #008000!important;
+    }
+    .btn-outline-success {
+        border-color: #008000;
+        color: #008000;
+    }
+    .btn-outline-success:hover {
+        background-color: #008000!important;
+        color: white;
+    }
+    .bsb-timeline-1 .timeline>.timeline-item:before {
+        top: 25% !important;
+    }
+    .bsb-timeline-1 .timeline:after {
+        bottom: 35px!important;
+        top: 35px!important;
+    }
+</style>
 <body class="font-sans antialiased">
 <div class="min-h-screen bg-gray-100">
     @include('layouts.navigation')
@@ -45,15 +64,24 @@ https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css
 
         {{ $slot }}
     </main>
-    <style>
-        :root {
-            --bs-primary: #212529;
-        }
-        .bsb-timeline-1 .timeline:after {
-            background-color: #ced4da;
-        }
-    </style>
-</div>
 
+</div>
+<style>
+    :root {
+        --bs-primary: #212529;
+        --bs-btn-color: #008000;
+        --bs-btn-border-color: #008000;
+        --bs-btn-hover-bg: #008000;
+    }
+
+    .bsb-timeline-1 .timeline:after {
+        background-color: #ced4da;
+    }
+
+
+</style>
+<script>
+    $('[data-toggle="tooltip"]').tooltip();
+</script>
 </body>
 </html>

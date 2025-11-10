@@ -16,7 +16,7 @@
                 <div class="form-group mt-3 d-flex gap-3" style="align-items: center">
                     <img src="{{$note->user()->img ? asset('storage/' . $note->user()->img) : asset('img/ava.jpeg')}}"
                          class="rounded-circle"
-                         style="width: 70px; height: 70px;"
+                         style="object-fit: cover; width: 70px; height: 70px;"
                          alt="Avatar"/>
                     <label class="form-label h5">{{$note->user()->name}}</label>
                 </div>
@@ -106,7 +106,7 @@
                         <img
                             src="{{auth()->user()->img ? asset('storage/' . auth()->user()->img) : asset('img/ava.jpeg')}}"
                             class="rounded-circle"
-                            style="width: 70px; height: 70px;"
+                            style="object-fit: cover; width: 70px; height: 70px;"
                             alt="Avatar"/>
                         <label class="form-label">{{auth()->user()->name}}</label>
                     </div>
