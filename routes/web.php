@@ -13,6 +13,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\NoteController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RatingController;
@@ -26,6 +27,9 @@ Route::get('/', function () {
 Route::get('/reward', [AwardAdminController::class, 'reward']);
 
 Route::get('/test', [DashboardController::class, 'test'])->name('test');
+Route::get('/payment~{subscribe}~{user}', [PaymentController::class, 'main'])->name('payment');
+Route::get('/notification', [PaymentController::class, 'notification'])->name('notification');
+Route::post('/notification', [PaymentController::class, 'notification'])->name('notification');
 
 Route::middleware('auth')->group(function () {
     // Главная страница

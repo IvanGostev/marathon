@@ -41,7 +41,7 @@
                                 <li>Priority email support</li>
                                 <li>Help center access</li>
                             </ul>
-                            <button type="button" class="w-100 btn btn-lg btn-primary">Оплатить</button>
+                            <a href="{{route('payment', ['subscribe' => 'base', 'user' => auth()->user()->id])}}" type="button" class="w-100 btn btn-lg btn-primary">Оплатить</a>
                         </div>
                     </div>
                 </div>
