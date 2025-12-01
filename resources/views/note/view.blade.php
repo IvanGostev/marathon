@@ -34,17 +34,26 @@
                 </div>
 
                 <div class="mb-3">
-                    <label for="exampleFormControlTextarea1" class="form-label h6">Отчет</label>
+                    <label for="exampleFormControlTextarea1" class="form-label h6">
+                        <h5>Распиши!</h5>
+                        <h6>(Распиши краткий конспект)</h6>
+                    </label>
                     {!! $note->text !!}
                 </div>
                 <div class="mb-3">
-                    <label for="exampleFormControlTextarea1" class="form-label h6">Итоги</label>
+                    <label for="exampleFormControlTextarea1" class="form-label h6">
+                        <h5>Осмысли!</h5>
+                        <h6>(Осмысли суть и напиши не больше 3х основных мыслей)</h6>
+                    </label>
                     {!! $note->results !!}
                 </div>
 
                 @if(!$note->files()->isEmpty())
                     <div class="mb-3">
-                        <label for="exampleFormControlTextarea1" class="form-label h6">Перескажи вслух</label>
+                        <label for="exampleFormControlTextarea1" class="form-label h6">
+                            <h5>Говори!</h5>
+                            <h6>(Проговори вслух суть 3 раза)</h6>
+                        </label>
                         <table class="table">
                             <thead>
                             <tr>
@@ -68,7 +77,10 @@
                     </div>
                 @endif
                 <div class="mb-3">
-                    <label for="exampleFormControlTextarea1" class="form-label h6">Действуй</label>
+                    <label for="exampleFormControlTextarea1" class="form-label h6">
+                        <h4 class="text-align-center">Апробируй!</h4>
+                        <h6>(Напиши какой и когда 1й шаг ты сделаешь)</h6>
+                    </label>
                     <p>{{$note->go}}</p>
                 </div>
             </div>

@@ -21,4 +21,56 @@ class SubscribeController extends Controller
     {
         return view('subscribe.index');
     }
+
+    public function pay(Request $request)
+    {
+        $user = auth()->user();
+        $subscribe = $request->subscribe;
+
+        header('Content-type:text/plain;charset=utf-8');
+
+        $linktoform = 'https://bru-ch.payform.ru//';
+
+        $secret_key = '4f7e6dd8f0cf25d38cb4001b1aaeac360e9f1cad10a5715353781aad975bbcb1';
+        $data = [
+            'order_id' => implode('-', [$user->id, $subscribe]),
+
+            'customer_email' => $user->email,
+
+            'do' => 'pay',
+
+            'urlReturn' => 'https://bru-ch.com/subscribes',
+
+            'urlSuccess' => 'https://bru-ch.com/',
+
+            'urlNotification' => 'https://bru-ch.com/notification',
+
+            'sys' => 'bruch',
+
+        ];
+        if ($subscribe == 'base') {
+            $data['products'] = [
+                [
+                    'sku' => 1,
+                    'name' => 'Подписка на месяц',
+                    'price' => 200,
+                    'quantity' => 1,
+                ],
+            ];
+        } else {
+            $data['products'] = [
+                [
+                    'sku' => 1,
+                    'name' => 'Подписка на месяц c коучем',
+                    'price' => 500,
+                    'quantity' => 1,
+                ],
+            ];
+        }
+        $data['signature'] = HmacController::create($data, $secret_key);
+        $link = sprintf('%s?%s', $linktoform, http_build_query($data));
+        return redirect($link) ;
+
+//        return view('payment', compact('link'));
+    }
 }

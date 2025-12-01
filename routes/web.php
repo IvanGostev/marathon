@@ -24,16 +24,18 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/reward', [AwardAdminController::class, 'reward']);
 
-Route::get('/test', [DashboardController::class, 'test'])->name('test');
-Route::get('/payment~{subscribe}~{user}', [PaymentController::class, 'main'])->name('payment');
+
+//Route::get('/test', [DashboardController::class, 'test'])->name('test');
 Route::get('/notification', [PaymentController::class, 'notification'])->name('notification');
 Route::post('/notification', [PaymentController::class, 'notification'])->name('notification');
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'subscribe'])->group(function () {
     // Главная страница
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+//    // Редирект на оплату
+//    Route::get('/payment~{subscribe}~{user}', [PaymentController::class, 'main'])->name('payment');
 
     // Профиль
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -83,14 +85,18 @@ Route::middleware('auth')->group(function () {
         Route::get('/', 'index')->name('index');
     });
 
-    // Подписка
-    Route::prefix('subscribes')->name('subscribe.')->controller(SubscribeController::class)->group(function () {
-        Route::get('/', 'index')->name('index');
-    });
 });
 
+// Подписка
+Route::middleware('auth')->prefix('subscribes')->name('subscribe.')->controller(SubscribeController::class)->group(function () {
+    Route::get('/', 'index')->name('index');
+    Route::post('/pay', 'pay')->name('pay');
+});
+
+
 // Admin Panel
-Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
+Route::middleware(['auth', 'role'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/reward', [AwardAdminController::class, 'reward']);
     Route::prefix('users')->name('user.')->controller(UserAdminController::class)->group(function () {
         Route::get('/', 'index')->name('index');
     });

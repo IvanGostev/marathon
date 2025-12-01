@@ -87,7 +87,10 @@
                                    id="exampleFormControlInput1" name="title">
                         </div>
                         <div class="mb-3">
-                            <label for="exampleFormControlTextarea1" class="form-label">Отчет</label>
+                            <label for="exampleFormControlTextarea1" class="form-label">
+                                <h5>Распиши!</h5>
+                                <h6>(Распиши краткий конспект)</h6>
+                            </label>
                             <div
                                 style="width: 100%; background-color: #e9ecef; min-height: 200px;     overflow-y: scroll;"
                                 disabled
@@ -106,7 +109,8 @@
                         </div>
                         <div class="mb-3">
                             <label for="exampleFormControlTextarea1" class="form-label">
-                                <h5>Подведи итоги</h5>
+                                <h5>Осмысли!</h5>
+                                <h6>(Осмысли суть и напиши не больше 3х основных мыслей)</h6>
                             </label>
                             <div
                                 style="width: 100%; background-color: #e9ecef; min-height: 200px;     overflow-y: scroll;"
@@ -117,7 +121,8 @@
                         @if($files)
                         <div class="mb-3">
                             <label for="exampleFormControlTextarea1" class="form-label">
-                                <h5>Перескажи вслух</h5>
+                                <h5>Говори!</h5>
+                                <h6>(Проговори вслух суть 3 раза)</h6>
                             </label>
                             <table class="table">
                                 <thead>
@@ -142,7 +147,8 @@
                         @endif
                         <div class="mb-3">
                             <label for="exampleFormControlTextarea1" class="form-label">
-                                <h5 class="text-align-center">ДЕЙСТВУЙ! в течении 12 часов (макс 24 часов)</h5>
+                                <h4 class="text-align-center">Апробируй!</h4>
+                                <h6>(Напиши какой и когда 1й шаг ты сделаешь)</h6>
                             </label>
                             <textarea disabled required class="form-control" rows="4" name="go">@isset($data['go']){!! $data['go'] !!}@endisset</textarea>
                             <div style="display: flex; justify-content: space-between">

@@ -67,9 +67,7 @@
                     <form class="bg-white shadow sm:rounded-lg col-sm-9 p-2" action="{{route('note.demo')}}"
                           method="post"
                           class="p-4 sm:p-8 bg-white shadow sm:rounded-lg table-responsive"
-                          enctype='multipart/form-data'
-                    >
-
+                          enctype='multipart/form-data'>
                         @csrf
                         <div class="mb-3">
                             <label for="exampleFormControlInput1" class="form-label">Название: книги(курса,
@@ -96,29 +94,28 @@
                             });
                         </script>
                         <div class="mb-3">
-                            <h5>1) Подготовься</h5>
-                            <h6>"Пустая чаша"+Глюкоза+ "Кислород(10дыханий)"</h6>
-                            <p>
-                                1.Запрети себе думать в этот момент о другом. <br>
-                                2.Скажи себе, почему тебе это интересно (цель обучения) <br>
-                                3.Сделай 10 дыханий.
-                            </p>
+                            <h5>Подготовься</h5>
+                            <h6>(Изучай не более 20 мин )</h6>
+{{--                            <p>--}}
+{{--                                1.Запрети себе думать в этот момент о другом. <br>--}}
+{{--                                2.Скажи себе, почему тебе это интересно (цель обучения) <br>--}}
+{{--                                3.Сделай 10 дыханий.--}}
+{{--                            </p>--}}
                         </div>
-                        <div class="mb-3">
-                            <h5>2) Прочитай / посмотри</h5>
-                            <h6>Изучай 20 мин (Прочитай или Просмотри видео)</h6>
-                            <p>
-                                Поставь таймер на 20 мин (т.е. изучай - 20 мин). Потом сделай шаги 3П,4П,5П. <br>
-                                Затем отдохни - 5 мин .<br>
-                                Потом- новый цикл изучения по 5-П технологии. <br>
-                                Новый цикл оформляй на следующем листе.
-                            </p>
-                        </div>
+{{--                        <div class="mb-3">--}}
+{{--                            <h5>2) Прочитай / посмотри</h5>--}}
+{{--                            <h6>Изучай 20 мин (Прочитай или Просмотри видео)</h6>--}}
+{{--                            <p>--}}
+{{--                                Поставь таймер на 20 мин (т.е. изучай - 20 мин). Потом сделай шаги 3П,4П,5П. <br>--}}
+{{--                                Затем отдохни - 5 мин .<br>--}}
+{{--                                Потом- новый цикл изучения по 5-П технологии. <br>--}}
+{{--                                Новый цикл оформляй на следующем листе.--}}
+{{--                            </p>--}}
+{{--                        </div>--}}
                         <div class="mb-3">
                             <label for="exampleFormControlTextarea1" class="form-label">
-                                <h5>3) Пиши</h5>
-                                <h6>Пиши краткий конспект (Пиши меньше, но точнее)</h6>
-                                <p>1.Задай себе вопрос : "Что я понял?"</p>
+                                <h5>Распиши!</h5>
+                                <h6>(Распиши краткий конспект)</h6>
                             </label>
                             <textarea required id="editor" class="form-control" rows="20" name="text">
                                 @isset($data['text'])
@@ -127,9 +124,8 @@
                         </div>
                         <div class="mb-3">
                             <label for="exampleFormControlTextarea1" class="form-label">
-                                <h5>4) Подведи итоги</h5>
-                                <h6>Напиши не больше 3х основных мыслей (акцентируй внимание на ключевых идеях):</h6>
-                                <p>1.Задай себе вопрос : "Что главное из того, что я понял?"</p>
+                                <h5>Осмысли!</h5>
+                                <h6>(Осмысли суть и напиши не больше 3х основных мыслей)</h6>
                             </label>
                             <textarea id="editor-2" required class="form-control" rows="4" name="results">@isset($data['results'])
                                     {!! $data['results'] !!}
@@ -137,7 +133,8 @@
                         </div>
                         <div class="mb-3">
                             <label for="exampleFormControlTextarea1" class="form-label">
-                                <h5>5) Перескажи вслух</h5>
+                                <h5>Говори!</h5>
+                                <h6>(Проговори вслух суть 3 раза)</h6>
                             </label>
                             <input id="input-files" multiple  type="file" class="form-control" name="files[]">
                             @if(isset($data['files']))
@@ -182,7 +179,8 @@
                         </div>
                         <div class="mb-3">
                             <label for="exampeFormControlTextarea1" class="form-label">
-                                <h4 class="text-align-center">ДЕЙСТВУЙ! в течении 12 часов (макс 24 часов)</h4>
+                                <h4 class="text-align-center">Апробируй!</h4>
+                                <h6>(Напиши какой и когда 1й шаг ты сделаешь)</h6>
                             </label>
                             <textarea required class="form-control" rows="4" name="go"> @isset($data['go'])
                                     {!! $data['go'] !!}

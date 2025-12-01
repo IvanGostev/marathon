@@ -9,7 +9,8 @@
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}">
-                        <img class="block  w-auto fill-current text-gray-800 h-20" src="{{asset('img/logo.png')}}" alt="">
+                        <img class="block  w-auto fill-current text-gray-800 h-20" src="{{asset('img/logo.png')}}"
+                             alt="">
                     </a>
                 </div>
 
@@ -17,7 +18,8 @@
             <div class="flex">
                 @if(in_array('admin' , explode('/', request()->url())))
                     <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                        <x-nav-link style="text-decoration: none;" :href="route('admin.book.index')" :active="request()->routeIs('notes')">
+                        <x-nav-link style="text-decoration: none;" :href="route('admin.book.index')"
+                                    :active="request()->routeIs('notes')">
                             {{ __('Книги') }}
                         </x-nav-link>
                     </div>
@@ -58,88 +60,95 @@
                         </x-nav-link>
                     </div>
                 @else
+                    @if (auth()->user()->checkSubscribe())
+                        <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                            <x-nav-link style="text-decoration: none;" :href="route('dashboard')"
+                                        :active="(request()->routeIs('dashboard') or request()->routeIs('note.index') or request()->routeIs('video.index'))">
+                                {{ __('Отчеты') }}
+                            </x-nav-link>
+                        </div>
+                        <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                            <x-nav-link style="text-decoration: none;" :href="route('post.index', auth()->user())"
+                                        :active="in_array('posts' , explode('/', request()->url()))">
+                                {{ __('Мой блог') }}
+                            </x-nav-link>
+                        </div>
+                        <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                            <x-nav-link style="text-decoration: none;" :href="route('rating.index', auth()->user())"
+                                        :active="in_array('ratings' , explode('/', request()->url()))">
+                                {{ __('Рейтинг') }}
+                            </x-nav-link>
+                        </div>
+                    @endif
                     <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                        <x-nav-link style="text-decoration: none;" :href="route('dashboard')" :active="(request()->routeIs('dashboard') or request()->routeIs('note.index') or request()->routeIs('video.index'))">
-                            {{ __('Отчеты') }}
-                        </x-nav-link>
-                    </div>
-                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                        <x-nav-link style="text-decoration: none;" :href="route('post.index', auth()->user())"
-                                    :active="in_array('posts' , explode('/', request()->url()))">
-                            {{ __('Мой блог') }}
-                        </x-nav-link>
-                    </div>
-                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                        <x-nav-link style="text-decoration: none;" :href="route('rating.index', auth()->user())"
-                                    :active="in_array('ratings' , explode('/', request()->url()))">
-                            {{ __('Рейтинг') }}
-                        </x-nav-link>
-                    </div>
-                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                        <x-nav-link style="text-decoration: none;" :href="route('subscribe.index')" :active="in_array('subscribes' , explode('/', request()->url()))">
+                        <x-nav-link style="text-decoration: none;" :href="route('subscribe.index')"
+                                    :active="in_array('subscribes' , explode('/', request()->url()))">
                             {{ __('Моя подписка') }}
                         </x-nav-link>
                     </div>
-                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                        <button type="button" class="link " data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                            <i class="fa-regular fa-bell"></i>
-                        </button>
-                    </div>
-                    <!-- Модальное окно -->
-                    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
-                         tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Уведомления</h1>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                            aria-label="Закрыть"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <table class="table table-response">
-                                        <tbody>
-                                        @foreach(notifications() as $notification)
-                                            @switch($notification->type)
-                                                @case('note')
-                                                    <tr>
-                                                        <td>
-                                                            <p class="text-secondary"
-                                                               style=" font-size: 14px;">{{formatDate($notification->created_at)}}</p>
-                                                            <a href="{{route('note.view', $notification->comment()->note()->id)}}">К
-                                                                вашему отчету написали новый
-                                                                комментарий</a>
+                    @if (auth()->user()->checkSubscribe())
+                        <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                            <button type="button" class="link " data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                <i class="fa-regular fa-bell"></i>
+                            </button>
+                        </div>
+                        <!-- Модальное окно -->
+                        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
+                             tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="staticBackdropLabel">Уведомления</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Закрыть"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <table class="table table-response">
+                                            <tbody>
+                                            @foreach(notifications() as $notification)
+                                                @switch($notification->type)
+                                                    @case('note')
+                                                        <tr>
+                                                            <td>
+                                                                <p class="text-secondary"
+                                                                   style=" font-size: 14px;">{{formatDate($notification->created_at)}}</p>
+                                                                <a href="{{route('note.view', $notification->comment()->note()->id)}}">К
+                                                                    вашему отчету написали новый
+                                                                    комментарий</a>
 
-                                                        </td>
-                                                    </tr>
-                                                    @break
-                                                @case('post')
-                                                    <tr>
-                                                        <td>
-                                                            <p class="text-secondary"
-                                                               style=" font-size: 14px;">{{formatDate($notification->created_at)}}</p>
-                                                            <a href="{{route('post.view', $notification->comment()->post()->id)}}">К
-                                                                вашему посту написали новый
-                                                                комментарий </a>
+                                                            </td>
+                                                        </tr>
+                                                        @break
+                                                    @case('post')
+                                                        <tr>
+                                                            <td>
+                                                                <p class="text-secondary"
+                                                                   style=" font-size: 14px;">{{formatDate($notification->created_at)}}</p>
+                                                                <a href="{{route('post.view', $notification->comment()->post()->id)}}">К
+                                                                    вашему посту написали новый
+                                                                    комментарий </a>
 
-                                                        </td>
-                                                    </tr>
-                                                    @break
-                                            @endswitch
-                                        @endforeach
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть
-                                    </button>
+                                                            </td>
+                                                        </tr>
+                                                        @break
+                                                @endswitch
+                                            @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    @endif
                 @endif
             </div>
             <div class="hidden sm:flex sm:items-center sm:ms-6">
-                <a href="https://t.me/+BUO9SxMDGmQ0NDRi"><img style="width: 32px; margin-right: 10px;" src="{{asset('img/tg-new.svg')}}" alt=""></a>
+                <a href="https://t.me/+BUO9SxMDGmQ0NDRi"><img style="width: 32px; margin-right: 10px;"
+                                                              src="{{asset('img/tg-new.svg')}}" alt=""></a>
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button
@@ -154,7 +163,10 @@
                                           clip-rule="evenodd"/>
                                 </svg>
                             </div>
-                            <img id="img-output" src="{{auth()->user()->img ? asset('storage/' . auth()->user()->img) : asset('img/ava.jpeg')}}" class="rounded-circle" style="width: 30px; height: 30px; object-fit: cover;  " alt="Avatar">
+                            <img id="img-output"
+                                 src="{{auth()->user()->img ? asset('storage/' . auth()->user()->img) : asset('img/ava.jpeg')}}"
+                                 class="rounded-circle" style="width: 30px; height: 30px; object-fit: cover;  "
+                                 alt="Avatar">
                         </button>
                     </x-slot>
 
@@ -162,9 +174,11 @@
                         <x-dropdown-link style="text-decoration: none;" :href="route('profile.edit')">
                             {{ __('Профиль') }}
                         </x-dropdown-link>
-                        <x-dropdown-link style="text-decoration: none;" :href="route('admin.note.index')">
-                            {{ __('Админ панель') }}
-                        </x-dropdown-link>
+                        @if(auth()->user()->role == 'admin')
+                            <x-dropdown-link style="text-decoration: none;" :href="route('admin.note.index')">
+                                {{ __('Админ панель') }}
+                            </x-dropdown-link>
+                        @endif
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf

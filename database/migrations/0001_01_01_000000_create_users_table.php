@@ -26,6 +26,12 @@ return new class extends Migration
             $table->date('date')->nullable();
             $table->text('description')->nullable();
             $table->string('password');
+
+            // Subscribe
+            $table->string('subscribe')->nullable();
+            $table->date('subscribe_date')->nullable();
+
+
             $table->rememberToken();
             $table->timestamps();
         });
