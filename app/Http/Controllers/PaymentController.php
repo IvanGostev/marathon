@@ -68,6 +68,7 @@ class PaymentController extends Controller
         dd($data);
 
         $orderData = explode('-', $data['order_num']);
+
         if ($data['payment_status'] === 'success') {
             $user = User::where('id', $orderData[0])->first();
             $date = Carbon::now();

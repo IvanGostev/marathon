@@ -16,6 +16,7 @@ use App\Http\Controllers\NoteController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PromocodeController;
 use App\Http\Controllers\RatingController;
 use App\Http\Controllers\SubscribeController;
 use App\Http\Controllers\VideoController;
@@ -33,6 +34,9 @@ Route::post('/notification', [PaymentController::class, 'notification'])->name('
 Route::middleware(['auth', 'subscribe'])->group(function () {
     // Главная страница
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    // Проверка промокода
+    Route::get('/promocode/check', [PromocodeController::class, 'check'])->name('promocode.check');
+    Route::get('/promocode/modal', [PromocodeController::class, 'modal'])->name('promocode.modal');
 
 //    // Редирект на оплату
 //    Route::get('/payment~{subscribe}~{user}', [PaymentController::class, 'main'])->name('payment');

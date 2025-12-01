@@ -7,8 +7,10 @@ use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\Book;
 use App\Models\Comment;
 use App\Models\Note;
+use App\Models\Promocode;
 use App\Models\User;
 use App\Models\Video;
+use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -29,7 +31,7 @@ class SubscribeController extends Controller
 
         header('Content-type:text/plain;charset=utf-8');
 
-        $linktoform = 'https://bru-ch.payform.ru//';
+        $linktoform = 'https://bru-ch.payform.ru/';
 
         $secret_key = '4f7e6dd8f0cf25d38cb4001b1aaeac360e9f1cad10a5715353781aad975bbcb1';
         $data = [
@@ -41,19 +43,29 @@ class SubscribeController extends Controller
 
             'urlReturn' => 'https://bru-ch.com/subscribes',
 
-            'urlSuccess' => 'https://bru-ch.com/',
+            'urlSuccess' => 'https://bru-ch.com/dashboard',
 
             'urlNotification' => 'https://bru-ch.com/notification',
 
             'sys' => 'bruch',
 
         ];
+
+        $promocode = Promocode::where('name', $request->promocode)->first();
+        if ($promocode) {
+            if (!((Carbon::now() < $promocode->finish) and ($promocode->count > 0))) {
+                $promocode = null;
+            } else {
+                $promocode->update(['count' => $promocode->count - 1]);
+            }
+        }
+
         if ($subscribe == 'base') {
             $data['products'] = [
                 [
                     'sku' => 1,
                     'name' => 'Подписка на месяц',
-                    'price' => 200,
+                    'price' => $promocode ? 200 - (200 * ($promocode->discount / 100)) : 200,
                     'quantity' => 1,
                 ],
             ];
@@ -62,7 +74,7 @@ class SubscribeController extends Controller
                 [
                     'sku' => 1,
                     'name' => 'Подписка на месяц c коучем',
-                    'price' => 500,
+                    'price' => $promocode ? 500 - (500 * ($promocode->discount / 100)) : 500,
                     'quantity' => 1,
                 ],
             ];
@@ -70,7 +82,5 @@ class SubscribeController extends Controller
         $data['signature'] = HmacController::create($data, $secret_key);
         $link = sprintf('%s?%s', $linktoform, http_build_query($data));
         return redirect($link) ;
-
-//        return view('payment', compact('link'));
     }
 }

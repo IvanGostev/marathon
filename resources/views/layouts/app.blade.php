@@ -80,8 +80,8 @@ https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css
 
 
 </style>
-<script>
-    $('[data-toggle="tooltip"]').tooltip();
-</script>
+{{--<script>--}}
+{{--    $('[data-toggle="tooltip"]').tooltip();--}}
+{{--</script>--}}
 </body>
 </html>
