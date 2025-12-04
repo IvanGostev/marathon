@@ -14,8 +14,17 @@ class PromocodeController extends Controller
     public function check(Request $request)
     {
         $promocode = Promocode::where('name', $request->promocode)->first();
+
         $subscribe['name'] = $request->subscribe;
-        $subscribe['price'] = $request->subscribe == 'base' ? 200 : 500;
+
+        if ($request->subscribe == 'base') {
+            $subscribe['price'] = 1990;
+        } else if  ($request->subscribe == 'winner') {
+            $subscribe['price'] = 950;
+        } else if  ($request->subscribe == 'champion') {
+            $subscribe['price'] = 190;
+        }
+
         if ($promocode) {
             if ((Carbon::now() < $promocode->finish) and ($promocode->count > 0)) {
                 return view('promocode.active', compact('promocode', 'subscribe'))->render();
@@ -26,9 +35,16 @@ class PromocodeController extends Controller
 
     public function modal(Request $request)
     {
-
         $subscribe['name'] = $request->subscribe;
-        $subscribe['price'] = $request->subscribe == 'base' ? 200 : 500;
+
+        if ($request->subscribe == 'base') {
+            $subscribe['price'] = 1990;
+        } else if  ($request->subscribe == 'winner') {
+            $subscribe['price'] = 950;
+        } else if  ($request->subscribe == 'champion') {
+            $subscribe['price'] = 190;
+        }
+
         return view('promocode.modal', compact('subscribe'))->render();
     }
 }

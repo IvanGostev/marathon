@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Award;
 use App\Models\Coach;
 use App\Models\Notification;
 use Carbon\Carbon;
@@ -13,4 +14,14 @@ function formatDate($obj) {
 }
 function admissionRequest($leader, $venerable) {
     return Coach::where('leader', $leader)->where('venerable', $venerable)->count() == 0;
+}
+
+function checkWinner($extended) {
+    $firstDayofPreviousMonth = Carbon::now()->startOfMonth()->subMonth()->toDateString();
+    $lastDayofPreviousMonth = Carbon::now()->subMonth()->endOfMonth()->toDateString();
+    if (!$extended) {
+        return Award::where('user_id', auth()->user()->id)->whereBetween('created_at', [$firstDayofPreviousMonth,$lastDayofPreviousMonth])->count() > 0;
+    } else {
+        return Award::where('user_id', auth()->user()->id)->whereBetween('created_at', [$firstDayofPreviousMonth,$lastDayofPreviousMonth])->where('title_system', 'reader_month')->count() > 0;
+    }
 }

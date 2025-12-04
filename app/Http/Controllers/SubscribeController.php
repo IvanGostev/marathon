@@ -21,6 +21,7 @@ class SubscribeController extends Controller
 {
     public function index(Request $request): View
     {
+        $promocodes = Promocode::all();
         return view('subscribe.index');
     }
 
@@ -61,26 +62,24 @@ class SubscribeController extends Controller
         }
 
         if ($subscribe == 'base') {
-            $data['products'] = [
-                [
-                    'sku' => 1,
-                    'name' => 'Подписка на месяц',
-                    'price' => $promocode ? 200 - (200 * ($promocode->discount / 100)) : 200,
-                    'quantity' => 1,
-                ],
-            ];
-        } else {
-            $data['products'] = [
-                [
-                    'sku' => 1,
-                    'name' => 'Подписка на месяц c коучем',
-                    'price' => $promocode ? 500 - (500 * ($promocode->discount / 100)) : 500,
-                    'quantity' => 1,
-                ],
-            ];
+            $price = 1990;
+        } else if ($subscribe == 'winner') {
+            $price = 950;
+        } else if ($subscribe == 'champion') {
+            $price = 190;
         }
+
+        $data['products'] = [
+            [
+                'sku' => 1,
+                'name' => 'Подписка на месяц',
+                'price' => $promocode ? $price - ($price * ($promocode->discount / 100)) : $price,
+                'quantity' => 1,
+            ],
+        ];
+
         $data['signature'] = HmacController::create($data, $secret_key);
         $link = sprintf('%s?%s', $linktoform, http_build_query($data));
-        return redirect($link) ;
+        return redirect($link);
     }
 }

@@ -34,9 +34,7 @@ Route::post('/notification', [PaymentController::class, 'notification'])->name('
 Route::middleware(['auth', 'subscribe'])->group(function () {
     // Главная страница
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    // Проверка промокода
-    Route::get('/promocode/check', [PromocodeController::class, 'check'])->name('promocode.check');
-    Route::get('/promocode/modal', [PromocodeController::class, 'modal'])->name('promocode.modal');
+
 
 //    // Редирект на оплату
 //    Route::get('/payment~{subscribe}~{user}', [PaymentController::class, 'main'])->name('payment');
@@ -95,6 +93,14 @@ Route::middleware(['auth', 'subscribe'])->group(function () {
 Route::middleware('auth')->prefix('subscribes')->name('subscribe.')->controller(SubscribeController::class)->group(function () {
     Route::get('/', 'index')->name('index');
     Route::post('/pay', 'pay')->name('pay');
+
+});
+
+// Проверка промокода
+Route::middleware('auth')->prefix('promocode')->name('promocode.')->controller(PromocodeController::class)->group(function () {
+    Route::get('/check', 'check')->name('check');
+    Route::get('/modal', 'modal')->name('modal');
+
 });
 
 
