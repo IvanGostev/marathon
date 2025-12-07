@@ -87,11 +87,11 @@ class NoteController extends Controller
         }
 
         $data['title'] = $request->title;
-        $data['results'] = $request->results;
         $data['go'] = $request->go;
         $data['status'] = 'moderation';
         $data['user_id'] = auth()->user()->id;
 
+        // TEXT
         $text = $request->text;
         $dom = new \DomDocument();
         @$dom->loadHtml('<meta charset="utf8">' . $text);
@@ -114,6 +114,34 @@ class NoteController extends Controller
         }
 
         $data['text'] = $dom->saveHTML();
+        // TEXT FINISH
+
+
+        // RESULTS
+        $results = $request->results;
+        $dom = new \DomDocument();
+        @$dom->loadHtml('<meta charset="utf8">' . $results);
+        $images = $dom->getElementsByTagName('img');
+
+        foreach ($images as $k => $img) {
+            $dataImg = $img->getAttribute('src');
+
+            list($type, $dataImg) = explode(';', $dataImg);
+            list($type, $dataImg) = explode(',', $dataImg);
+            $dataImg = base64_decode($dataImg);
+
+            $image_name = "/upload/" . time() . $k . '.png';
+            $path = public_path() . $image_name;
+
+            file_put_contents($path, $dataImg);
+
+            $img->removeAttribute('src');
+            $img->setAttribute('src', $image_name);
+        }
+
+        $data['results'] = $dom->saveHTML();
+        // RESULTS FINISH
+
 
         $note = Note::create($data);
 

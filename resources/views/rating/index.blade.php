@@ -38,7 +38,7 @@
                 <table class="table ">
                     <thead>
                     <tr>
-                        <th scope="col">#</th>
+                        <th style="text-align: center;" scope="col">#</th>
                         <th scope="col">Пользователь</th>
                         <th scope="col">Количество отчетов</th>
                         <th scope="col">Написано комментариев</th>
@@ -48,16 +48,28 @@
                     <tbody>
                     @foreach($users as $user)
                         <tr>
-                            <th>{{isset($id) ? $id=$id+1 : $id = 1}}</th>
+                            @php isset($id) ? $id=$id+1 : $id = 1 @endphp
+                            <th style="text-align: center;">
+                                @if ($id == 1)
+                                    <img style="width: 35px; height: 35px" src="{{asset('img/first.png')}}" alt="">
+                                @elseif ($id == 2)
+                                    <img style="width: 35px; height: 35px" src="{{asset('img/second.png')}}" alt="">
+                                @elseif ($id == 3)
+                                    <img style="width: 35px; height: 35px" src="{{asset('img/third.png')}}" alt="">
+                                @else
+                                    {{$id}}
+                                @endif
+                            </th>
                             <th>
                                 <a href="{{route('post.index', $user->id)}}" style="display: grid;
     gap: 15px;
     width: 100%;
-    grid-template-columns: 50px 100px;">
+    grid-template-columns: 50px 100px;
+    color: black; border-color: black">
                                     <img style="object-fit: cover; width: 50px; height: 50px; border-radius: 100%;"
                                          src="{{$user->img ? asset('storage/' . $user->img) : asset('img/ava.jpeg')}}"
                                          alt="">
-                                    <p style="display: block">{{$user->name}}</p>
+                                    <p style="display: block;">{{$user->name}}</p>
                                 </a>
                             </th>
                             <th>{{$user->OfDay}}</th>

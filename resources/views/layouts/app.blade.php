@@ -8,42 +8,52 @@
     <link href="{{asset('img/logo.png')}}" rel="shortcut icon" type="image/x-icon"/>
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet"/>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @php header(('Content-type: text/plain; charset=utf-8')) @endphp
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css"
+          integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
     <link rel="stylesheet"
           href="https://unpkg.com/bs-brain@2.0.4/tutorials/timelines/timeline-1/assets/css/timeline-1.css">
-    <link href="https://cdn.jsdelivr.net/npm/froala-editor@latest/css/froala_editor.pkgd.min.css" rel="stylesheet"
-          type="text/css"/>
-    <script src="
-https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.min.js
-"></script>
+
+
     <link href="
 https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css
 " rel="stylesheet">
     <!-- Scripts -->
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-    @php header(('Content-type: text/plain; charset=utf-8')) @endphp
+    <script src="
+https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.min.js
+"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet"/>
 </head>
 <style>
     .btn-success {
-        background-color: #008000!important;
+        background-color: #008000 !important;
     }
+
     .btn-outline-success {
         border-color: #008000;
         color: #008000;
     }
+
     .btn-outline-success:hover {
-        background-color: #008000!important;
+        background-color: #008000 !important;
         color: white;
     }
-    .bsb-timeline-1 .timeline>.timeline-item:before {
+
+    .bsb-timeline-1 .timeline > .timeline-item:before {
         top: 25% !important;
     }
+
     .bsb-timeline-1 .timeline:after {
-        bottom: 35px!important;
-        top: 35px!important;
+        bottom: 35px !important;
+        top: 35px !important;
     }
 </style>
 <body class="font-sans antialiased">

@@ -16,6 +16,9 @@ use PhpOffice\PhpWord\Shared\HTML;
 
 class FileController extends Controller
 {
+    protected array $names = ['book' => 'Название', 'title' => 'Раздел', 'text' => 'Краткий конспект', 'results' => 'Итоги', 'go' => "Действуй"];
+
+
     public function download(Request $request)
     {
         $phpWord = new PhpWord();
@@ -24,18 +27,18 @@ class FileController extends Controller
         unset($all['_token']);
         unset($all['note_id']);
         $section = $phpWord->addSection();
-        $names = ['go' => "Действуй", 'title' => 'Раздел', 'results' => 'Итоги'];
+
         foreach ($all as $item) {
+            $section->addText($this->names[$item], ['bold' => true]);
+
             if ($item == "book") {
-                $section->addText('Название',  ['bold' => true]);
                 if (isset($note['book_id'])) {
                     $section->addText($note->book()->title);
                 } else {
                     $section->addText($note->mybook);
                 }
                 $section->addTextBreak(1);
-            } elseif ($item == "text") {
-                $section->addText('Краткий конспект',  ['bold' => true]);
+            } elseif ($item == "text" or $item == "results") {
                 Settings::setOutputEscapingEnabled(true);
                 $doc = new DOMDocument();
                 $doc->loadHTML($note[$item]);
@@ -43,7 +46,6 @@ class FileController extends Controller
                 \PhpOffice\PhpWord\Shared\Html::addHtml($section, $doc->saveXml(), true, false);
                 $section->addTextBreak(1);
             } else {
-                $section->addText($names[$item],  ['bold' => true]);
                 $section->addText($note[$item]);
                 $section->addTextBreak(1);
 
@@ -72,24 +74,24 @@ class FileController extends Controller
         unset($all['daterange']);
 
         $notes = Note::where('user_id', auth()->user()->id)->whereBetween('created_at', [$start, $finish])->get();
-        $names = ['go' => "Действуй", 'title' => 'Раздел', 'results' => 'Итоги'];
 
-        foreach($notes as $note) {
+
+        foreach ($notes as $note) {
             $section = $phpWord->addSection();
-            $section->addText('Дата создания',  ['bold' => true]);
+            $section->addText('Дата создания', ['bold' => true]);
             $section->addText($note->created_at);
             $section->addTextBreak(1);
             foreach ($all as $item) {
+                $section->addText($this->names[$item], ['bold' => true]);
+
                 if ($item == "book") {
-                    $section->addText('Название',  ['bold' => true]);
                     if (isset($note['book_id'])) {
                         $section->addText($note->book()->title);
                     } else {
                         $section->addText($note->mybook);
                     }
                     $section->addTextBreak(1);
-                } elseif ($item == "text") {
-                    $section->addText('Краткий конспект',  ['bold' => true]);
+                } elseif ($item == "text" or $item == "results") {
                     Settings::setOutputEscapingEnabled(true);
                     $doc = new DOMDocument();
                     $doc->loadHTML($note[$item]);
@@ -97,7 +99,6 @@ class FileController extends Controller
                     \PhpOffice\PhpWord\Shared\Html::addHtml($section, $doc->saveXml(), true, false);
                     $section->addTextBreak(1);
                 } else {
-                    $section->addText($names[$item],  ['bold' => true]);
                     $section->addText($note[$item]);
                     $section->addTextBreak(1);
                 }

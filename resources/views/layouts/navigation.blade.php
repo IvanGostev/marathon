@@ -1,8 +1,6 @@
 <nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
     <!-- Primary Navigation Menu -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css"
-          integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ=="
-          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-24">
             <div class="flex">
@@ -88,7 +86,7 @@
                     </div>
                     @if (auth()->user()->checkSubscribe())
                         <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                            <button type="button" class="link " data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                            <button style="background: white; border: 0" type="button" class="link " data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                                 <i class="fa-regular fa-bell"></i>
                             </button>
                         </div>
