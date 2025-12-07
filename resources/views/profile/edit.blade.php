@@ -1,4 +1,6 @@
 <x-app-layout>
+    @vite(['resources/css/base.css', 'resources/css/app.css',  'resources/js/app.js'])
+
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Мой профиль') }}
