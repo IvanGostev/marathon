@@ -76,13 +76,17 @@
                           class="p-4 sm:p-8 bg-white shadow sm:rounded-lg table-responsive">
                         @csrf
                         <div class="mb-3">
-                            <label for="exampleFormControlInput1" class="form-label">Название: книги(курса, урока....)</label>
+                            <label for="exampleFormControlInput1" class="form-label">
+                                <h5>Название: книги(курса, урока....)</h5>
+                            </label> <br>
                                 <input disabled value="{{$data['book']}}" type="text" class="form-control"
                                        id="exampleFormControlInput1" name="book">
                                 <input type="text" hidden name="book" value="{{$data['book']}}">
                         </div>
                         <div class="mb-3">
-                            <label for="exampleFormControlInput1" class="form-label">Раздел</label>
+                            <label for="exampleFormControlInput1" class="form-label">
+                                <h5>Раздел</h5>
+                            </label>
                             <input disabled value="{{$data['title']}}" type="text" class="form-control"
                                    id="exampleFormControlInput1" name="title">
                         </div>
@@ -150,7 +154,13 @@
                                 <h4 class="text-align-center">Апробируй!</h4>
                                 <h6>(Напиши какой и когда 1й шаг ты сделаешь)</h6>
                             </label>
-                            <textarea disabled required class="form-control" rows="4" name="go">@isset($data['go']){!! $data['go'] !!}@endisset</textarea>
+                            <div
+                                style="width: 100%; background-color: #e9ecef; min-height: 200px;     overflow-y: scroll;"
+                                disabled
+                                id="froala-editor" contenteditable="false" class="form-control" rows="20" name="text">
+                                {!!$data['go']!!}
+                            </div>
+
                             <div style="display: flex; justify-content: space-between">
                                 <button type="submit" name="action" value="back" class="btn btn-dark mt-3">
                                     Редактировать

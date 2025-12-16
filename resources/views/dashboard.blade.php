@@ -97,6 +97,58 @@
                             </div>
                         </nav>
 
+
+                        <div class="p-4 sm:p-8 bg-white  sm:rounded-lg table-responsive">
+                                <p style="font-size: 18px">
+                                    <h6>Доска победителей предыдущего месяца</h6>
+
+                                    <br>
+                                </p>
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">Номинация</th>
+                                        <th scope="col">Пользователь</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <th>Читатель месяца</th>
+                                        <th><a style="text-decoration: none; color: black" href="{{getLastUserForRewarded('reader_month') ? route('post.index', getLastUserForRewarded('reader_month')->id) : '#'}}">{{getLastUserForRewarded('reader_month')->name ?? '-'}}</a></th>
+                                    </tr>
+                                    <tr>
+                                        <th>Вдохновляющий читатель</th>
+                                        <th><a style="text-decoration: none; color: black" href="{{getLastUserForRewarded('inspiring_reader') ? route('post.index', getLastUserForRewarded('inspiring_reader')->id) : '#'}}">{{getLastUserForRewarded('inspiring_reader')->name ?? '-'}}</a></th>
+                                    </tr>
+                                    <tr>
+                                        <th>Популярный читатель</th>
+                                        <th><a style="text-decoration: none; color: black" href="{{getLastUserForRewarded('popular_reader') ? route('post.index', getLastUserForRewarded('popular_reader')->id) : '#'}}">{{getLastUserForRewarded('popular_reader')->name ?? '-'}}</a></th>
+
+                                    </tr>
+                                    <tr>
+                                        <th>Успешный коуч</th>
+                                        <th><a style="text-decoration: none; color: black" href="{{getLastUserForRewarded('successful_coach') ? route('post.index', getLastUserForRewarded('successful_coach')->id) : '#'}}">{{getLastUserForRewarded('successful_coach')->name ?? '-'}}</a></th>
+                                    </tr>
+                                    <tr>
+                                        <th>Успешный напарник</th>
+                                        <th><a style="text-decoration: none; color: black" href="{{getLastUserForRewarded('successful_partner') ? route('post.index', getLastUserForRewarded('successful_partner')->id) : '#'}}">{{getLastUserForRewarded('successful_partner')->name ?? '-'}}</a></th>
+                                    </tr>
+                                    <tr>
+                                        <th>Коуч месяца</th>
+                                        <th><a style="text-decoration: none; color: black" href="{{getLastUserForRewarded('couch_month') ? route('post.index', getLastUserForRewarded('couch_month')->id) : '#'}}">{{getLastUserForRewarded('couch_month')->name ?? '-'}}</a></th>
+                                    </tr>
+                                    <tr>
+                                        <th>Напарник месяца</th>
+                                        <th><a style="text-decoration: none; color: black" href="{{getLastUserForRewarded('partner_month') ? route('post.index', getLastUserForRewarded('partner_month')->id) : '#'}}">{{getLastUserForRewarded('partner_month')->name ?? '-'}}</a></th>
+                                    </tr>
+                                    <tr>
+                                        <th>Вдохновляющий напарник/коуч</th>
+                                        <th><a style="text-decoration: none; color: black" href="{{getLastUserForRewarded('max_ball_help') ? route('post.index', getLastUserForRewarded('max_ball_help')->id) : '#'}}">{{getLastUserForRewarded('max_ball_help')->name ?? '-'}}</a></th>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
                         <div class="p-6 text-gray-900">
 
                             <p class="h6">
@@ -299,7 +351,6 @@
                             <thead>
                             <tr>
                                 <th scope="col">Номинация</th>
-                                <th scope="col">Пользователь</th>
                                 <th scope="col">Критерий победы (месяц)</th>
                                 <th scope="col">Награда (скидка)</th>
                                 <th scope="col">Значок (в круге)</th>
@@ -309,7 +360,6 @@
                             <tbody>
                             <tr>
                                 <th>Настойчивый читатель</th>
-                                <th>-</th>
                                 <th>20+ отчетов</th>
                                 <th>10%</th>
                                 <th>
@@ -324,7 +374,6 @@
                             </tr>
                             <tr>
                                 <th>Читатель месяца</th>
-                                <th>-</th>
                                 <th>Максимум отчетов</th>
                                 <th>90%</th>
                                 <th>
@@ -339,7 +388,6 @@
                             </tr>
                             <tr>
                                 <th>Вдохновляющий читатель</th>
-                                <th>-</th>
                                 <th>Высший средний балл</th>
                                 <th>50%</th>
                                 <th>
@@ -354,7 +402,6 @@
                             </tr>
                             <tr>
                                 <th>Популярный читатель</th>
-                                <th>-</th>
                                 <th>Больше всех откликов</th>
                                 <th>50%</th>
                                 <th>
@@ -369,7 +416,6 @@
                             </tr>
                             <tr>
                                 <th>Успешный напарник/коуч</th>
-                                <th>-</th>
                                 <th>Подопечный победил</th>
                                 <th>50%</th>
                                 <th>
@@ -384,7 +430,6 @@
                             </tr>
                             <tr>
                                 <th>Напарник/Коуч месяца</th>
-                                <th>-</th>
                                 <th>Подопечный — лучший!</th>
                                 <th>90%</th>
                                 <th>
@@ -399,7 +444,6 @@
                             </tr>
                             <tr>
                                 <th>Вдохновляющий напарник/коуч</th>
-                                <th>-</th>
                                 <th>Высший балл за помощь</th>
                                 <th>50%</th>
                                 <th>

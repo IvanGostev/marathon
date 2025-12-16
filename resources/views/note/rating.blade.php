@@ -91,29 +91,40 @@
                         </div>
                         <br>
                         <div class="mb-3">
-                            <label for="exampleFormControlInput1" class="form-label h6">Название: книги(курса,
-                                урока....)</label>
+                            <label for="exampleFormControlInput1" class="form-label">
+                                <h5>Название: книги(курса, урока....)</h5>
+                            </label> <br>
                             <input readonly type="text" class="form-control" id="exampleFormControlInput1" name="book"
                                    value="{{($note->mybook ?? ($note->book()->title ?? '-'))}}">
                         </div>
                         <div class="mb-3">
-                            <label for="exampleFormControlInput1" class="form-label h6">Раздел</label>
+                            <label for="exampleFormControlInput1" class="form-label">
+                                <h5>Раздел</h5>
+                            </label> <br>
                             <input readonly type="text" class="form-control" id="exampleFormControlInput1" name="title"
                                    value="{{$note->title}}">
                         </div>
-
                         <div class="mb-3">
-                            <label for="exampleFormControlTextarea1" class="form-label h6">Отчет</label>
+                            <label for="exampleFormControlTextarea1" class="form-label">
+                                <h5>Распиши!</h5>
+                                <h6>(Распиши краткий конспект)</h6>
+                            </label> <br>
                             {!! $note->text !!}
                         </div>
                         <div class="mb-3">
-                            <label for="exampleFormControlTextarea1" class="form-label h6">Итоги</label>
+                            <label for="exampleFormControlTextarea1" class="form-label">
+                                <h5>Осмысли!</h5>
+                                <h6>(Осмысли суть и напиши не больше 3х основных мыслей)</h6>
+                            </label> <br>
                             {!! $note->text !!}
 
                         </div>
                         @if(!$note->files()->isEmpty())
                             <div class="mb-3">
-                                <label for="exampleFormControlTextarea1" class="form-label h6">Перескажи вслух</label>
+                                <label for="exampleFormControlTextarea1" class="form-label">
+                                    <h5>Говори!</h5>
+                                    <h6>(Проговори вслух суть 3 раза)</h6>
+                                </label>
                                 <table class="table">
                                     <thead>
                                     <tr>
@@ -138,7 +149,10 @@
                         @endif
 
                         <div class="mb-3">
-                            <label for="exampleFormControlTextarea1" class="form-label h6">Действуй</label>
+                            <label for="exampleFormControlTextarea1" class="form-label">
+                                <h4 class="text-align-center">Апробируй!</h4>
+                                <h6>(Напиши какой и когда 1й шаг ты сделаешь)</h6>
+                            </label> <br>
                             <p>{{$note->go}}</p>
                         </div>
                     </div>

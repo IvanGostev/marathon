@@ -14,9 +14,20 @@ use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Shared\HTML;
 
+
+//
+//'<html>
+//<head>
+//<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+//</head>
+//<body>
+//<p><img src="https://bru-ch.com/upload/17592666260.png"></p>
+//</body>
+//</html>'
+
 class FileController extends Controller
 {
-    protected array $names = ['book' => 'Название', 'title' => 'Раздел', 'text' => 'Краткий конспект', 'results' => 'Итоги', 'go' => "Действуй"];
+    protected array $names = ['book' => 'Название', 'title' => 'Раздел', 'text' => 'Краткий конспект', 'results' => 'Основные мысли', 'go' => "Апробируй"];
 
 
     public function download(Request $request)
@@ -38,12 +49,30 @@ class FileController extends Controller
                     $section->addText($note->mybook);
                 }
                 $section->addTextBreak(1);
-            } elseif ($item == "text" or $item == "results") {
+            } elseif ($item == "text" or $item == "results" or $item == "go") {
                 Settings::setOutputEscapingEnabled(true);
                 $doc = new DOMDocument();
                 $doc->loadHTML($note[$item]);
-                $doc->saveXml();
-                \PhpOffice\PhpWord\Shared\Html::addHtml($section, $doc->saveXml(), true, false);
+
+                // Edit src and style for images
+                $tags = $doc->getElementsByTagName('img');
+                if (count($tags) > 0) {
+                    foreach ($tags as $tag) {
+                        $tag->setAttribute('src', asset($tag->getAttribute('src')));
+                        $styles = explode(':', str_replace(';', ':', $tag->getAttribute('style')));
+                        for ($i = 0; $i < count($styles); $i++) {
+                            if ($styles[$i] == 'width') {
+                                $tag->setAttribute('width', $styles[$i+1]);
+                            }  else if ($styles[$i] == 'height') {
+                                $tag->setAttribute('height', $styles[$i+1]);
+                            }
+                        }
+                    }
+//
+                }
+
+
+                \PhpOffice\PhpWord\Shared\Html::addHtml($section, $doc->saveXml(), true);
                 $section->addTextBreak(1);
             } else {
                 $section->addText($note[$item]);
@@ -51,7 +80,7 @@ class FileController extends Controller
 
             }
         }
-        $objWriter = IOFactory::createWriter($phpWord, 'Word2007');
+        $objWriter = IOFactory::createWriter($phpWord, 'Word2007', true);
         $name = Str::slug('Report for ' . $note->created_at . ' from ' . $note->user()->name) . '.docx';
         try {
             $objWriter->save(storage_path($name));
@@ -91,14 +120,32 @@ class FileController extends Controller
                         $section->addText($note->mybook);
                     }
                     $section->addTextBreak(1);
-                } elseif ($item == "text" or $item == "results") {
+                }elseif ($item == "text" or $item == "results" or $item == "go") {
                     Settings::setOutputEscapingEnabled(true);
                     $doc = new DOMDocument();
                     $doc->loadHTML($note[$item]);
-                    $doc->saveXml();
-                    \PhpOffice\PhpWord\Shared\Html::addHtml($section, $doc->saveXml(), true, false);
+
+                    // Edit src and style for images
+                    $tags = $doc->getElementsByTagName('img');
+                    if (count($tags) > 0) {
+                        foreach ($tags as $tag) {
+                            $tag->setAttribute('src', asset($tag->getAttribute('src')));
+                            $styles = explode(':', str_replace(';', ':', $tag->getAttribute('style')));
+                            for ($i = 0; $i < count($styles); $i++) {
+                                if ($styles[$i] == 'width') {
+                                    $tag->setAttribute('width', $styles[$i+1]);
+                                }  else if ($styles[$i] == 'height') {
+                                    $tag->setAttribute('height', $styles[$i+1]);
+                                }
+                            }
+                        }
+//
+                    }
+
+
+                    \PhpOffice\PhpWord\Shared\Html::addHtml($section, $doc->saveXml(), true);
                     $section->addTextBreak(1);
-                } else {
+                }else {
                     $section->addText($note[$item]);
                     $section->addTextBreak(1);
                 }

@@ -19,11 +19,12 @@ class PaymentController extends Controller
         $orderData = explode('-', $data['order_num']);
 
         $date = Carbon::now();
-        if ($data['payment_status'] == 'success' and $date == Carbon::parse($data['date'])) {
+        if ($data['payment_status'] == 'success') {
             $user = User::where('id', $orderData[0])->first();
             $date->addDays(30);
             $user->update(['subscribe_date' => $date, 'subscribe' => $orderData[1]]);
             return http_response_code(200);
-        }
+        };
+//        and $date == Carbon::parse($data['date'])
     }
 }

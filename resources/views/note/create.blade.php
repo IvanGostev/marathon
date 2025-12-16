@@ -18,8 +18,8 @@
 {{--          href="https://unpkg.com/bs-brain@2.0.4/tutorials/timelines/timeline-1/assets/css/timeline-1.css">--}}
 {{--    <link href="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-lite.min.css" rel="stylesheet">--}}
 {{--    <script src="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-lite.min.js"></script>--}}
-{{--    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>--}}
-{{--    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>--}}
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <div class="py-12 d-flex  mx-auto sm:px-6 lg:px-8 ">
         <!-- Timeline 1 - Bootstrap Brain Component -->
         <section class="bsb-timeline-1 py-5 py-xl-8 w-100">
@@ -79,8 +79,9 @@
                           enctype='multipart/form-data'>
                         @csrf
                         <div class="mb-3">
-                            <label for="exampleFormControlInput1" class="form-label">Название: книги(курса,
-                                урока....)</label>
+                            <label for="exampleFormControlInput1" class="form-label">
+                                <h5>Название: книги(курса, урока....)</h5>
+                            </label> <br>
                             <select id="select-2" class="form-select" aria-label="Книга" name="book">
                                 @foreach($books as $book)
                                     <option @isset($data['book_id'])
@@ -93,7 +94,9 @@
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="exampleFormControlInput1" class="form-label">Раздел</label>
+                            <label for="exampleFormControlInput1" class="form-label">
+                                <h5>Раздел</h5>
+                            </label>
                             <input required @isset($data['title']) value="{{$data['title']}}" @endisset  type="text"
                                    class="form-control" id="exampleFormControlInput1" name="title">
                         </div>
@@ -105,22 +108,7 @@
                         <div class="mb-3">
                             <h5>Подготовься</h5>
                             <h6>(Изучай не более 20 мин )</h6>
-{{--                            <p>--}}
-{{--                                1.Запрети себе думать в этот момент о другом. <br>--}}
-{{--                                2.Скажи себе, почему тебе это интересно (цель обучения) <br>--}}
-{{--                                3.Сделай 10 дыханий.--}}
-{{--                            </p>--}}
                         </div>
-{{--                        <div class="mb-3">--}}
-{{--                            <h5>2) Прочитай / посмотри</h5>--}}
-{{--                            <h6>Изучай 20 мин (Прочитай или Просмотри видео)</h6>--}}
-{{--                            <p>--}}
-{{--                                Поставь таймер на 20 мин (т.е. изучай - 20 мин). Потом сделай шаги 3П,4П,5П. <br>--}}
-{{--                                Затем отдохни - 5 мин .<br>--}}
-{{--                                Потом- новый цикл изучения по 5-П технологии. <br>--}}
-{{--                                Новый цикл оформляй на следующем листе.--}}
-{{--                            </p>--}}
-{{--                        </div>--}}
                         <div class="mb-3">
                             <label for="exampleFormControlTextarea1" class="form-label">
                                 <h5>Распиши!</h5>
@@ -191,7 +179,7 @@
                                 <h4 class="text-align-center">Апробируй!</h4>
                                 <h6>(Напиши какой и когда 1й шаг ты сделаешь)</h6>
                             </label>
-                            <textarea required class="form-control" rows="4" name="go"> @isset($data['go'])
+                            <textarea id="editor-3" required class="form-control" rows="4" name="go"> @isset($data['go'])
                                     {!! $data['go'] !!}
                                 @endisset</textarea>
                             <button type="submit" class="btn btn-dark mt-3">Далее</button>
@@ -244,7 +232,21 @@
                 focus: true,
             });
         });
-
+        $(document).ready(function () {
+            $('#editor-3').summernote({
+                height: '200px',
+                toolbar: [
+                    ['style', ['style']],
+                    ['font', ['fontname', 'bold', 'underline', 'clear']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['table', ['table']],
+                    ['insert', ['link', 'picture']],
+                ],
+                lang: 'ru-RU',
+                focus: true,
+            });
+        });
         settings =  {
             font: {
                 bold: 'Полужирный',

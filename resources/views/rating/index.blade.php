@@ -33,8 +33,6 @@
                 </button>
             </form>
             <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg table-responsrive col-sm-8" style="margin-top:0 ">
-
-
                 <table class="table ">
                     <thead>
                     <tr>

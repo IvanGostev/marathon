@@ -143,6 +143,32 @@ class NoteController extends Controller
         // RESULTS FINISH
 
 
+        // GO
+        $go = $request->go;
+        $dom = new \DomDocument();
+        @$dom->loadHtml('<meta charset="utf8">' . $go);
+        $images = $dom->getElementsByTagName('img');
+
+        foreach ($images as $k => $img) {
+            $dataImg = $img->getAttribute('src');
+
+            list($type, $dataImg) = explode(';', $dataImg);
+            list($type, $dataImg) = explode(',', $dataImg);
+            $dataImg = base64_decode($dataImg);
+
+            $image_name = "/upload/" . time() . $k . '.png';
+            $path = public_path() . $image_name;
+
+            file_put_contents($path, $dataImg);
+
+            $img->removeAttribute('src');
+            $img->setAttribute('src', $image_name);
+        }
+
+        $data['go'] = $dom->saveHTML();
+        // RESULTS FINISH
+
+
         $note = Note::create($data);
 
         if (isset($filesIds)) {
