@@ -14,67 +14,67 @@
                 align-items: flex-start;">
                 <div class="input-group mb-3 " style="border-radius: 5px">
                     <input value="{{request()->search ?? ''}}" name="search" type="text" class="form-control"
-                           style=" border-radius: 5px 0 0 5px;" placeholder="Введите имя участника"
-                           aria-label="Recipient's username" aria-describedby="button-addon2">
+                        style=" border-radius: 5px 0 0 5px;" placeholder="Введите имя участника"
+                        aria-label="Recipient's username" aria-describedby="button-addon2">
                     <button class="btn btn-outline-dark" type="submit" id="button-addon2"><i class="fas fa-search"></i>
                     </button>
                 </div>
                 <button name="type" value="inspiring"
-                        class="nav-link {{(str_contains(  request()->fullUrl(), 'inspiring') or (!str_contains(  request()->fullUrl(), 'popular') and !str_contains(  request()->fullUrl(), 'persistent'))) ? 'fw-bold text-decoration-underline' : ''}}">
+                    class="nav-link {{(str_contains(request()->fullUrl(), 'inspiring') or (!str_contains(request()->fullUrl(), 'popular') and !str_contains(request()->fullUrl(), 'persistent'))) ? 'fw-bold text-decoration-underline' : ''}}">
                     Вдохновляющий читатель
                 </button>
                 <button name="type" value="popular"
-                        class="nav-link {{str_contains(  request()->fullUrl(), 'popular') ? 'fw-bold text-decoration-underline' : ''}}">
+                    class="nav-link {{str_contains(request()->fullUrl(), 'popular') ? 'fw-bold text-decoration-underline' : ''}}">
                     Популярный читатель
                 </button>
                 <button name="type" value="persistent"
-                        class="nav-link {{str_contains(  request()->fullUrl(), 'persistent') ? 'fw-bold text-decoration-underline' : ''}}">
+                    class="nav-link {{str_contains(request()->fullUrl(), 'persistent') ? 'fw-bold text-decoration-underline' : ''}}">
                     Настойчивый читатель
                 </button>
             </form>
             <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg table-responsrive col-sm-8" style="margin-top:0 ">
                 <table class="table ">
                     <thead>
-                    <tr>
-                        <th style="text-align: center;" scope="col">#</th>
-                        <th scope="col">Пользователь</th>
-                        <th scope="col">Количество отчетов</th>
-                        <th scope="col">Написано комментариев</th>
-                        <th scope="col">Суммарное число просмотров постов и отчетов</th>
-                    </tr>
+                        <tr>
+                            <th style="text-align: center;" scope="col">#</th>
+                            <th scope="col">Пользователь</th>
+                            <th scope="col">Количество отчетов</th>
+                            <th scope="col">Количество полученных баллов</th>
+                            <th scope="col">Суммарное число просмотров постов и отчетов</th>
+                        </tr>
                     </thead>
                     <tbody>
-                    @foreach($users as $user)
-                        <tr>
-                            @php isset($id) ? $id=$id+1 : $id = 1 @endphp
-                            <th style="text-align: center;">
-                                @if ($id == 1)
-                                    <img style="width: 35px; height: 35px" src="{{asset('img/first.png')}}" alt="">
-                                @elseif ($id == 2)
-                                    <img style="width: 35px; height: 35px" src="{{asset('img/second.png')}}" alt="">
-                                @elseif ($id == 3)
-                                    <img style="width: 35px; height: 35px" src="{{asset('img/third.png')}}" alt="">
-                                @else
-                                    {{$id}}
-                                @endif
-                            </th>
-                            <th>
-                                <a href="{{route('post.index', $user->id)}}" style="display: grid;
-    gap: 15px;
-    width: 100%;
-    grid-template-columns: 50px 100px;
-    color: black; border-color: black">
-                                    <img style="object-fit: cover; width: 50px; height: 50px; border-radius: 100%;"
-                                         src="{{$user->img ? asset('storage/' . $user->img) : asset('img/ava.jpeg')}}"
-                                         alt="">
-                                    <p style="display: block;">{{$user->name}}</p>
-                                </a>
-                            </th>
-                            <th>{{$user->OfDay}}</th>
-                            <th>{{$user->OfComment}}</th>
-                            <th>{{$user->OfView}}</th>
-                        </tr>
-                    @endforeach
+                        @foreach($users as $user)
+                                                <tr>
+                                                    @php isset($id) ? $id = $id + 1 : $id = 1 @endphp
+                                                    <th style="text-align: center;">
+                                                        @if ($id == 1)
+                                                            <img style="width: 35px; height: 35px" src="{{asset('img/first.png')}}" alt="">
+                                                        @elseif ($id == 2)
+                                                            <img style="width: 35px; height: 35px" src="{{asset('img/second.png')}}" alt="">
+                                                        @elseif ($id == 3)
+                                                            <img style="width: 35px; height: 35px" src="{{asset('img/third.png')}}" alt="">
+                                                        @else
+                                                            {{$id}}
+                                                        @endif
+                                                    </th>
+                                                    <th>
+                                                        <a href="{{route('post.index', $user->id)}}" style="display: grid;
+                            gap: 15px;
+                            width: 100%;
+                            grid-template-columns: 50px 100px;
+                            color: black; border-color: black">
+                                                            <img style="object-fit: cover; width: 50px; height: 50px; border-radius: 100%;"
+                                                                src="{{$user->img ? asset('storage/' . $user->img) : asset('img/ava.jpeg')}}"
+                                                                alt="">
+                                                            <p style="display: block;">{{$user->name}}</p>
+                                                        </a>
+                                                    </th>
+                                                    <th>{{$user->OfDay}}</th>
+                                                    <th>{{$user->OfComment}}</th>
+                                                    <th>{{$user->OfView}}</th>
+                                                </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>

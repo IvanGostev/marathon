@@ -62,7 +62,7 @@ class RatingController extends Controller
 
         foreach ($users as &$user) {
             $user['OfDay'] = $this->ofDays($user['id']);
-            $user['OfComment'] = $this->OfComments($user['id']);
+            $user['OfComment'] = $user->my_total_marks_for_month();
             $user['OfView'] = $this->OfViews($user['id']);
         }
 

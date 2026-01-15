@@ -116,7 +116,7 @@
                                 <h5>Осмысли!</h5>
                                 <h6>(Осмысли суть и напиши не больше 3х основных мыслей)</h6>
                             </label> <br>
-                            {!! $note->text !!}
+                            {!! $note->results !!}
 
                         </div>
                         @if(!$note->files()->isEmpty())
@@ -153,7 +153,7 @@
                                 <h4 class="text-align-center">Апробируй!</h4>
                                 <h6>(Напиши какой и когда 1й шаг ты сделаешь)</h6>
                             </label> <br>
-                            <p>{{$note->go}}</p>
+                            <p>{!! $note->go !!}</p>
                         </div>
                     </div>
 

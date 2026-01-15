@@ -14,7 +14,7 @@ class User extends Authenticatable
     use HasFactory, Notifiable;
 
 
-//    protected $fillable = [
+    //    protected $fillable = [
 //        'name',
 //        'email',
 //        'password',
@@ -43,17 +43,17 @@ class User extends Authenticatable
     public function my_total_marks_for_month()
     {
         $stars = 0;
-        $notes = Note::where('user_id', $this->id)->where('created_at', '>=', Carbon::now()->subDays(30))->get();
+        $notes = Note::where('user_id', $this->id)->whereMonth('created_at', Carbon::now()->month)->whereYear('created_at', Carbon::now()->year)->get();
         foreach ($notes as $note) {
             $stars += Comment::where('note_id', $note->id)->sum('stars');
         }
-        return $stars;
+        return $stars + $this->count_comments() + $this->my_count_comments();
     }
 
     public function count_comments()
     {
         $count_comments = 0;
-        $notes = Note::where('user_id', $this->id)->where('created_at', '>=', Carbon::now()->subDays(30))->get();
+        $notes = Note::where('user_id', $this->id)->whereMonth('created_at', Carbon::now()->month)->whereYear('created_at', Carbon::now()->year)->get();
         foreach ($notes as $note) {
             $count_comments += Comment::where('note_id', $note->id)->count();
         }
@@ -62,7 +62,7 @@ class User extends Authenticatable
 
     public function my_count_comments()
     {
-        return Comment::where('user_id', $this->id)->where('created_at', '>=', Carbon::now()->subDays(30))->count();
+        return Comment::where('user_id', $this->id)->whereMonth('created_at', Carbon::now()->month)->whereYear('created_at', Carbon::now()->year)->count();
     }
 
     public function awards()
