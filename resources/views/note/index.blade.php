@@ -487,19 +487,19 @@ https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" name="text" value="text" id="flexCheckDefault">
                         <label class="form-check-label" for="flexCheckDefault">
-                            Отчет
+                            Распиши!
                         </label>
                     </div>
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" name="results" value="results" id="flexCheckDefault">
                         <label class="form-check-label" for="flexCheckDefault">
-                            Итоги
+                            Осмысли!
                         </label>
                     </div>
                     <div class="form-check">
                         <input  class="form-check-input" type="checkbox" name="go" value="go" id="flexCheckDefault">
                         <label class="form-check-label" for="flexCheckDefault">
-                            Действуй
+                            Апробируй!
                         </label>
                     </div>
 

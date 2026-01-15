@@ -27,7 +27,7 @@ use PhpOffice\PhpWord\Shared\HTML;
 
 class FileController extends Controller
 {
-    protected array $names = ['book' => 'Название', 'title' => 'Раздел', 'text' => 'Краткий конспект', 'results' => 'Основные мысли', 'go' => "Апробируй"];
+    protected array $names = ['book' => 'Название', 'title' => 'Раздел', 'text' => 'Распиши!', 'results' => 'Осмысли!', 'go' => "Апробируй!"];
 
 
     public function download(Request $request)

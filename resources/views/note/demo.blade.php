@@ -90,11 +90,22 @@
                             <input disabled value="{{$data['title']}}" type="text" class="form-control"
                                    id="exampleFormControlInput1" name="title">
                         </div>
+                        <div class="mb-3 text-center">
+                            <h3 class="bg-success text-white">ПРОГА-5</h3>
+                            <h4 class="bg-success fst-italic text-white">Прочитай - Распиши - Осмысли - Говори -
+                                Апробируй</h4>
+                        </div>
                         <div class="mb-3">
-                            <label for="exampleFormControlTextarea1" class="form-label">
-                                <h5>Распиши!</h5>
-                                <h6>(Распиши краткий конспект)</h6>
-                            </label>
+                            <h4 class="bg-success text-white">1 Прочитай!</h4>
+                            <h5 class="fst-italic">Изучай 20 мин (Прочитай или Просмотри видео)</h5>
+                            <h6 class="fst-italic">Поставь таймер на 20 мин ( т.е. изучай - 20 мин). Потом сделай шаги
+                                2,3,4,5. Затем отдохни - 5 мин.Потом- новый цикл изучения по технологии П.Р.О.Г.А.Новый
+                                цикл оформляй на следующем листе.</h6>
+                        </div>
+                        <div class="mb-3">
+                            <h4 class="bg-success text-white">2 Распиши !</h4>
+                            <h5 class="fst-italic">Распиши краткий конспект (Пиши меньше, но точнее)</h5>
+                            <h6 class="fst-italic">- Ответь : "Что я понял?"</h6>
                             <div
                                 style="width: 100%; background-color: #e9ecef; min-height: 200px;     overflow-y: scroll;"
                                 disabled
@@ -112,10 +123,9 @@
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="exampleFormControlTextarea1" class="form-label">
-                                <h5>Осмысли!</h5>
-                                <h6>(Осмысли суть и напиши не больше 3х основных мыслей)</h6>
-                            </label>
+                            <h4 class="bg-success text-white">3	Осмысли!</h4>
+                            <h5 class="fst-italic">Осмысли суть и напиши не больше 3х основных мыслей (акцентируй внимание на ключевых идеях):</h5>
+                            <h6 class="fst-italic">-  Ответь : "Что главное из того, что я понял?"</h6>
                             <div
                                 style="width: 100%; background-color: #e9ecef; min-height: 200px;     overflow-y: scroll;"
                                 disabled
@@ -124,10 +134,9 @@
                             </div>                        </div>
                         @if($files)
                         <div class="mb-3">
-                            <label for="exampleFormControlTextarea1" class="form-label">
-                                <h5>Говори!</h5>
-                                <h6>(Проговори вслух суть 3 раза)</h6>
-                            </label>
+                            <h4 class="bg-success text-white">4	Говори!</h4>
+                            <h5 class="fst-italic">Проговори вслух краткий перессказ (Сделай это 3 раза).</h5>
+                            <h6 class="fst-italic">- Представь, что обьясняешь человеку без конспекта</h6>
                             <table class="table">
                                 <thead>
                                 <tr>
@@ -150,10 +159,9 @@
                         </div>
                         @endif
                         <div class="mb-3">
-                            <label for="exampleFormControlTextarea1" class="form-label">
-                                <h4 class="text-align-center">Апробируй!</h4>
-                                <h6>(Напиши какой и когда 1й шаг ты сделаешь)</h6>
-                            </label>
+                            <h4 class="bg-success text-white">5	Апробируй!</h4>
+                            <h5 class="fst-italic">Придумай, как ты применишь эти знания.</h5>
+                            <h6 class="fst-italic">- Ответь : " Какой 1й шаг ты сделаешь? Когда?"</h6>
                             <div
                                 style="width: 100%; background-color: #e9ecef; min-height: 200px;     overflow-y: scroll;"
                                 disabled
@@ -175,7 +183,9 @@
         </section>
     </div>
 
-
-    <script>
-    </script>
+    <style>
+        .bg-success {
+            background-color: #00b050 !important
+        }
+    </style>
 </x-app-layout>

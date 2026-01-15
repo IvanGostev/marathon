@@ -4,20 +4,26 @@
             {{ __('Создание отчета') }}
         </h2>
     </x-slot>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.8/js/bootstrap.min.js" integrity="sha512-nKXmKvJyiGQy343jatQlzDprflyB5c+tKCzGP3Uq67v+lmzfnZUi/ZT+fc6ITZfSC5HhaBKUIvr/nTLCV+7F+Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.8/css/bootstrap-grid.min.css" integrity="sha512-dOjUSaLkr6G2pwQ7ry9juX+iXw5602zg1kg8yH+guR3uSEidGyCnOEQnGlr7xwu/8WE+pVm1ZNqaIs5ETTIJQg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.8/css/bootstrap.min.css" integrity="sha512-2bBQCjcnw658Lho4nlXJcc6WkV/UxpE/sAokbXPxQNGqmNdQrWqtw26Ns9kFF/yG792pKR1Sx8/Y1Lf1XN4GKA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.8/js/bootstrap.min.js"
+            integrity="sha512-nKXmKvJyiGQy343jatQlzDprflyB5c+tKCzGP3Uq67v+lmzfnZUi/ZT+fc6ITZfSC5HhaBKUIvr/nTLCV+7F+Q=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.8/css/bootstrap-grid.min.css"
+          integrity="sha512-dOjUSaLkr6G2pwQ7ry9juX+iXw5602zg1kg8yH+guR3uSEidGyCnOEQnGlr7xwu/8WE+pVm1ZNqaIs5ETTIJQg=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.8/css/bootstrap.min.css"
+          integrity="sha512-2bBQCjcnw658Lho4nlXJcc6WkV/UxpE/sAokbXPxQNGqmNdQrWqtw26Ns9kFF/yG792pKR1Sx8/Y1Lf1XN4GKA=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
 
-{{--    <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">--}}
+    {{--    <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">--}}
 
 
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-lite.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-lite.min.js"></script>
 
-{{--    <link rel="stylesheet"--}}
-{{--          href="https://unpkg.com/bs-brain@2.0.4/tutorials/timelines/timeline-1/assets/css/timeline-1.css">--}}
-{{--    <link href="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-lite.min.css" rel="stylesheet">--}}
-{{--    <script src="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-lite.min.js"></script>--}}
+    {{--    <link rel="stylesheet"--}}
+    {{--          href="https://unpkg.com/bs-brain@2.0.4/tutorials/timelines/timeline-1/assets/css/timeline-1.css">--}}
+    {{--    <link href="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-lite.min.css" rel="stylesheet">--}}
+    {{--    <script src="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-lite.min.js"></script>--}}
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <div class="py-12 d-flex  mx-auto sm:px-6 lg:px-8 ">
@@ -81,8 +87,8 @@
                         <div class="mb-3">
                             <label for="exampleFormControlInput1" class="form-label">
                                 <h5>Название: книги(курса, урока....)</h5>
-                            </label> <br>
-                            <select id="select-2" class="form-select" aria-label="Книга" name="book">
+                            </label>
+                            <select autofocus id="select-2" class="form-select" aria-label="Книга" name="book">
                                 @foreach($books as $book)
                                     <option @isset($data['book_id'])
                                                 {{$data['book_id'] == $book->id ? 'selected' : ''}}
@@ -105,35 +111,40 @@
                                 $('#select-2').select2({tags: true});
                             });
                         </script>
-                        <div class="mb-3">
-                            <h5>Подготовься</h5>
-                            <h6>(Изучай не более 20 мин )</h6>
+                        <div class="mb-3 text-center">
+                            <h3 class="bg-success text-white">ПРОГА-5</h3>
+                            <h4 class="bg-success fst-italic text-white">Прочитай - Распиши - Осмысли - Говори -
+                                Апробируй</h4>
                         </div>
                         <div class="mb-3">
-                            <label for="exampleFormControlTextarea1" class="form-label">
-                                <h5>Распиши!</h5>
-                                <h6>(Распиши краткий конспект)</h6>
-                            </label>
-                            <textarea required id="editor" class="form-control" rows="20" name="text">
+                            <h4 class="bg-success text-white">1 Прочитай!</h4>
+                            <h5 class="fst-italic">Изучай 20 мин (Прочитай или Просмотри видео)</h5>
+                            <h6 class="fst-italic">Поставь таймер на 20 мин ( т.е. изучай - 20 мин). Потом сделай шаги
+                                2,3,4,5. Затем отдохни - 5 мин.Потом- новый цикл изучения по технологии П.Р.О.Г.А.Новый
+                                цикл оформляй на следующем листе.</h6>
+                        </div>
+                        <div class="mb-3">
+                            <h4 class="bg-success text-white">2 Распиши !</h4>
+                            <h5 class="fst-italic">Распиши краткий конспект (Пиши меньше, но точнее)</h5>
+                            <h6 class="fst-italic">- Ответь : "Что я понял?"</h6>
+                            <textarea id="editor" class="form-control" rows="20" name="text">
                                 @isset($data['text'])
                                     {!! $data['text'] !!}
                                 @endisset</textarea>
                         </div>
                         <div class="mb-3">
-                            <label for="exampleFormControlTextarea1" class="form-label">
-                                <h5>Осмысли!</h5>
-                                <h6>(Осмысли суть и напиши не больше 3х основных мыслей)</h6>
-                            </label>
-                            <textarea id="editor-2" required class="form-control" rows="4" name="results">@isset($data['results'])
+                            <h4 class="bg-success text-white">3	Осмысли!</h4>
+                            <h5 class="fst-italic">Осмысли суть и напиши не больше 3х основных мыслей (акцентируй внимание на ключевых идеях):</h5>
+                            <h6 class="fst-italic">-  Ответь : "Что главное из того, что я понял?"</h6>
+                            <textarea id="editor-2" class="form-control" rows="4" name="results">@isset($data['results'])
                                     {!! $data['results'] !!}
                                 @endisset</textarea>
                         </div>
                         <div class="mb-3">
-                            <label for="exampleFormControlTextarea1" class="form-label">
-                                <h5>Говори!</h5>
-                                <h6>(Проговори вслух суть 3 раза)</h6>
-                            </label>
-                            <input id="input-files" multiple  type="file" class="form-control" name="files[]">
+                            <h4 class="bg-success text-white">4	Говори!</h4>
+                            <h5 class="fst-italic">Проговори вслух краткий перессказ (Сделай это 3 раза).</h5>
+                            <h6 class="fst-italic">- Представь, что обьясняешь человеку без конспекта</h6>
+                            <input id="input-files" multiple type="file" class="form-control" name="files[]">
                             @if(isset($data['files']))
                                 <br>
                                 <p class="h6">Файлы загруженные ранее</p>
@@ -155,30 +166,30 @@
                                                     вложение</a>
                                             </td>
                                             <td>
-                                                <p onclick="deleteItem({{$file->id}})" class="btn btn-outline-dark">Открепить</p>
+                                                <p onclick="deleteItem({{$file->id}})" class="btn btn-outline-dark">
+                                                    Открепить</p>
                                             </td>
                                         </tr>
                                     @endforeach
                                     <select hidden multiple name="oldFilesIds[]" id="">
                                         @foreach($data['files'] as $file)
-                                            <option  selected value="{{$file->id}}">Object</option>
+                                            <option selected value="{{$file->id}}">Object</option>
                                         @endforeach
                                     </select>
                                     </tbody>
                                 </table>
                                 <script>
-                                   function deleteItem($id) {
-                                       $(`tr[id="${$id}"]`).remove();
-                                       $(`option[value="${$id}"]`).remove();
-                                   }
+                                    function deleteItem($id) {
+                                        $(`tr[id="${$id}"]`).remove();
+                                        $(`option[value="${$id}"]`).remove();
+                                    }
                                 </script>
                             @endif
                         </div>
                         <div class="mb-3">
-                            <label for="exampeFormControlTextarea1" class="form-label">
-                                <h4 class="text-align-center">Апробируй!</h4>
-                                <h6>(Напиши какой и когда 1й шаг ты сделаешь)</h6>
-                            </label>
+                                <h4 class="bg-success text-white">5	Апробируй!</h4>
+                                <h5 class="fst-italic">Придумай, как ты применишь эти знания.</h5>
+                                <h6 class="fst-italic">- Ответь : " Какой 1й шаг ты сделаешь? Когда?"</h6>
                             <textarea id="editor-3" required class="form-control" rows="4" name="go"> @isset($data['go'])
                                     {!! $data['go'] !!}
                                 @endisset</textarea>
@@ -214,7 +225,6 @@
                     ['insert', ['link', 'picture']],
                 ],
                 lang: 'ru-RU',
-                focus: true,
             });
         });
         $(document).ready(function () {
@@ -229,7 +239,6 @@
                     ['insert', ['link', 'picture']],
                 ],
                 lang: 'ru-RU',
-                focus: true,
             });
         });
         $(document).ready(function () {
@@ -244,10 +253,9 @@
                     ['insert', ['link', 'picture']],
                 ],
                 lang: 'ru-RU',
-                focus: true,
             });
         });
-        settings =  {
+        settings = {
             font: {
                 bold: 'Полужирный',
                 italic: 'Курсив',
@@ -414,4 +422,10 @@
             }
         })
     </script>
+
+    <style>
+        .bg-success {
+            background-color: #00b050 !important
+        }
+    </style>
 </x-app-layout>

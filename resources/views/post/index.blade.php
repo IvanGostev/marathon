@@ -125,7 +125,13 @@
                                                        class="form-label">Название</label>
                                                 <input class="form-control" name="title" required>
                                             </div>
-                                            <div class="mb-3">
+                                            <div class="mb-3" style="position: relative;">
+                                                <div style="position: absolute; bottom: 0; right: 0; z-index: 100" class="emoji">
+                                                    <span>🙂</span>
+                                                    <div id="emoji-picker">
+                                                        <div class="emoji-arrow"></div>
+                                                    </div>
+                                                </div>
                                                 <textarea id="editor" class="form-control" rows="15"
                                                           name="text" required></textarea>
                                             </div>
@@ -342,5 +348,150 @@
             });
         })(jQuery);
 
+    </script>
+    <style>
+
+
+        .center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            -ms-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+        }
+
+
+
+        .emoji {
+            font-size: 30px;
+            position: relative;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        .emoji > span {
+            padding: 10px;
+            border: 1px solid transparent;
+            transition: 100ms linear;
+        }
+
+        .emoji span:hover {
+            background-color: #fff;
+            border-radius: 4px;
+            border: 1px solid #e7e7e7;
+            box-shadow: 0 7px 14px 0 rgb(0 0 0 / 12%);
+        }
+
+        #emoji-picker {
+            padding: 6px;
+            font-size: 20px;
+            z-index: 1;
+            position: absolute;
+            display: none;
+            width: 189px;
+            border-radius: 4px;
+            top: 53px;
+            right: 0;
+            background: #fff;
+            border: 1px solid #e7e7e7;
+            box-shadow: 0 7px 14px 0 rgb(0 0 0 / 12%);
+        }
+
+        #emoji-picker span {
+            cursor: pointer;
+            width: 35px;
+            height: 35px;
+            display: inline-block;
+            text-align: center;
+            padding-top: 4px;
+        }
+
+        #emoji-picker span:hover {
+            background-color: #e7e7e7;
+            border-radius: 4px;
+        }
+
+        .emoji-arrow {
+            position: absolute;
+            width: 0;
+            height: 0;
+            top: 0;
+            right: 18px;
+            box-sizing: border-box;
+            border-color: transparent transparent #fff #fff;
+            border-style: solid;
+            border-width: 4px;
+            transform-origin: 0 0 0;
+            transform: rotate(135deg);
+        }
+
+        #text-area {
+            font-family: sans-serif, monospace;
+            font-size: 20px;
+            min-height: 40px;
+            min-width: 500px;
+            border-radius: 10px;
+            padding: 20px;
+            border: 1px solid #c1c1c1;
+        }
+
+        /******************************/
+
+        .creator {
+            position: fixed;
+            right: 5px;
+            top: 5px;
+            font-size: 13px;
+            font-family: sans-serif;
+            text-decoration: none;
+            color: #111;
+        }
+
+        .creator:hover {
+            color: deeppink;
+        }
+
+        .creator i {
+            font-size: 12px;
+            color: #111;
+        }
+    </style>
+    <script>
+
+
+        let emojiPicker = function () {
+            let i = null;
+            let index = null;
+            let emojiCode = [
+                128077,
+                128150,
+                128578,
+                128525,
+                128079,
+                128588,
+                11088,
+                128293,
+                127881,
+                128175
+            ];
+
+            for (index = 0; index <= emojiCode.length - 1; index++) {
+                document.querySelector("#emoji-picker").innerHTML += "<span class='my-emoji'>" + "&#" + emojiCode[index] + "</span>";
+            }
+
+            $(document).on("click", ".my-emoji", function () {
+                let textArea = $('.note-editable p:last')
+                textArea.html(textArea.html() + $(this).text());
+                $("#emoji-picker").hide();
+                textArea.focus();
+            });
+        }
+
+        emojiPicker();
+
+        $(".emoji").click(function (e) {
+            e.preventDefault();
+            $("#emoji-picker").toggle();
+        });
     </script>
 </x-app-layout>
