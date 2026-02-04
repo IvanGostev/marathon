@@ -27,6 +27,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/ivangostev', function () {
+    return view('developer');
+});
+
 
 //Route::get('/test', [DashboardController::class, 'test'])->name('test');
 Route::get('/notification', [PaymentController::class, 'notification'])->name('notification');
