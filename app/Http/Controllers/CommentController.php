@@ -37,22 +37,12 @@ class CommentController extends Controller
         if (isset($data['post_id'])) {
             $type = 'post';
             $id = Post::where('id', $data['post_id'])->first()->user_id;
-            $user = User::where('id', $id)->first();
-            Mail::to($user->email)->send(new NotificationEmail([
-                'title' => 'Новый комментарий',
-                'text' => $user->name .' к вашему посту написали новый комментарий'
-            ]));
 
         } else {
             $type = 'note';
             $note = Note::where('id', $data['note_id'])->first();
-            $note->update(['count_comments' => $note->count_comments+1]);
+            $note->update(['count_comments' => $note->count_comments + 1]);
             $id = $note->user_id;
-            $user = User::where('id', $id)->first();
-            Mail::to($user->email)->send(new NotificationEmail([
-                'title' => 'Новый комментарий',
-                'text' => $user->name . ' к вашему отчету написали новый комментарий'
-            ]));
         }
         $notification['type'] = $type;
         $notification['comment_id'] = $comment->id;
@@ -63,7 +53,7 @@ class CommentController extends Controller
         if ($number > 1) {
             return redirect()->route('note.index');
         } else {
-            return redirect()->route('note.rating', $number+1);
+            return redirect()->route('note.rating', $number + 1);
         }
 
     }

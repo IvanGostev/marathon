@@ -223,7 +223,7 @@
                                     <div class="emoji-arrow"></div>
                                 </div>
                             </div>
-                            <textarea id="text-area" class="form-control" name="text" rows="5"
+                            <textarea required id="text-area" class="form-control" name="text" rows="5"
                                       placeholder="Поделитесь своими впечатлениями"></textarea>
 
                         </div>

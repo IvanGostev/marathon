@@ -12,6 +12,7 @@ use App\Http\Controllers\CoachController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FileController;
+use App\Http\Controllers\MutualAidController;
 use App\Http\Controllers\NoteController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PostController;
@@ -36,7 +37,7 @@ Route::middleware(['auth', 'subscribe'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
 
-//    // Редирект на оплату
+    //    // Редирект на оплату
 //    Route::get('/payment~{subscribe}~{user}', [PaymentController::class, 'main'])->name('payment');
 
     // Профиль
@@ -86,6 +87,14 @@ Route::middleware(['auth', 'subscribe'])->group(function () {
     Route::prefix('ratings')->name('rating.')->controller(RatingController::class)->group(function () {
         Route::get('/', 'index')->name('index');
     });
+
+    // Взаимопомощь
+    Route::get('/mutual-aid', [MutualAidController::class, 'index'])->name('mutual-aid');
+    Route::post('/mutual-aid/toggle', [MutualAidController::class, 'toggleStatus'])->name('mutual-aid.toggle');
+    Route::post('/mutual-aid/request', [MutualAidController::class, 'storeRequest'])->name('mutual-aid.request');
+
+    // Уведомления
+    Route::post('/notifications/mark-read', [\App\Http\Controllers\NotificationController::class, 'markAllRead'])->name('notifications.mark-read');
 
 });
 
@@ -143,6 +152,11 @@ Route::middleware(['auth', 'role'])->prefix('admin')->name('admin.')->group(func
     Route::prefix('award')->name('award.')->controller(AwardAdminController::class)->group(function () {
         Route::get('/', 'index')->name('index');
         Route::post('/', 'reward')->name('reward');
+    });
+    Route::prefix('coaches')->name('coach.')->controller(\App\Http\Controllers\Admin\CoachAdminController::class)->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::post('/{user}/approve', 'approve')->name('approve');
+        Route::post('/{user}/reject', 'reject')->name('reject');
     });
 });
 

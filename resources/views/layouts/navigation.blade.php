@@ -42,7 +42,7 @@
                     <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                         <x-nav-link style="text-decoration: none;" :href="route('admin.video.index')"
                                     :active="in_array('video' , explode('/', request()->url()))">
-                            {{ __('Добавление видео') }}
+                            {{ __('Видео') }}
                         </x-nav-link>
                     </div>
                     <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
@@ -55,6 +55,11 @@
                         <x-nav-link style="text-decoration: none;" :href="route('admin.promocode.index')"
                                     :active="in_array('promocodes' , explode('/', request()->url()))">
                             {{ __('Промокоды') }}
+                        </x-nav-link>
+                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        <x-nav-link style="text-decoration: none;" :href="route('admin.coach.index')"
+                                    :active="in_array('coaches' , explode('/', request()->url()))">
+                            {{ __('Коучи') }}
                         </x-nav-link>
                     </div>
                 @else
@@ -86,8 +91,16 @@
                     </div>
                     @if (auth()->user()->checkSubscribe())
                         <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                            <button style="background: white; border: 0" type="button" class="link " data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                                <i class="fa-regular fa-bell"></i>
+                            <button style="background: white; border: 0" type="button" class="link" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                <div class="d-inline-block position-relative">
+                                    <i class="fa-regular fa-bell"></i>
+                                    @if(notifications()->where('is_read', false)->count() > 0)
+                                        <span id="notification-badge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.6rem; padding: 0.25em 0.4em;">
+                                            {{ notifications()->where('is_read', false)->count() }}
+                                            <span class="visually-hidden">unread messages</span>
+                                        </span>
+                                    @endif
+                                </div>
                             </button>
                         </div>
                         <!-- Модальное окно -->
@@ -126,6 +139,15 @@
                                                                     вашему посту написали новый
                                                                     комментарий </a>
 
+                                                            </td>
+                                                        </tr>
+                                                        @break
+                                                    @case('system')
+                                                        <tr>
+                                                            <td>
+                                                                <p class="text-secondary"
+                                                                   style=" font-size: 14px;">{{formatDate($notification->created_at)}}</p>
+                                                                <p>{{ $notification->message }}</p>
                                                             </td>
                                                         </tr>
                                                         @break
@@ -171,6 +193,9 @@
                     <x-slot name="content">
                         <x-dropdown-link style="text-decoration: none;" :href="route('profile.edit')">
                             {{ __('Профиль') }}
+                        </x-dropdown-link>
+                        <x-dropdown-link style="text-decoration: none;" :href="route('mutual-aid')">
+                            {{ __('Взаимопомощь') }}
                         </x-dropdown-link>
                         @if(auth()->user()->role == 'admin')
                             <x-dropdown-link style="text-decoration: none;" :href="route('admin.note.index')">
@@ -223,6 +248,9 @@
                 <x-responsive-nav-link :href="route('profile.edit')">
                     {{ __('Профиль') }}
                 </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('mutual-aid')">
+                    {{ __('Взаимопомощь') }}
+                </x-responsive-nav-link>
 
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
@@ -236,4 +264,31 @@
             </div>
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var myModalEl = document.getElementById('staticBackdrop');
+            if(myModalEl) {
+                myModalEl.addEventListener('show.bs.modal', function (event) {
+                    fetch("{{ route('notifications.mark-read') }}", {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                        body: JSON.stringify({})
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            const badge = document.getElementById('notification-badge');
+                            if (badge) {
+                                badge.remove();
+                            }
+                        }
+                    });
+                });
+            }
+        });
+    </script>
 </nav>

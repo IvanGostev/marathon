@@ -7,6 +7,7 @@ use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\Book;
 use App\Models\Coach;
 use App\Models\Comment;
+use App\Models\MutualAidRequest;
 use App\Models\Note;
 use App\Models\Post;
 use App\Models\User;
@@ -36,7 +37,10 @@ class PostController extends Controller
         ]);
 
         $offers = Coach::where('venerable', auth()->user()->id)->get();
-        return view('post.index', compact('items', 'user', 'offers'));
+
+        $userRequests = MutualAidRequest::where('user_id', $user->id)->get();
+
+        return view('post.index', compact('items', 'user', 'offers', 'userRequests'));
     }
 
 
@@ -45,19 +49,19 @@ class PostController extends Controller
         $data['title'] = $request->title;
         $data = $data + ['status' => 'moderation'];
         $data = $data + ['user_id' => auth()->user()->id];
-        $text= $request->text;
+        $text = $request->text;
         $dom = new \DomDocument();
         @$dom->loadHtml('<meta charset="utf8">' . $text);
         $images = $dom->getElementsByTagName('img');
 
-        foreach($images as $k => $img){
+        foreach ($images as $k => $img) {
             $dataImg = $img->getAttribute('src');
 
             list($type, $dataImg) = explode(';', $dataImg);
             list($type, $dataImg) = explode(',', $dataImg);
             $dataImg = base64_decode($dataImg);
 
-            $image_name= "/upload/" . time().$k.'.png';
+            $image_name = "/upload/" . time() . $k . '.png';
             $path = public_path() . $image_name;
 
             file_put_contents($path, $dataImg);

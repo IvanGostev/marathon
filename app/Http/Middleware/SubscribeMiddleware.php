@@ -17,7 +17,7 @@ class SubscribeMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Carbon::now() <= auth()->user()->subscribe_date ) {
+        if (auth()->user()->checkSubscribe()) {
             return $next($request);
         }
         return redirect()->route('subscribe.index');

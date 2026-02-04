@@ -6,7 +6,7 @@
     </x-slot>
     <link rel="stylesheet" href="https://unpkg.com/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet"
-          href="https://unpkg.com/bs-brain@2.0.4/tutorials/timelines/timeline-1/assets/css/timeline-1.css">
+        href="https://unpkg.com/bs-brain@2.0.4/tutorials/timelines/timeline-1/assets/css/timeline-1.css">
     <script src="{{asset('js/summernote-ru-RU.js')}}"></script>
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-lite.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-lite.min.js"></script>
@@ -21,15 +21,26 @@
                     <div class="card mb-4 align-items-center justify-content-center">
                         <div class="card-body text-center align-items-center justify-content-center">
                             <img src="{{$user->img ? asset('storage/' . $user->img) : asset('img/ava.jpeg')}}"
-                                 alt="avatar"
-                                 class="rounded-circle img-fluid"
-                                 style="object-fit: cover; width: 150px; height: 150px; margin: 0 auto;">
+                                alt="avatar" class="rounded-circle img-fluid"
+                                style="object-fit: cover; width: 150px; height: 150px; margin: 0 auto;">
                             <h5 class="my-3">{{$user->name}}</h5>
+                            <div class="d-flex justify-content-center gap-2 mb-3">
+                                @if($user->is_assistant === 'active')
+                                    <span class="badge bg-primary">Напарник</span>
+                                @endif
+                                @if($user->is_coach === 'active')
+                                    <span class="badge bg-success">Коуч</span>
+                                @endif
+                            </div>
                             <div class="d-flex">
-                                @foreach($user->awards() as $award)
-                                    <div data-bs-toggle="tooltip" data-bs-placement="top" title="{{$award->title}}" style="width: 30px; height: 30px">
-                                        {!! $award->img !!}
+                                @foreach($user->groupedAwards() as $award)
+                                    <div class="d-flex flex-column align-items-center mx-1">
+                                        <div data-bs-toggle="tooltip" data-bs-placement="top" title="{{$award->title}}"
+                                            style="width: 30px; height: 30px">
+                                            {!! str_replace('#fde910', 'green', $award->img) !!}
                                         </div>
+                                        <span class="small text-muted">{{ $award->count }}</span>
+                                    </div>
                                 @endforeach
                             </div>
                             <p class="text-muted mb-1">Зарегистрирован с {{$user->created_at}}</p>
@@ -38,68 +49,22 @@
                             <p class="text-muted mb-1">Город: {{$user->city}}</p>
                             <p class="text-muted mb-1">Номер телефон: {{$user->phone}}</p>
                             <div class="d-flex mb-2 pt-3" style="flex-direction: column; gap: 10px;">
-                                @if (!(auth()->user()->id == $user->id) and admissionRequest(auth()->user()->id, $user->id))
-                                    <form method="post" action="{{route('coach.store')}}">
-                                        @csrf
-                                        <input type="text" name="user_id" value="{{$user->id}}" hidden>
-                                        <input type="text" name="type" value="coach" hidden>
-                                        <button type="submit" class="btn btn-dark">Предложить услуги коуча</button>
-                                    </form>
-                                    <form method="post" action="{{route('coach.store')}}">
-                                        @csrf
-                                        <input type="text" name="user_id" value="{{$user->id}}" hidden>
-                                        <input type="text" name="type" value="partner" hidden>
-                                        <button type="submit" class="btn btn-dark">Предложить услуги партнера</button>
-                                    </form>
-                                @endif
-                                @if (auth()->user()->id == $user->id)
-                                    <table class="table">
-                                        <thead>
-                                        <tr>
-                                            <th scope="col">Имя</th>
-                                            <th scope="col">Предложение</th>
-                                            <th scope="col"></th>
-                                            <th scope="col"></th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        @foreach($offers  as $offer)
-                                            <tr>
-                                                <td>
-                                                    <a href="{{route('post.index', $offer->leader()->id )}}">{{$offer->leader()->name}}</a>
-                                                </td>
-                                                <th>Хочет быть
-                                                    твоим {{$offer->type == 'coach' ? 'Коучем': 'Партнером'}}</th>
-                                                <td>
-                                                    @if($offer->status == 'waiting')
-                                                        <form method="post"
-                                                              action="{{route('coach.action', ['coach' => $offer, 'reject'])}}">
-                                                            @csrf
-                                                            <button type="submit" class="btn btn-dark">Отклонить
-                                                            </button>
-                                                        </form>
-                                                    @elseif ($offer->status == 'reject')
-                                                        Отклонено
-                                                    @elseif($offer->status == 'approve')
-                                                        Одобрено
-                                                    @endif
-
-                                                </td>
-                                                <td>
-                                                    @if($offer->status == 'waiting')
-                                                        <form method="post"
-                                                              action="{{route('coach.action', ['coach' => $offer, 'approve'])}}">
-                                                            @csrf
-                                                            <button type="submit" class="btn btn-dark">Одобрить</button>
-                                                        </form>
-                                                    @else
-                                                        {{$offer->updated_at}}
-                                                    @endif
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                        </tbody>
-                                    </table>
+                                @if (auth()->user()->id != $user->id)
+                                    @foreach($userRequests as $req)
+                                        @if(admissionRequest(auth()->user()->id, $user->id))
+                                            @if(($req->type === 'partner' && auth()->user()->is_assistant === 'active') || ($req->type === 'coach' && auth()->user()->is_coach === 'active'))
+                                                <form method="post" action="{{route('coach.store')}}">
+                                                    @csrf
+                                                    <input type="hidden" name="user_id" value="{{$user->id}}">
+                                                    <input type="hidden" name="request_id" value="{{$req->id}}">
+                                                    <input type="hidden" name="type" value="{{$req->type}}">
+                                                    <button type="submit" class="btn btn-dark w-100">
+                                                        Стать {{ $req->type === 'coach' ? 'коучем' : 'напарником' }}
+                                                    </button>
+                                                </form>
+                                            @endif
+                                        @endif
+                                    @endforeach
                                 @endif
                             </div>
                         </div>
@@ -121,19 +86,19 @@
                                         <form action="{{route('post.store')}} " method="post">
                                             @csrf
                                             <div class="mb-3">
-                                                <label for="exampleFormControlInput1"
-                                                       class="form-label">Название</label>
+                                                <label for="exampleFormControlInput1" class="form-label">Название</label>
                                                 <input class="form-control" name="title" required>
                                             </div>
                                             <div class="mb-3" style="position: relative;">
-                                                <div style="position: absolute; bottom: 0; right: 0; z-index: 100" class="emoji">
+                                                <div style="position: absolute; bottom: 0; right: 0; z-index: 100"
+                                                    class="emoji">
                                                     <span>🙂</span>
                                                     <div id="emoji-picker">
                                                         <div class="emoji-arrow"></div>
                                                     </div>
                                                 </div>
-                                                <textarea id="editor" class="form-control" rows="15"
-                                                          name="text" required></textarea>
+                                                <textarea id="editor" class="form-control" rows="15" name="text"
+                                                    required></textarea>
                                             </div>
                                             <div style="width: 100%; display: flex; justify-content: right">
                                                 <button type="submit" class="btn btn-dark mb-3">Выложить</button>
@@ -147,11 +112,12 @@
                                 <div class="card mb-4 ">
                                     <div class="card-body">
                                         <h5 class="card-title h5">{{$item['title']}}</h5>
-                                        <h6 class="card-subtitle mb-2 text-body-secondary">{{formatDate($item['created_at'])}}</h6>
-                                        {{--                                        <p class="card-text">{!! substr($item['text'], 0, 100) !!}</p>--}}
+                                        <h6 class="card-subtitle mb-2 text-body-secondary">
+                                            {{formatDate($item['created_at'])}}</h6>
+                                        {{-- <p class="card-text">{!! substr($item['text'], 0, 100) !!}</p>--}}
                                         <div style="width: 100%; display: flex; justify-content: right">
                                             <a href="{{$item['type'] == 'post' ? route('post.view', $item['id']) : route('note.view', $item['id'])}}"
-                                               class="inline-flex items-center px-5 py-2.5 text-sm font-medium text-center text-white btn btn-dark">Подробнее</a>
+                                                class="inline-flex items-center px-5 py-2.5 text-sm font-medium text-center text-white btn btn-dark">Подробнее</a>
                                         </div>
                                     </div>
                                 </div>
@@ -350,8 +316,6 @@
 
     </script>
     <style>
-
-
         .center {
             position: absolute;
             top: 50%;
@@ -369,7 +333,7 @@
             margin-left: 10px;
         }
 
-        .emoji > span {
+        .emoji>span {
             padding: 10px;
             border: 1px solid transparent;
             transition: 100ms linear;
