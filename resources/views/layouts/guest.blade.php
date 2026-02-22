@@ -8,6 +8,21 @@
 
         <title>БРИЛЛИАНТОВАЯ ЧИТКА</title>
 
+        <!-- Open Graph / Facebook -->
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="{{ url()->current() }}">
+        <meta property="og:title" content="БРИЛЛИАНТОВАЯ ЧИТКА">
+        <meta property="og:description" content="БРИЛЛИАНТОВАЯ ЧИТКА - Книжный клуб">
+        <meta property="og:image" content="{{ asset('img/logo.png') }}">
+
+        <!-- Twitter -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:url" content="{{ url()->current() }}">
+        <meta name="twitter:title" content="БРИЛЛИАНТОВАЯ ЧИТКА">
+        <meta name="twitter:description" content="БРИЛЛИАНТОВАЯ ЧИТКА - Книжный клуб">
+        <meta name="twitter:image" content="{{ asset('img/logo.png') }}">
+        <meta name="twitter:site" content="@@brilliant_read">
+
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />

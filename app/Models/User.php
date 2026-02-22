@@ -41,10 +41,16 @@ class User extends Authenticatable
         return $this->hasMany(Note::class);
     }
 
+    protected function get_start_date()
+    {
+        $lastAward = \App\Models\AwardHistory::latest()->first();
+        return $lastAward ? $lastAward->created_at : \Carbon\Carbon::now()->startOfMonth();
+    }
+
     public function my_total_marks_for_month()
     {
         $stars = 0;
-        $notes = Note::where('user_id', $this->id)->whereMonth('created_at', Carbon::now()->month)->whereYear('created_at', Carbon::now()->year)->get();
+        $notes = Note::where('user_id', $this->id)->where('created_at', '>=', $this->get_start_date())->get();
         foreach ($notes as $note) {
             $stars += Comment::where('note_id', $note->id)->sum('stars');
         }
@@ -54,7 +60,7 @@ class User extends Authenticatable
     public function count_comments()
     {
         $count_comments = 0;
-        $notes = Note::where('user_id', $this->id)->whereMonth('created_at', Carbon::now()->month)->whereYear('created_at', Carbon::now()->year)->get();
+        $notes = Note::where('user_id', $this->id)->where('created_at', '>=', $this->get_start_date())->get();
         foreach ($notes as $note) {
             $count_comments += Comment::where('note_id', $note->id)->count();
         }
@@ -63,7 +69,7 @@ class User extends Authenticatable
 
     public function my_count_comments()
     {
-        return Comment::where('user_id', $this->id)->whereMonth('created_at', Carbon::now()->month)->whereYear('created_at', Carbon::now()->year)->count();
+        return Comment::where('user_id', $this->id)->where('created_at', '>=', $this->get_start_date())->count();
     }
 
     public function awards()

@@ -9,6 +9,21 @@
     <link href="{{asset('img/logo.png')}}" rel="shortcut icon" type="image/x-icon"/>
     <title>{{ config('app.name', 'Laravel') }}</title>
 
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:title" content="{{ config('app.name', 'Laravel') }}">
+    <meta property="og:description" content="БРИЛЛИАНТОВАЯ ЧИТКА - Книжный клуб">
+    <meta property="og:image" content="{{ asset('img/logo.png') }}">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="{{ url()->current() }}">
+    <meta name="twitter:title" content="{{ config('app.name', 'Laravel') }}">
+    <meta name="twitter:description" content="БРИЛЛИАНТОВАЯ ЧИТКА - Книжный клуб">
+    <meta name="twitter:image" content="{{ asset('img/logo.png') }}">
+    <meta name="twitter:site" content="@@brilliant_read">
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @php header(('Content-type: text/plain; charset=utf-8')) @endphp
 

@@ -4,6 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>БРИЛЛИАНТОВАЯ ЧИТКА - Оплата успешна прошла!</title>
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:title" content="БРИЛЛИАНТОВАЯ ЧИТКА - Оплата успешна прошла!">
+    <meta property="og:description" content="БРИЛЛИАНТОВАЯ ЧИТКА - Книжный клуб">
+    <meta property="og:image" content="{{ asset('img/logo.png') }}">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="{{ url()->current() }}">
+    <meta name="twitter:title" content="БРИЛЛИАНТОВАЯ ЧИТКА - Оплата успешна прошла!">
+    <meta name="twitter:description" content="БРИЛЛИАНТОВАЯ ЧИТКА - Книжный клуб">
+    <meta name="twitter:image" content="{{ asset('img/logo.png') }}">
+    <meta name="twitter:site" content="@@brilliant_read">
     <style>
         body {
             margin: 0 auto;

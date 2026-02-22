@@ -26,28 +26,36 @@ class RatingController extends Controller
 // `day`;
     # 2. Количество отчетов написанных в разные дни
 
+    protected function get_start_date()
+    {
+        $lastAward = \App\Models\AwardHistory::latest()->first();
+        return $lastAward ? $lastAward->created_at : \Carbon\Carbon::now()->startOfMonth();
+    }
+
     protected function OfDays($id)
     {
 //        dd(Note::where('user_id', $id)->select(DB::raw('DATE(created_at) as day'))->groupBy('day')->get());
-        return count(Note::where('user_id', $id)->select(DB::raw('DATE(created_at) as day'))->groupBy('day')->get());
+        return count(Note::where('user_id', $id)->where('created_at', '>=', $this->get_start_date())->select(DB::raw('DATE(created_at) as day'))->groupBy('day')->get());
     }
 
     # По количеству комментариев
     protected function OfComments($id)
     {
-        return Comment::where('user_id', $id)->count();
+        return Comment::where('user_id', $id)->where('created_at', '>=', $this->get_start_date())->count();
     }
 
     # По количеству просмотров
     protected function OfViews($id)
     {
-        $f = Post::where('user_id', $id)->selectRaw('SUM(views) as total')->get()[0]['total'];
-        return $f + Note::where('user_id', $id)->selectRaw('SUM(views) as total')->get()[0]['total'];
+        $startDate = $this->get_start_date();
+        $postViews = Post::where('user_id', $id)->where('created_at', '>=', $startDate)->sum('views');
+        $noteViews = Note::where('user_id', $id)->where('created_at', '>=', $startDate)->sum('views');
+        return $postViews + $noteViews;
     }
 
     protected function sum($id)
     {
-        return Comment::where('user_id', $id)->selectRaw('SUM(first_stars) as first', 'SUM(second_stars) as second')->get()[0]['total'];
+        return Comment::where('user_id', $id)->where('created_at', '>=', $this->get_start_date())->selectRaw('SUM(first_stars) as first', 'SUM(second_stars) as second')->get()[0]['total'];
     }
 
 
